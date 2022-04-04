@@ -48,8 +48,11 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
     fun insertData(expense: Expense) {
         val database = this.writableDatabase
         val contentValues = ContentValues()
+        contentValues.put(ID_COL, expense.id)
         contentValues.put(TITLE_COL, expense.title)
         contentValues.put(DATE_COL, expense.date)
+        contentValues.put(AMOUNT_COL, expense.amount)
+        contentValues.put(CATEGORIES_COL, expense.categories)
         val result = database.insert(TABLE_NAME, null, contentValues)
 
     }
@@ -63,6 +66,7 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         if (result.moveToFirst()) {
             do {
                 val expense = Expense()
+                expense.id = result.getString(result.getColumnIndex(ID_COL)).toInt()
                 expense.title = result.getString(result.getColumnIndex(TITLE_COL))
                 expense.date = result.getString(result.getColumnIndex(DATE_COL))
                 expense.amount = result.getString(result.getColumnIndex(AMOUNT_COL))
