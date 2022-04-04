@@ -28,6 +28,5 @@ class MainActivity : AppCompatActivity() {
             // start new activity
             // calc budget
         }
-        println("hello world")
     }
 }

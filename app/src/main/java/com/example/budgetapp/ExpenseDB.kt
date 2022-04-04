@@ -1,5 +1,18 @@
 /*
 Tutorial link: https://www.tutorialspoint.com/how-to-use-a-simple-sqlite-database-in-kotlin-android
+
+Creating the ExpenseDB object
+    val context = this
+    val db = ExpenseDB(context)
+
+To get the list of existing expense, use the function readData(), which takes nothing and
+return a list of Expense objects:
+    val existing_expenses = db.readData()
+
+To insert a new expense input into the database, use the function insertData(), which takes
+an newly created Expense object and return the id of the new expenses:
+    val expense = Expense() #insert your own value
+    db.insertData(expense)
 */
 
 package com.example.budgetapp
@@ -11,16 +24,16 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
-const val DATABASE_NAME = "BUDGET APP DATABASE"
-const val DATABASE_VERSION = 1
-const val TABLE_NAME = "ExpenseTable"
-const val TITLE_COL = "name"
-const val DATE_COL = "age"
-const val AMOUNT_COL = "id"
-const val CATEGORIES_COL = "categories"
-const val ID_COL = "id"
+private const val DATABASE_NAME = "BUDGET APP DATABASE"
+private const val DATABASE_VERSION = 1
+private const val TABLE_NAME = "ExpenseTable"
+private const val TITLE_COL = "title"
+private const val DATE_COL = "date"
+private const val AMOUNT_COL = "amount"
+private const val CATEGORIES_COL = "categories"
+private const val ID_COL = "id"
 
-class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
+class ExpenseDB(context: Context, factory: SQLiteDatabase.CursorFactory?) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
     // below is the method for creating a database by a sqlite query
@@ -45,15 +58,16 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         onCreate(db)
     }
 
-    fun insertData(expense: Expense) {
+    fun insertData(expense: Expense): Long? {
         val database = this.writableDatabase
         val contentValues = ContentValues()
-        contentValues.put(ID_COL, expense.id)
+        
         contentValues.put(TITLE_COL, expense.title)
         contentValues.put(DATE_COL, expense.date)
         contentValues.put(AMOUNT_COL, expense.amount)
         contentValues.put(CATEGORIES_COL, expense.categories)
         val result = database.insert(TABLE_NAME, null, contentValues)
+        return result
 
     }
 
@@ -66,7 +80,6 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         if (result.moveToFirst()) {
             do {
                 val expense = Expense()
-                expense.id = result.getString(result.getColumnIndex(ID_COL)).toInt()
                 expense.title = result.getString(result.getColumnIndex(TITLE_COL))
                 expense.date = result.getString(result.getColumnIndex(DATE_COL))
                 expense.amount = result.getString(result.getColumnIndex(AMOUNT_COL))
