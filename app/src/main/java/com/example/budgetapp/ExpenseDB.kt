@@ -61,12 +61,14 @@ class ExpenseDB(context: Context, factory: SQLiteDatabase.CursorFactory?) :
     fun insertData(expense: Expense): Long? {
         val database = this.writableDatabase
         val contentValues = ContentValues()
+        
         contentValues.put(TITLE_COL, expense.title)
         contentValues.put(DATE_COL, expense.date)
         contentValues.put(AMOUNT_COL, expense.amount)
         contentValues.put(CATEGORIES_COL, expense.categories)
         val result = database.insert(TABLE_NAME, null, contentValues)
         return result
+
     }
 
     @SuppressLint("Range")
