@@ -33,7 +33,7 @@ private const val AMOUNT_COL = "amount"
 private const val CATEGORIES_COL = "categories"
 private const val ID_COL = "id"
 
-class ExpenseDB(context: Context, factory: SQLiteDatabase.CursorFactory?) :
+class ExpenseDB(context: Context) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
     // below is the method for creating a database by a sqlite query
@@ -43,8 +43,8 @@ class ExpenseDB(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         val query = ("CREATE TABLE " + TABLE_NAME + " ("
                 + ID_COL + " INTEGER PRIMARY KEY, " +
                 TITLE_COL + " TEXT," +
-                DATE_COL + " TEXT," +
-                AMOUNT_COL + " INTEGER," +
+                DATE_COL + " DATE," +
+                AMOUNT_COL + " REAL," +
                 CATEGORIES_COL + " TEXT" + ")")
 
         // we are calling sqlite
@@ -73,14 +73,14 @@ class ExpenseDB(context: Context, factory: SQLiteDatabase.CursorFactory?) :
     fun readData(): MutableList<Expense> {
         val list: MutableList<Expense> = ArrayList()
         val db = this.readableDatabase
-        val query = "Select * from $TABLE_NAME"
+        val query = "SELECT * FROM $TABLE_NAME"
         val result = db.rawQuery(query, null)
         if (result.moveToFirst()) {
             do {
                 val expense = Expense()
                 expense.title = result.getString(result.getColumnIndex(TITLE_COL))
                 expense.date = result.getString(result.getColumnIndex(DATE_COL))
-                expense.amount = result.getString(result.getColumnIndex(AMOUNT_COL))
+                expense.amount = result.getString(result.getColumnIndex(AMOUNT_COL)).toDouble()
                 expense.categories = result.getString(result.getColumnIndex(CATEGORIES_COL))
                 list.add(expense)
             }

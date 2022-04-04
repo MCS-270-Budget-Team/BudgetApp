@@ -8,6 +8,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        println("hello world")
+//        val dbHelper = ExpenseDB(this)
+//
+//        val expense = Expense("groceries", "04/04/2022", 100.5, "others")
+//        val expenseList = dbHelper.insertData(expense)
+//
+//        println(expenseList)
     }
 }
