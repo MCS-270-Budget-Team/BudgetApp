@@ -11,15 +11,20 @@ class ExpenseViewer : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_expense_view)
         tableLayout = findViewById(R.id.expense_table)
         val context = this
         //Access the expense database, this will also need to access the paycheck database in future
         val db = ExpenseDB(context)
         //Get the list of all expenses from the database.
-        val expenseList = db.readData()
+        //val expenseList = db.readData()
+        val e1 = Expense()
+        val e2 = Expense(amount = "$12")
+        val e3 = Expense(date = "2/22/22")
+        var expenseList = mutableListOf(e1, e2, e3)
 
         //Need to add each expense as a new TableRow into the TableLayout contained in activity_expense_view
-        for(i in 0..expenseList.size) {
+        for(i in 0 until expenseList.size) {
             //Create a TableRow containing all of the expense information, and then add it to the TableLayout
             var tr = TableRow(context)
             tr.layoutParams = TableRow.LayoutParams(
