@@ -7,11 +7,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <TableLayout
+            android:id="@+id/expense_table"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:stretchColumns="*"
             android:padding="5dp">
-
+            <TableRow>
+                <TextView android:text="Name"/>
+                <TextView android:text="Date"/>
+                <TextView android:text="Category"/>
+                <TextView android:text="Amount"/>
+            </TableRow>
         </TableLayout>
     </ScrollView>
 

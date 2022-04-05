@@ -1,9 +1,13 @@
 package com.example.budgetapp
 
+import android.app.Activity
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 
 private lateinit var paycheckAddButton: Button
 private lateinit var billAddButton: Button
@@ -30,15 +34,29 @@ class MainActivity : AppCompatActivity() {
         dateBill = findViewById(R.id.date_input)
         datePaycheck = findViewById(R.id.date1_input)
 
+        val context = this
+        val db = ExpenseDB(context)
+
+
         paycheckAddButton.setOnClickListener {
-            // save in database for amount, date, and job
+            // save in database for amount and message
+            if (paycheckAmount.text != null && jobInput != null && dateInput != null) {
+                val amount = paycheckAmount.text.toString()
+                val message = jobInput.text.toString()
+                val date = datePaycheck.text.toString()
+                val newExpense = Expense(message, date, amount)
+                db.insertData(newExpense)
+            }
         }
         billAddButton.setOnClickListener {
             // save in database for amount, date, and bill title
         }
+
         viewExpense.setOnClickListener {
             // start new activity
             // calc budget
+            val intent = Intent(this@MainActivity, ExpenseViewer::class.java) //
+            startActivity(intent)
         }
     }
 }
