@@ -33,7 +33,7 @@ private const val AMOUNT_COL = "amount"
 private const val CATEGORIES_COL = "categories"
 private const val ID_COL = "id"
 
-class ExpenseDB(context: Context, factory: SQLiteDatabase.CursorFactory?) :
+class ExpenseDB(context: Context) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
     // below is the method for creating a database by a sqlite query
