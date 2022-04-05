@@ -25,10 +25,19 @@ class MainActivity : AppCompatActivity() {
         messageInput = findViewById(R.id.message_input)
         dateInput = findViewById(R.id.date_input)
 
+        val context = this
+        val db = ExpenseDB(context)
+
 
         addButton.setOnClickListener {
             // save in database for amount and message
-
+            if (amountInput.text != null && messageInput != null && dateInput != null) {
+                val amount = amountInput.text.toString()
+                val message = messageInput.text.toString()
+                val date = dateInput.text.toString()
+                val newExpense = Expense(message, date, amount)
+                db.insertData(newExpense)
+            }
         }
 
         viewExpense.setOnClickListener {
