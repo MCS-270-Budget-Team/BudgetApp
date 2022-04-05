@@ -89,4 +89,16 @@ class PaycheckDB(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         db.execSQL(query)
     }
 
+    @SuppressLint("Range")
+    fun addAllAmount(): Double {
+        val db = this.readableDatabase
+        val query = "SELECT SUM($AMOUNT_COL) AS Total FROM $TABLE_NAME "
+        val sum = db.rawQuery(query, null)
+        if (sum.moveToFirst()) {
+            return sum.getDouble(sum.getColumnIndex("Total"))
+        }
+
+        return 0.0
+    }
+
 }

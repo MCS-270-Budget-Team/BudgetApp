@@ -20,12 +20,14 @@ class MainActivity : AppCompatActivity() {
         dbHelper.insertData(expense3)
         var expenseList = dbHelper.readData()
 
+        var sum_amount = dbHelper.addAllAmount()
 //        val id = expenseList[0].id
 //        val new_expense = Expense(null, "cafe", "04/05/2022", 20.0, "others")
 //
 //        dbHelper.updateData(id, new_expense)
 
 //        expenseList = dbHelper.readData()
+        print(sum_amount)
         print(expenseList)
     }
 }
