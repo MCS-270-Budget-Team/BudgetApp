@@ -59,4 +59,34 @@ class PaycheckDB(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         return list
     }
 
+    fun getLength(): Int{
+        val all_entries = this.readData()
+        return all_entries.size
+    }
+
+    fun updateData(id: Int?, new_paycheck: Paycheck){
+        if (id != null) {
+            val db = this.writableDatabase
+            val query = "UPDATE $TABLE_NAME SET $ORIGIN_COL = \'${new_paycheck.origin}\', " +
+                    "$DATE_COL = \'${new_paycheck.date}\', " +
+                    "${AMOUNT_COL} = ${new_paycheck.amount}, " +
+                    "WHERE id = $id"
+
+            db.execSQL(query)
+        }
+    }
+
+    fun deleteData(id:Int){
+        val db = this.writableDatabase
+        val query = "DELETE FROM $TABLE_NAME " +
+                "WHERE id = $id"
+        db.execSQL(query)
+    }
+
+    fun deleteAllData(){
+        val db = this.writableDatabase
+        val query = "DELETE FROM $TABLE_NAME"
+        db.execSQL(query)
+    }
+
 }
