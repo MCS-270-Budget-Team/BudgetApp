@@ -17,11 +17,7 @@ class ExpenseViewer : AppCompatActivity() {
         //Access the expense database, this will also need to access the paycheck database in future
         val db = ExpenseDB(context)
         //Get the list of all expenses from the database.
-        //val expenseList = db.readData()
-        val e1 = Expense()
-        val e2 = Expense(amount = "$12")
-        val e3 = Expense(date = "2/22/22")
-        var expenseList = mutableListOf(e1, e2, e3)
+        val expenseList = db.readData()
 
         //Need to add each expense as a new TableRow into the TableLayout contained in activity_expense_view
         for(i in 0 until expenseList.size) {
