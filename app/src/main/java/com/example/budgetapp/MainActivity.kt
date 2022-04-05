@@ -1,9 +1,13 @@
 package com.example.budgetapp
 
+import android.app.Activity
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 
 private lateinit var addButton: Button
 private lateinit var viewExpense: Button
@@ -21,12 +25,17 @@ class MainActivity : AppCompatActivity() {
         messageInput = findViewById(R.id.message_input)
         dateInput = findViewById(R.id.date_input)
 
+
         addButton.setOnClickListener {
             // save in database for amount and message
+
         }
+
         viewExpense.setOnClickListener {
             // start new activity
             // calc budget
+            val intent = Intent(this@MainActivity, ExpenseViewer::class.java) //
+            startActivity(intent)
         }
     }
 }
