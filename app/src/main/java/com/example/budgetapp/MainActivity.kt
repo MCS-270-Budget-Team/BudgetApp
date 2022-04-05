@@ -10,13 +10,13 @@ class MainActivity : AppCompatActivity() {
 
         val dbHelper = ExpenseDB(this)
 
-        val expense = Expense(null, "groceries", "04/04/2022", 100.5, "others")
+        val expense = Expense(null, "groceries", "04/05/2022", 100.5, "others")
         dbHelper.deleteAllData()
         dbHelper.insertData(expense)
         var expenseList = dbHelper.readData()
 
         val id = expenseList[0].id
-        val new_expense = Expense(null, "cafe", "04/05/2022", 20.0, "others")
+        val new_expense = Expense(null, "cafe", "04/666/2022", 20.0, "others")
 
         dbHelper.updateData(id, new_expense)
 

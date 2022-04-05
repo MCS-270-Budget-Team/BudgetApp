@@ -44,7 +44,7 @@ class PaycheckDB(context: Context, factory: SQLiteDatabase.CursorFactory?) :
     fun readData(): MutableList<Expense> {
         val list: MutableList<Expense> = ArrayList()
         val db = this.readableDatabase
-        val query = "SELECT * FROM $TABLE_NAME"
+        val query = "SELECT * FROM $TABLE_NAME ORDER BY $DATE_COL ASC"
         val result = db.rawQuery(query, null)
         if (result.moveToFirst()) {
             do {
