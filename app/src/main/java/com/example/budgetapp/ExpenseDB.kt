@@ -13,6 +13,20 @@ To insert a new expense input into the database, use the function insertData(), 
 an newly created Expense object and return the id of the new expenses:
     val expense = Expense() #insert your own value
     db.insertData(expense)
+
+To delete a specific entries in the database, we need to specify the id of the entries
+that we want to delete. The following code will delete the entries with id = 1
+    dbHelper.deleteData(1)
+
+To delete all entries in the table (not recommended, only for debugging purposes), call the
+function below
+    dbHelper.deleteAllData()
+
+To update an entries in the table, we need to specify the id of the entries and the new object
+we want to replace the old object with. The code below replace the entries with id = 1 with
+the new expense object
+    val new_expense = Expense(null, "cafe", "04/05/2022", 20.0, "others")
+    dbHelper.updateData(id, new_expense)
 */
 
 package com.example.budgetapp
@@ -78,6 +92,7 @@ class ExpenseDB(context: Context) :
         if (result.moveToFirst()) {
             do {
                 val expense = Expense()
+                expense.id = result.getString(result.getColumnIndex(ID_COL)).toInt()
                 expense.title = result.getString(result.getColumnIndex(TITLE_COL))
                 expense.date = result.getString(result.getColumnIndex(DATE_COL))
                 expense.amount = result.getString(result.getColumnIndex(AMOUNT_COL)).toDouble()
@@ -87,6 +102,37 @@ class ExpenseDB(context: Context) :
             while (result.moveToNext())
         }
         return list
+    }
+
+    fun getLength(): Int{
+        val all_entries = this.readData()
+        return all_entries.size
+    }
+
+    fun updateData(id: Int?, new_expense: Expense){
+        if (id != null) {
+            val db = this.writableDatabase
+            val query = "UPDATE $TABLE_NAME SET $TITLE_COL = \'${new_expense.title}\', " +
+                    "$DATE_COL = \'${new_expense.date}\', " +
+                    "${AMOUNT_COL} = ${new_expense.amount}, " +
+                    "${CATEGORIES_COL} = \'${new_expense.categories}\' " +
+                    "WHERE id = $id"
+
+            db.execSQL(query)
+        }
+    }
+
+    fun deleteData(id:Int){
+        val db = this.writableDatabase
+        val query = "DELETE FROM $TABLE_NAME " +
+                    "WHERE id = $id"
+        db.execSQL(query)
+    }
+
+    fun deleteAllData(){
+        val db = this.writableDatabase
+        val query = "DELETE FROM $TABLE_NAME"
+        db.execSQL(query)
     }
 
 }
