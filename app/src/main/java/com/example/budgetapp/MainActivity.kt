@@ -39,12 +39,5 @@ class MainActivity : AppCompatActivity() {
                 db.insertData(newExpense)
             }
         }
-
-        viewExpense.setOnClickListener {
-            // start new activity
-            // calc budget
-            val intent = Intent(this@MainActivity, ExpenseViewer::class.java) //
-            startActivity(intent)
-        }
     }
 }

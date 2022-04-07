@@ -1,6 +1,8 @@
 package com.example.budgetapp
 
-data class Expense(var title: String = "Empty Title",
-                   var date: String = "1/2/2022",
-                   var amount: String = "0",
+// date format mm/dd/yyyy
+data class Expense( var id: Int? = null,
+                    var title: String = "Empty Title",
+                   var date: String = "01/22/2022",
+                   var amount: Double = 0.1,
                    var categories: String = "None")
