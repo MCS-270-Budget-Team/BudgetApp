@@ -26,9 +26,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var jobInput: EditText
     private lateinit var billTitle: EditText
     private lateinit var dateBill: TextView
-    private lateinit var datePaycheck: EditText
+    private lateinit var datePaycheck: TextView
 
     private lateinit var dateButton: Button
+    private lateinit var date1Button: Button
     var cal = Calendar.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,8 +45,10 @@ class MainActivity : AppCompatActivity() {
         dateBill = findViewById(R.id.date_input)
         datePaycheck = findViewById(R.id.date1_input)
         dateButton = findViewById(R.id.date_picker)
+        date1Button = findViewById(R.id.date1_picker)
 
         dateBill!!.text = "--/--/----"
+        datePaycheck!!.text = "--/--/----"
 
         val context = this
         val db = ExpenseDB(context)
@@ -55,7 +58,16 @@ class MainActivity : AppCompatActivity() {
                 cal.set(Calendar.YEAR, year)
                 cal.set(Calendar.MONTH, monthOfYear)
                 cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-                updateDateInView()
+                updateDateInViewBill()
+            }
+        }
+
+        val date1SetListener = object : DatePickerDialog.OnDateSetListener {
+            override fun onDateSet(p0: DatePicker?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
+                cal.set(Calendar.YEAR, year)
+                cal.set(Calendar.MONTH, monthOfYear)
+                cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+                updateDateInViewPaycheck()
             }
         }
 
@@ -72,24 +84,30 @@ class MainActivity : AppCompatActivity() {
         })
 
 
-        billAddButton.setOnClickListener {
-            // save in database for amount and message
-            if (billAmount.text != null && billAmount != null && billTitle != null) {
-                val amount = billAmount.text.toString().toDouble()
-                val message = billTitle.text.toString()
-                val date = dateBill.text.toString()
-                val newExpense = Expense(message, date, amount)
-                db.insertData(newExpense)
+        date1Button!!.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(view: View) {
+                DatePickerDialog(this@MainActivity,
+                    date1SetListener,
+                    // set DatePickerDialog to point to today's date when it loads up
+                    cal.get(Calendar.YEAR),
+                    cal.get(Calendar.MONTH),
+                    cal.get(Calendar.DAY_OF_MONTH)).show()
             }
-        }
-        
+
+        })
+
+
         paycheckAddButton.setOnClickListener {
+            // save in database for amount and message
             if (paycheckAmount.text != null && jobInput != null && datePaycheck != null) {
                 val amount = paycheckAmount.text.toString()
                 val message = jobInput.text.toString()
                 val date = datePaycheck.text.toString()
+                val newExpense = Expense(message, date, amount)
+                db.insertData(newExpense)
             }
-
+        }
+        billAddButton.setOnClickListener {
             // save in database for amount, date, and bill title
         }
 
@@ -99,10 +117,16 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this@MainActivity, ExpenseViewer::class.java) //
             startActivity(intent)
         }
+    }
 
-    private fun updateDateInView() {
+    private fun updateDateInViewBill() {
         val myFormat = "MM/dd/yyyy" // mention the format you need
         val sdf = SimpleDateFormat(myFormat, Locale.US)
         dateBill!!.text = sdf.format(cal.getTime())
+    }
+    private fun updateDateInViewPaycheck() {
+        val myFormat = "MM/dd/yyyy" // mention the format you need
+        val sdf = SimpleDateFormat(myFormat, Locale.US)
+        datePaycheck!!.text = sdf.format(cal.getTime())
     }
 }
