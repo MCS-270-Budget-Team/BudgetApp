@@ -30,29 +30,29 @@ class PaycheckDB(context: Context) :
         onCreate(db)
     }
 
-    fun insertData(expense: Expense): Long? {
+    fun insertData(paycheck: Paycheck): Long? {
         val database = this.writableDatabase
         val contentValues = ContentValues()
-        contentValues.put(ORIGIN_COL, expense.title)
-        contentValues.put(DATE_COL, expense.date)
-        contentValues.put(AMOUNT_COL, expense.amount)
+        contentValues.put(ORIGIN_COL, paycheck.origin)
+        contentValues.put(DATE_COL, paycheck.date)
+        contentValues.put(AMOUNT_COL, paycheck.amount)
         val result = database.insert(TABLE_NAME, null, contentValues)
         return result
     }
 
     @SuppressLint("Range")
-    fun readData(): MutableList<Expense> {
-        val list: MutableList<Expense> = ArrayList()
+    fun readData(): MutableList<Paycheck> {
+        val list: MutableList<Paycheck> = ArrayList()
         val db = this.readableDatabase
         val query = "SELECT * FROM $TABLE_NAME ORDER BY $DATE_COL ASC"
         val result = db.rawQuery(query, null)
         if (result.moveToFirst()) {
             do {
-                val expense = Expense()
-                expense.title = result.getString(result.getColumnIndex(ORIGIN_COL))
-                expense.date = result.getString(result.getColumnIndex(DATE_COL))
-                expense.amount = result.getString(result.getColumnIndex(AMOUNT_COL)).toDouble()
-                list.add(expense)
+                val paycheck = Paycheck()
+                paycheck.origin = result.getString(result.getColumnIndex(ORIGIN_COL))
+                paycheck.date = result.getString(result.getColumnIndex(DATE_COL))
+                paycheck.amount = result.getString(result.getColumnIndex(AMOUNT_COL)).toDouble()
+                list.add(paycheck)
             }
             while (result.moveToNext())
         }
