@@ -47,7 +47,7 @@ private const val AMOUNT_COL = "amount"
 private const val CATEGORIES_COL = "categories"
 private const val ID_COL = "id"
 
-class ExpenseDB(context: Context) :
+class EntriesDB(context: Context) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
     // below is the method for creating a database by a sqlite query
@@ -72,28 +72,28 @@ class ExpenseDB(context: Context) :
         onCreate(db)
     }
 
-    fun insertData(expense: Expense): Long? {
+    fun insertData(entry: Entry): Long? {
         val database = this.writableDatabase
         val contentValues = ContentValues()
         
-        contentValues.put(TITLE_COL, expense.title)
-        contentValues.put(DATE_COL, expense.date)
-        contentValues.put(AMOUNT_COL, expense.amount)
-        contentValues.put(CATEGORIES_COL, expense.categories)
+        contentValues.put(TITLE_COL, entry.title)
+        contentValues.put(DATE_COL, entry.date)
+        contentValues.put(AMOUNT_COL, entry.amount)
+        contentValues.put(CATEGORIES_COL, entry.categories)
         val result = database.insert(TABLE_NAME, null, contentValues)
         return result
 
     }
 
     @SuppressLint("Range")
-    fun readData(): MutableList<Expense> {
-        val list: MutableList<Expense> = ArrayList()
+    fun readData(): MutableList<Entry> {
+        val list: MutableList<Entry> = ArrayList()
         val db = this.readableDatabase
         val query = "SELECT * FROM $TABLE_NAME ORDER BY $DATE_COL ASC"
         val result = db.rawQuery(query, null)
         if (result.moveToFirst()) {
             do {
-                val expense = Expense()
+                val expense = Entry()
                 expense.id = result.getString(result.getColumnIndex(ID_COL)).toInt()
                 expense.title = result.getString(result.getColumnIndex(TITLE_COL))
                 expense.date = result.getString(result.getColumnIndex(DATE_COL))
@@ -111,7 +111,7 @@ class ExpenseDB(context: Context) :
         return all_entries.size
     }
 
-    fun updateData(id: Int?, new_expense: Expense){
+    fun updateData(id: Int?, new_expense: Entry){
         if (id != null) {
             val db = this.writableDatabase
             val query = "UPDATE $TABLE_NAME SET $TITLE_COL = \'${new_expense.title}\', " +
@@ -138,9 +138,21 @@ class ExpenseDB(context: Context) :
     }
 
     @SuppressLint("Range")
-    fun addAllAmount(): Double {
+    fun addPaycheckAmount(): Double {
         val db = this.readableDatabase
-        val query = "SELECT SUM($AMOUNT_COL) AS Total FROM $TABLE_NAME "
+        val query = "SELECT SUM($AMOUNT_COL) AS Total FROM $TABLE_NAME WHERE $CATEGORIES_COL = \"paycheck\""
+        val sum = db.rawQuery(query, null)
+        if (sum.moveToFirst()) {
+            return sum.getDouble(sum.getColumnIndex("Total"))
+        }
+
+        return 0.0
+    }
+
+    @SuppressLint("Range")
+    fun addExpenseAmount(): Double {
+        val db = this.readableDatabase
+        val query = "SELECT SUM($AMOUNT_COL) AS Total FROM $TABLE_NAME WHERE $CATEGORIES_COL != \"paycheck\""
         val sum = db.rawQuery(query, null)
         if (sum.moveToFirst()) {
             return sum.getDouble(sum.getColumnIndex("Total"))

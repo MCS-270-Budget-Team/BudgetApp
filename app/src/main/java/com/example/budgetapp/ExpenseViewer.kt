@@ -17,38 +17,12 @@ class ExpenseViewer : AppCompatActivity() {
         accountAmount = findViewById(R.id.account_amount)
         val context = this
         //Access the expense and paycheck databases
-        val expenses = ExpenseDB(context)
-        val paychecks = PaycheckDB(context)
+        val entryDB = EntriesDB(context)
         //Get the list of all expenses and paychecks from the databases.
-        val expenseList = expenses.readData()
-        val paycheckList = paychecks.readData()
-
-        for(i in 0 until paycheckList.size) {
-            var tr = TableRow(context)
-            tr.layoutParams = TableRow.LayoutParams(
-                TableRow.LayoutParams.WRAP_CONTENT,
-                TableRow.LayoutParams.WRAP_CONTENT
-            )
-
-            var origin = TextView(context)
-            origin.text = paycheckList[i].origin
-            var date = TextView(context)
-            date.text = paycheckList[i].date
-            var amount = TextView(context)
-            amount.text = paycheckList[i].amount.toString()
-            var category = TextView(context)
-            category.text = "Paycheck"
-
-            tr.addView(origin)
-            tr.addView(date)
-            tr.addView(category)
-            tr.addView(amount)
-
-            tableLayout.addView(tr)
-        }
+        val entryList = entryDB.readData()
 
         //Need to add each expense as a new TableRow into the TableLayout contained in activity_expense_view
-        for(i in 0 until expenseList.size) {
+        for(i in 0 until entryList.size) {
             //Create a TableRow containing all of the expense information, and then add it to the TableLayout
             var tr = TableRow(context)
             tr.layoutParams = TableRow.LayoutParams(
@@ -57,13 +31,13 @@ class ExpenseViewer : AppCompatActivity() {
             )
             //Need to create the text views for the columns
             var name = TextView(context)
-            name.text = expenseList[i].title
+            name.text = entryList[i].title
             var date = TextView(context)
-            date.text = expenseList[i].date
+            date.text = entryList[i].date
             var category = TextView(context)
-            category.text = expenseList[i].categories
+            category.text = entryList[i].categories
             var amount = TextView(context)
-            amount.text = expenseList[i].amount.toString()
+            amount.text = entryList[i].amount.toString()
 
             tr.addView(name)
             tr.addView(date)
@@ -75,7 +49,8 @@ class ExpenseViewer : AppCompatActivity() {
         }
 
         //Compute the result of all the expenses + all the paychecks
-        val currentSum = expenses.addAllAmount() + paychecks.addAllAmount()
+        val currentSum = entryDB.addPaycheckAmount().toDouble() - entryDB.addExpenseAmount().toDouble()
+        //val currentSum = 100.0
         //Update the textview with the correct amount of money
         accountAmount.text = "$$currentSum"
 

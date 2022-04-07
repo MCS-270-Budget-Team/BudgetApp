@@ -83,7 +83,7 @@
             android:id="@+id/date1_input"
             android:layout_width="320dp"
             android:layout_height="wrap_content"
-            android:text="@string/date_input"></TextView>
+            android:text="@string/date1_input"></TextView>
 
         <Button
             android:id="@+id/date1_picker"

@@ -48,8 +48,7 @@ class MainActivity : AppCompatActivity() {
         datePaycheck!!.text = "--/--/----"
 
         val context = this
-        val db = ExpenseDB(context)
-        val pcdb = PaycheckDB(context)
+        val db = EntriesDB(context)
 
         val dateSetListener = object : DatePickerDialog.OnDateSetListener {
             override fun onDateSet(p0: DatePicker?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
@@ -90,8 +89,9 @@ class MainActivity : AppCompatActivity() {
                 val amount = billAmount.text.toString().toDouble()
                 val title = billTitle.text.toString()
                 val date = dateBill.text.toString()
-                val newExpense = Expense(id = null, title, date, amount)
-                db.insertData(newExpense)
+                val category = "none"
+                val newEntry = Entry(id = null, title, date, amount, category)
+                db.insertData(newEntry)
             }
         }
 
@@ -111,10 +111,11 @@ class MainActivity : AppCompatActivity() {
         paycheckAddButton.setOnClickListener {
             if (paycheckAmount.text != null && jobInput != null && datePaycheck != null) {
                 val amount = paycheckAmount.text.toString().toDouble()
-                val job = jobInput.text.toString()
+                val title = jobInput.text.toString()
                 val date = datePaycheck.text.toString()
-                val newPaycheck= Paycheck(id=null, date, amount, job)
-                pcdb.insertData(newPaycheck)
+                val category = "paycheck"
+                val newEntry= Entry(id= null, title, date, amount, category)
+                db.insertData(newEntry)
             }
         }
 
