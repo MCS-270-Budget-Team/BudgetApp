@@ -82,6 +82,7 @@ class MainActivity : AppCompatActivity() {
                 db.insertData(newExpense)
             }
         }
+        
         paycheckAddButton.setOnClickListener {
             if (paycheckAmount.text != null && jobInput != null && datePaycheck != null) {
                 val amount = paycheckAmount.text.toString()
@@ -98,7 +99,6 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this@MainActivity, ExpenseViewer::class.java) //
             startActivity(intent)
         }
-    }
 
     private fun updateDateInView() {
         val myFormat = "MM/dd/yyyy" // mention the format you need
