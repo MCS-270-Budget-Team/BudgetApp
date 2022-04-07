@@ -61,12 +61,14 @@ class MainActivity : AppCompatActivity() {
 
         dateButton!!.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View) {
-                DatePickerDialog(this@MainActivity,
+                DatePickerDialog(
+                    this@MainActivity,
                     dateSetListener,
                     // set DatePickerDialog to point to today's date when it loads up
                     cal.get(Calendar.YEAR),
                     cal.get(Calendar.MONTH),
-                    cal.get(Calendar.DAY_OF_MONTH)).show()
+                    cal.get(Calendar.DAY_OF_MONTH)
+                ).show()
             }
 
         })
@@ -78,11 +80,11 @@ class MainActivity : AppCompatActivity() {
                 val amount = billAmount.text.toString().toDouble()
                 val message = billTitle.text.toString()
                 val date = dateBill.text.toString()
-                val newExpense = Expense(message, date, amount)
-                db.insertData(newExpense)
+                //val newExpense = Expense(message, date, amount)
+                //db.insertData(newExpense)
             }
         }
-        
+
         paycheckAddButton.setOnClickListener {
             if (paycheckAmount.text != null && jobInput != null && datePaycheck != null) {
                 val amount = paycheckAmount.text.toString()
@@ -99,6 +101,7 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this@MainActivity, ExpenseViewer::class.java) //
             startActivity(intent)
         }
+    }
 
     private fun updateDateInView() {
         val myFormat = "MM/dd/yyyy" // mention the format you need
