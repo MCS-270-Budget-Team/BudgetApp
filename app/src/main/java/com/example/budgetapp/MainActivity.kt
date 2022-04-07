@@ -72,17 +72,23 @@ class MainActivity : AppCompatActivity() {
         })
 
 
-        paycheckAddButton.setOnClickListener {
+        billAddButton.setOnClickListener {
             // save in database for amount and message
-            if (paycheckAmount.text != null && jobInput != null && datePaycheck != null) {
-                val amount = paycheckAmount.text.toString()
-                val message = jobInput.text.toString()
-                val date = datePaycheck.text.toString()
+            if (billAmount.text != null && billAmount != null && billTitle != null) {
+                val amount = billAmount.text.toString().toDouble()
+                val message = billTitle.text.toString()
+                val date = dateBill.text.toString()
                 val newExpense = Expense(message, date, amount)
                 db.insertData(newExpense)
             }
         }
-        billAddButton.setOnClickListener {
+        paycheckAddButton.setOnClickListener {
+            if (paycheckAmount.text != null && jobInput != null && datePaycheck != null) {
+                val amount = paycheckAmount.text.toString()
+                val message = jobInput.text.toString()
+                val date = datePaycheck.text.toString()
+            }
+
             // save in database for amount, date, and bill title
         }
 
