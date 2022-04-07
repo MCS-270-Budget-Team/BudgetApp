@@ -2,7 +2,7 @@
     <string name="app_name">BudgetApp</string>
     <string name="view_expense">View Expense</string>
     <string name="add_button">Add</string>
-    <string name="date_input">Date</string>
+    <string name="date_input">01/01/2022</string>
     <string name="date1_input">Date</string>
     <string name="amount_bill">Amount</string>
     <string name="amount_paycheck">Amount</string>

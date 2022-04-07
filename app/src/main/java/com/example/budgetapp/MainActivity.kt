@@ -9,18 +9,19 @@ import android.widget.EditText
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 
-private lateinit var paycheckAddButton: Button
-private lateinit var billAddButton: Button
-private lateinit var viewExpense: Button
-private lateinit var paycheckAmount: EditText
-private lateinit var billAmount: EditText
-private lateinit var jobInput: EditText
-private lateinit var billTitle: EditText
-private lateinit var dateBill: EditText
-private lateinit var datePaycheck: EditText
-
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var paycheckAddButton: Button
+    private lateinit var billAddButton: Button
+    private lateinit var viewExpense: Button
+    private lateinit var paycheckAmount: EditText
+    private lateinit var billAmount: EditText
+    private lateinit var jobInput: EditText
+    private lateinit var billTitle: EditText
+    private lateinit var dateBill: EditText
+    private lateinit var datePaycheck: EditText
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -40,7 +41,7 @@ class MainActivity : AppCompatActivity() {
 
         paycheckAddButton.setOnClickListener {
             // save in database for amount and message
-            if (paycheckAmount.text != null && jobInput != null && dateInput != null) {
+            if (paycheckAmount.text != null && jobInput != null && datePaycheck != null) {
                 val amount = paycheckAmount.text.toString()
                 val message = jobInput.text.toString()
                 val date = datePaycheck.text.toString()

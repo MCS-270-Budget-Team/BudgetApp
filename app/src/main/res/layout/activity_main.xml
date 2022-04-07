@@ -26,13 +26,26 @@
         android:inputType="number"
         android:text="@string/amount_paycheck">
     </EditText>
-    <EditText
-        android:id="@+id/date_input"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="date"
-        android:text="@string/date_input">
-    </EditText>
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/date_input"
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:text="@string/date_input"></EditText>
+
+        <Button
+            android:id="@+id/date_picker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="DATE">
+        </Button>
+    </LinearLayout>
+
+
     <Button
         android:id="@+id/add_paycheck_button"
         android:layout_width="match_parent"
