@@ -30,10 +30,10 @@ class PaycheckDB(context: Context) :
         onCreate(db)
     }
 
-    fun insertData(expense: Expense): Long? {
+    fun insertData(expense: Paycheck): Long? {
         val database = this.writableDatabase
         val contentValues = ContentValues()
-        contentValues.put(ORIGIN_COL, expense.title)
+        contentValues.put(ORIGIN_COL, expense.origin)
         contentValues.put(DATE_COL, expense.date)
         contentValues.put(AMOUNT_COL, expense.amount)
         val result = database.insert(TABLE_NAME, null, contentValues)

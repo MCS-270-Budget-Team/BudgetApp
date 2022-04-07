@@ -52,6 +52,7 @@ class MainActivity : AppCompatActivity() {
 
         val context = this
         val db = ExpenseDB(context)
+        val pcdb = PaycheckDB(context)
 
         val dateSetListener = object : DatePickerDialog.OnDateSetListener {
             override fun onDateSet(p0: DatePicker?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
@@ -84,6 +85,17 @@ class MainActivity : AppCompatActivity() {
         })
 
 
+        billAddButton.setOnClickListener {
+            // save in database for amount and message
+            if (billAmount.text != null && billAmount != null && billTitle != null) {
+                val amount = billAmount.text.toString().toDouble()
+                val title = billTitle.text.toString()
+                val date = dateBill.text.toString()
+                val newExpense = Expense(id = null, title, date, amount)
+                db.insertData(newExpense)
+            }
+        }
+
         date1Button!!.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View) {
                 DatePickerDialog(this@MainActivity,
@@ -98,16 +110,15 @@ class MainActivity : AppCompatActivity() {
 
 
         paycheckAddButton.setOnClickListener {
-            // save in database for amount and message
             if (paycheckAmount.text != null && jobInput != null && datePaycheck != null) {
-                val amount = paycheckAmount.text.toString()
-                val message = jobInput.text.toString()
+                val amount = paycheckAmount.text.toString().toDouble()
+                val job = jobInput.text.toString()
                 val date = datePaycheck.text.toString()
-                val newExpense = Expense(message, date, amount)
-                db.insertData(newExpense)
+                val newPaycheck= Paycheck(id=null, date, amount, job)
+                pcdb.insertData(newPaycheck)
+
             }
-        }
-        billAddButton.setOnClickListener {
+
             // save in database for amount, date, and bill title
         }
 
@@ -119,7 +130,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateDateInViewBill() {
+    // end of onCreate
+
+     private fun updateDateInViewBill() {
         val myFormat = "MM/dd/yyyy" // mention the format you need
         val sdf = SimpleDateFormat(myFormat, Locale.US)
         dateBill!!.text = sdf.format(cal.getTime())
