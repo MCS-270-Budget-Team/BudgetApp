@@ -14,7 +14,7 @@ private const val DATE_COL = "date"
 private const val AMOUNT_COL = "amount"
 private const val ID_COL = "id"
 
-class PaycheckDB(context: Context, factory: SQLiteDatabase.CursorFactory?) :
+class PaycheckDB(context: Context) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
     override fun onCreate(db: SQLiteDatabase) {
         val query = ("CREATE TABLE " + TABLE_NAME + " ("
