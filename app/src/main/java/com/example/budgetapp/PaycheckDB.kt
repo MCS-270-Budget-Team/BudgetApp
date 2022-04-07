@@ -21,7 +21,7 @@ class PaycheckDB(context: Context) :
                 + ID_COL + " INTEGER PRIMARY KEY, " +
                 ORIGIN_COL + " TEXT," +
                 DATE_COL + " DATE," +
-                AMOUNT_COL + " INTEGER" + ")")
+                AMOUNT_COL + " REAL" + ")")
         db.execSQL(query)
     }
 
