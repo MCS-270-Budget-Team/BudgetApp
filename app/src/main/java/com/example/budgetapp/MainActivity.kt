@@ -1,6 +1,5 @@
 package com.example.budgetapp
 
-import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -10,8 +9,6 @@ import android.widget.Button
 import android.widget.DatePicker
 import android.widget.EditText
 import android.widget.TextView
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -74,12 +71,14 @@ class MainActivity : AppCompatActivity() {
 
         dateButton!!.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View) {
-                DatePickerDialog(this@MainActivity,
+                DatePickerDialog(
+                    this@MainActivity,
                     dateSetListener,
                     // set DatePickerDialog to point to today's date when it loads up
                     cal.get(Calendar.YEAR),
                     cal.get(Calendar.MONTH),
-                    cal.get(Calendar.DAY_OF_MONTH)).show()
+                    cal.get(Calendar.DAY_OF_MONTH)
+                ).show()
             }
 
         })
@@ -116,10 +115,7 @@ class MainActivity : AppCompatActivity() {
                 val date = datePaycheck.text.toString()
                 val newPaycheck= Paycheck(id=null, date, amount, job)
                 pcdb.insertData(newPaycheck)
-
             }
-
-            // save in database for amount, date, and bill title
         }
 
         viewExpense.setOnClickListener {
@@ -129,10 +125,9 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
-
     // end of onCreate
 
-     private fun updateDateInViewBill() {
+    private fun updateDateInViewBill() {
         val myFormat = "MM/dd/yyyy" // mention the format you need
         val sdf = SimpleDateFormat(myFormat, Locale.US)
         dateBill!!.text = sdf.format(cal.getTime())
