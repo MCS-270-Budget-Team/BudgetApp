@@ -31,7 +31,20 @@ class ExpenseViewer : AppCompatActivity() {
             )
 
             var origin = TextView(context)
-            //origin.text = paycheckList[i]
+            origin.text = paycheckList[i].origin
+            var date = TextView(context)
+            date.text = paycheckList[i].date
+            var amount = TextView(context)
+            amount.text = paycheckList[i].amount.toString()
+            var category = TextView(context)
+            category.text = "Paycheck"
+
+            tr.addView(origin)
+            tr.addView(date)
+            tr.addView(category)
+            tr.addView(amount)
+
+            tableLayout.addView(tr)
         }
 
         //Need to add each expense as a new TableRow into the TableLayout contained in activity_expense_view

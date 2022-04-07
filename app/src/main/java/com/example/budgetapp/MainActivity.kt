@@ -1,6 +1,5 @@
 package com.example.budgetapp
 
-import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -10,8 +9,6 @@ import android.widget.Button
 import android.widget.DatePicker
 import android.widget.EditText
 import android.widget.TextView
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -48,7 +45,8 @@ class MainActivity : AppCompatActivity() {
         dateBill!!.text = "--/--/----"
 
         val context = this
-        val db = ExpenseDB(context)
+        val expenseDB = ExpenseDB(context)
+        val paycheckDB = PaycheckDB(context)
 
         val dateSetListener = object : DatePickerDialog.OnDateSetListener {
             override fun onDateSet(p0: DatePicker?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
@@ -80,19 +78,21 @@ class MainActivity : AppCompatActivity() {
                 val amount = billAmount.text.toString().toDouble()
                 val message = billTitle.text.toString()
                 val date = dateBill.text.toString()
-                //val newExpense = Expense(message, date, amount)
-                //db.insertData(newExpense)
+                val newExpense = Expense(id=null, message, date, amount)
+                expenseDB.insertData(newExpense)
             }
         }
 
         paycheckAddButton.setOnClickListener {
             if (paycheckAmount.text != null && jobInput != null && datePaycheck != null) {
-                val amount = paycheckAmount.text.toString()
+                val amount = paycheckAmount.text.toString().toDouble()
                 val message = jobInput.text.toString()
                 val date = datePaycheck.text.toString()
-            }
 
-            // save in database for amount, date, and bill title
+                // save in database for amount, date, and bill title
+                val newPaycheck = Paycheck(id=null, date, amount, message)
+                paycheckDB.insertData(newPaycheck)
+            }
         }
 
         viewExpense.setOnClickListener {
