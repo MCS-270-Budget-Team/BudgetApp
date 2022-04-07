@@ -1,33 +1,43 @@
 package com.example.budgetapp
 
+import android.app.Activity
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+
+private lateinit var addButton: Button
+private lateinit var viewExpense: Button
+private lateinit var amountInput: EditText
+private lateinit var messageInput: EditText
+private lateinit var dateInput: EditText
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        addButton = findViewById(R.id.add_button)
+        viewExpense = findViewById(R.id.view_expense_button)
+        amountInput = findViewById(R.id.amount_input)
+        messageInput = findViewById(R.id.message_input)
+        dateInput = findViewById(R.id.date_input)
 
-        val dbHelper = ExpenseDB(this)
+        val context = this
+        val db = ExpenseDB(context)
 
-        val expense1 = Expense(null, "groceries", "04/04/2022", 100.5, "others")
-        val expense2 = Expense(null, "coffee", "04/052022", 30.6, "others")
-        val expense3 = Expense(null, "gas", "04/03/2022", 35.2, "others")
 
-        dbHelper.deleteAllData()
-        dbHelper.insertData(expense1)
-        dbHelper.insertData(expense2)
-        dbHelper.insertData(expense3)
-        var expenseList = dbHelper.readData()
-
-        var sum_amount = dbHelper.addAllAmount()
-//        val id = expenseList[0].id
-//        val new_expense = Expense(null, "cafe", "04/05/2022", 20.0, "others")
-//
-//        dbHelper.updateData(id, new_expense)
-
-//        expenseList = dbHelper.readData()
-        print(sum_amount)
-        print(expenseList)
+        addButton.setOnClickListener {
+            // save in database for amount and message
+            if (amountInput.text != null && messageInput != null && dateInput != null) {
+                val amount = amountInput.text.toString()
+                val message = messageInput.text.toString()
+                val date = dateInput.text.toString()
+                val newExpense = Expense(message, date, amount)
+                db.insertData(newExpense)
+            }
+        }
     }
 }
