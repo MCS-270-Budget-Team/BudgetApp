@@ -20,6 +20,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ExpenseViewer"/>
+        <activity android:name=".AddEntries"/>
     </application>
 
 </manifest>
