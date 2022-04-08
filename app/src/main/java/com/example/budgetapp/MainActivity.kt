@@ -43,8 +43,8 @@ class MainActivity : AppCompatActivity() {
         dateButton = findViewById(R.id.date_picker)
         date1Button = findViewById(R.id.date1_picker)
 
-        dateBill!!.text = "--/--/----"
-        datePaycheck!!.text = "--/--/----"
+        dateBill.text = "--/--/----"
+        datePaycheck.text = "--/--/----"
 
         val context = this
         val db = EntriesDB(context)
@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        dateButton!!.setOnClickListener(object : View.OnClickListener {
+        dateButton.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View) {
                 DatePickerDialog(
                     this@MainActivity,
@@ -88,20 +88,21 @@ class MainActivity : AppCompatActivity() {
                 val amount = billAmount.text.toString().toDouble()
                 val title = billTitle.text.toString()
                 val date = dateBill.text.toString()
-                val category = "none"
+                val category = "expense"
                 val newEntry = Entry(id = null, title, date, amount, category)
                 db.insertData(newEntry)
             }
         }
 
-        date1Button!!.setOnClickListener(object : View.OnClickListener {
+        date1Button.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View) {
                 DatePickerDialog(this@MainActivity,
                     date1SetListener,
                     // set DatePickerDialog to point to today's date when it loads up
                     cal.get(Calendar.YEAR),
                     cal.get(Calendar.MONTH),
-                    cal.get(Calendar.DAY_OF_MONTH)).show()
+                    cal.get(Calendar.DAY_OF_MONTH)
+                ).show()
             }
 
         })
@@ -130,11 +131,11 @@ class MainActivity : AppCompatActivity() {
     private fun updateDateInViewBill() {
         val myFormat = "MM/dd/yyyy" // mention the format you need
         val sdf = SimpleDateFormat(myFormat, Locale.US)
-        dateBill!!.text = sdf.format(cal.getTime())
+        sdf.format(cal.getTime()).also { dateBill.text = it }
     }
     private fun updateDateInViewPaycheck() {
         val myFormat = "MM/dd/yyyy" // mention the format you need
         val sdf = SimpleDateFormat(myFormat, Locale.US)
-        datePaycheck!!.text = sdf.format(cal.getTime())
+        sdf.format(cal.getTime()).also { datePaycheck.text = it }
     }
 }
