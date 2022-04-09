@@ -21,6 +21,8 @@
         </activity>
         <activity android:name=".ExpenseViewer"/>
         <activity android:name=".AddEntries"/>
+        <activity android:name=".AdjustExpense"/>
+        <activity android:name=".RecExpense"/>
     </application>
 
 </manifest>

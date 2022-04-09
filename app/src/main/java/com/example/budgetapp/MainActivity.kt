@@ -50,12 +50,12 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        upcomingBillButton.setOnClickListener {
-            // start new activity
-            // calc budget
-            val intent = Intent(this@MainActivity, BillsViewer::class.java) //
-            startActivity(intent)
-        }
+//        upcomingBillButton.setOnClickListener {
+//            // start new activity
+//            // calc budget
+//            val intent = Intent(this@MainActivity, BillsViewer::class.java) //
+//            startActivity(intent)
+//        }
     }
 
 }
