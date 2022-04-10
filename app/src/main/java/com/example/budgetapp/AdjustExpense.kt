@@ -36,24 +36,29 @@ class AdjustExpense: AppCompatActivity() {
             // start new activity
             // calc budget
             val intent = Intent(this@AdjustExpense, RecExpense::class.java) //
+            // start new activity without transition animation
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivity(intent)
         }
         expenseBank = mutableListOf(
-            Expense(null, "housing", 30, 2000),
-            Expense(null, "food", 10, 500),
-            Expense(null, "utilities", 5, 100),
-            Expense(null, "transportation", 10, 500),
-            Expense(null, "others", 15, 1000),
-            Expense(null, "savings", 30, 3000),
+            Expense(null, "housing", 30.0, 2000.0),
+            Expense(null, "food", 10.0, 500.0),
+            Expense(null, "utilities", 5.0, 100.0),
+            Expense(null, "transportation", 10.0, 500.0),
+            Expense(null, "others", 15.0, 1000.0),
+            Expense(null, "savings", 30.0, 3000.0),
         )
+        // create an adapter to inflate list view, pass the expense bank to the adapter
         expenseAdapter = ExpenseAdapter(applicationContext, expenseBank)
         expenseList?.adapter = expenseAdapter
 
         addButton.setOnClickListener{
             if (!isNumeric(addPercent.text.toString())){
+                // catch the percent numeric error so the app does not crash
                 Toast.makeText(this, "Percentage must be numeric!", Toast.LENGTH_SHORT).show()
             }
             else if (!isNumeric(addMax.text.toString())){
+                // catch the max numeric error so the app does not crash
                 Toast.makeText(this, "Max must be numeric!", Toast.LENGTH_SHORT).show()
             }
             else {
@@ -61,8 +66,8 @@ class AdjustExpense: AppCompatActivity() {
                     0, Expense(
                         null,
                         addCategory.text.toString(),
-                        addPercent.text.toString().toInt(),
-                        addMax.text.toString().toInt()
+                        addPercent.text.toString().toDouble(),
+                        addMax.text.toString().toDouble()
                     )
                 )
 
@@ -71,8 +76,8 @@ class AdjustExpense: AppCompatActivity() {
             }
         }
     }
-
-    fun isNumeric(toCheck: String): Boolean {
+    /* Function to check whether a string is numeric*/
+    private fun isNumeric(toCheck: String): Boolean {
         val regex = "-?[0-9]+(\\.[0-9]+)?".toRegex()
         return toCheck.matches(regex)
     }

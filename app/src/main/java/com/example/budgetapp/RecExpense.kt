@@ -25,16 +25,18 @@ class RecExpense: AppCompatActivity() {
             // start new activity
             // calc budget
             val intent = Intent(this@RecExpense, AdjustExpense::class.java) //
+            // start new activity without transition animation
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivity(intent)
         }
 
         expenseBank = arrayListOf(
-            Expense(null, "housing", 30, 2000),
-            Expense(null, "food", 10, 500),
-            Expense(null, "utilities", 5, 100),
-            Expense(null, "transportation", 10, 500),
-            Expense(null, "others", 15, 1000),
-            Expense(null, "savings", 30, 3000),
+            Expense(null, "housing", 30.0, 2000.0),
+            Expense(null, "food", 10.0, 500.0),
+            Expense(null, "utilities", 5.0, 100.0),
+            Expense(null, "transportation", 10.0, 500.0),
+            Expense(null, "others", 15.0, 1000.0),
+            Expense(null, "savings", 30.0, 3000.0),
         )
 
         recAdapter = RecAdapter(applicationContext, expenseBank!!)

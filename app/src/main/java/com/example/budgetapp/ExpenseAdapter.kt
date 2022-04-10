@@ -32,8 +32,8 @@ class ExpenseAdapter(var context: Context, var arraylist: MutableList<Expense>):
         var expense: Expense = arraylist[p0]
 
         categories.setText(expense.categories)
-        percent.setText(expense.percentage.toString() + "%")
-        max.setText("$" + expense.max.toString())
+        percent.setText(expense.percentage.toInt().toString() + "%")
+        max.setText("$" + expense.max.toInt().toString())
 
         action.setOnClickListener {
             // start new activity

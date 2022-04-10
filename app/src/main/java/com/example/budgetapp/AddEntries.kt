@@ -1,16 +1,14 @@
 package com.example.budgetapp
 
 import android.app.DatePickerDialog
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
-import android.widget.Button
-import android.widget.DatePicker
-import android.widget.EditText
-import android.widget.TextView
+import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 class AddEntries : AppCompatActivity() {
 
@@ -83,12 +81,19 @@ class AddEntries : AppCompatActivity() {
         billAddButton.setOnClickListener {
             // save in database for amount and message
             if (billAmount.text != null && billAmount != null && billTitle != null) {
-                val amount = billAmount.text.toString().toDouble()
-                val title = billTitle.text.toString()
-                val date = dateBill.text.toString()
-                val category = "expense"
-                val newEntry = Entry(id = null, title, date, amount, category)
-                db.insertData(newEntry)
+                //check if amount is numeric
+                if(!isNumeric(billAmount.text.toString())){
+                    val toast = Toast.makeText(this, "Amount must be numeric!", Toast.LENGTH_SHORT)
+                    toast.setGravity(Gravity.CENTER, 0, 0)
+                    toast.show()                }
+                else{
+                    val amount = billAmount.text.toString().toDouble()
+                    val title = billTitle.text.toString()
+                    val date = dateBill.text.toString()
+                    val category = "expense"
+                    val newEntry = Entry(id = null, title, date, amount, category)
+                    db.insertData(newEntry)
+                }
             }
         }
 
@@ -108,12 +113,21 @@ class AddEntries : AppCompatActivity() {
 
         paycheckAddButton.setOnClickListener {
             if (paycheckAmount.text != null && jobInput != null && datePaycheck != null) {
-                val amount = paycheckAmount.text.toString().toDouble()
                 val title = jobInput.text.toString()
                 val date = datePaycheck.text.toString()
-                val category = "paycheck"
-                val newEntry= Entry(id= null, title, date, amount, category)
-                db.insertData(newEntry)
+
+                // check if amount is numeric
+                if (!isNumeric(paycheckAmount.text.toString())){
+                    val toast = Toast.makeText(this, "Amount must be numeric!", Toast.LENGTH_SHORT)
+                    toast.setGravity(Gravity.CENTER, 0, 0)
+                    toast.show()
+                }
+                else {
+                    val amount = paycheckAmount.text.toString().toDouble()
+                    val category = "paycheck"
+                    val newEntry = Entry(id = null, title, date, amount, category)
+                    db.insertData(newEntry)
+                }
             }
         }
     }
@@ -128,5 +142,11 @@ class AddEntries : AppCompatActivity() {
         val myFormat = "MM/dd/yyyy" // mention the format you need
         val sdf = SimpleDateFormat(myFormat, Locale.US)
         sdf.format(cal.getTime()).also { datePaycheck.text = it }
+    }
+
+    /* Function to check whether a string is numeric*/
+    private fun isNumeric(toCheck: String): Boolean {
+        val regex = "-?[0-9]+(\\.[0-9]+)?".toRegex()
+        return toCheck.matches(regex)
     }
 }

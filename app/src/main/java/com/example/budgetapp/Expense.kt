@@ -4,6 +4,6 @@ import java.io.Serializable
 
 data class Expense (var id: Int? = null,
                     var categories: String = "",
-                    var percentage: Int = 0,
-                    var max: Int = 0
+                    var percentage: Double = 0.0,
+                    var max: Double = 0.0
                     ): Serializable
