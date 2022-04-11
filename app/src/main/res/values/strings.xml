@@ -12,4 +12,9 @@
     <string name="recommend_btn">RECOMMEND EXPENSE</string>
     <string name="percent_hint">%</string>
     <string name="max_hint">$</string>
+    <string-array name="recurring_options">
+        <item>Not Recurring</item>
+        <item>Monthly</item>
+        <item>Annually</item>
+    </string-array>
 </resources>

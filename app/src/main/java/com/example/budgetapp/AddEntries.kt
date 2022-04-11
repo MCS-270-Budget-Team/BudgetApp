@@ -78,6 +78,23 @@ class AddEntries : AppCompatActivity() {
         })
 
 
+        //connect recurring options to spinner
+        val spinner: Spinner = findViewById(R.id.spinner1)
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter.createFromResource(
+            this,
+            R.array.recurring_options,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            // Specify the layout to use when the list of choices appears
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            // Apply the adapter to the spinner
+            spinner.adapter = adapter
+        }
+
+        spinner.selectedItem.toString() != "Not Recurring"
+
+
         billAddButton.setOnClickListener {
             // save in database for amount and message
             if (billAmount.text != null && billAmount != null && billTitle != null) {
@@ -87,12 +104,15 @@ class AddEntries : AppCompatActivity() {
                     toast.setGravity(Gravity.CENTER, 0, 0)
                     toast.show()                }
                 else{
+                    val recurringOption = spinner.selectedItem.toString()
                     val amount = billAmount.text.toString().toDouble()
                     val title = billTitle.text.toString()
                     val date = dateBill.text.toString()
                     val category = "expense"
-                    val newEntry = Entry(id = null, title, date, amount, category)
-                    db.insertData(newEntry)
+                    if (recurringOption != "Not Recurring") {
+                        val newRecurring = RecurringExpense(null, title, amount, date, category, date, true)
+                        // add newRecurring to recurring expense database
+                    }
                 }
             }
         }
