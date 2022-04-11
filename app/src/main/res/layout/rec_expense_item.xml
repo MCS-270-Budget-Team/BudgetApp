@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="fill_horizontal"
-    android:weightSum="3">
+    android:weightSum="3"
+    android:background="@color/light_grey">
 
     <TextView
         android:id="@+id/rec_percent"
@@ -15,7 +16,7 @@
         android:textSize="13dp"
         android:padding="5dp"
         android:text="8%"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textAllCaps="true"
         android:gravity="center"/>
     <TextView
@@ -26,7 +27,7 @@
         android:textSize="13dp"
         android:padding="5dp"
         android:text="housing"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textAllCaps="true"
         android:gravity="center"/>
     <TextView
@@ -38,7 +39,7 @@
         android:textStyle="bold"
         android:padding="5dp"
         android:text="$1000"
-        android:textColor="@color/dark_green"
+        android:textColor="@color/light_green"
         android:textAllCaps="true"
         android:gravity="center"/>
 

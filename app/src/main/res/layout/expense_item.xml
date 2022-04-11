@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="fill_horizontal"
-    android:weightSum="4">
+    android:weightSum="4"
+    android:background="@color/light_grey">
 
     <TextView
         android:id="@+id/expense_categories"
@@ -15,7 +16,7 @@
         android:textSize="13dp"
         android:padding="5dp"
         android:text="Housing"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textAllCaps="true"
         android:gravity="center"/>
     <TextView
@@ -26,7 +27,7 @@
         android:textSize="13dp"
         android:padding="5dp"
         android:text="10%"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textAllCaps="true"
         android:gravity="center"/>
     <TextView
@@ -37,7 +38,7 @@
         android:textSize="13dp"
         android:padding="5dp"
         android:text="$1000"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textAllCaps="true"
         android:gravity="center"/>
 
@@ -48,8 +49,8 @@
         android:layout_weight="1"
         android:textSize="13dp"
         android:padding="5dp"
-        android:backgroundTint="@color/white"
+        android:backgroundTint="@color/lightest_grey"
         android:text="DELETE"
-        android:textColor="@color/black"/>
+        android:textColor="@color/red"/>
 
 </LinearLayout>
