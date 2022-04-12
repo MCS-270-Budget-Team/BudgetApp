@@ -34,7 +34,6 @@ package com.example.budgetapp
 import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
-import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
@@ -50,6 +49,10 @@ private const val ID_COL = "id"
 private const val TABLE_NAME_DIS = "MoneyDistribution"
 private const val PERCENT_COL = "percentage"
 private const val MAX_COL = "Maximum"
+
+private const val TABLE_NAME_REC = "RecurringBill"
+private const val LAST_PAID_COL = "Last_paid"
+private const val IS_PAID_COL = "is_paid"
 
 class EntriesDB(context: Context) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
@@ -72,22 +75,36 @@ class EntriesDB(context: Context) :
                 + ID_COL + " INTEGER PRIMARY KEY, " +
                 CATEGORIES_COL + " TEXT," +
                 PERCENT_COL + " REAL," +
-                MAX_COL + " REAL," + ")")
+                MAX_COL + " REAL," +
+                "CONSTRAINT cate_unique UNIQUE($CATEGORIES_COL)" + ")")
+
+        val query3 = ("CREATE TABLE " + TABLE_NAME_REC + " ("
+                + ID_COL + " INTEGER PRIMARY KEY, " +
+                TITLE_COL + " TEXT," +
+                AMOUNT_COL + " REAL," +
+                DATE_COL + " TEXT," +
+                CATEGORIES_COL + " TEXT," +
+                LAST_PAID_COL + " TEXT," +
+                IS_PAID_COL + " varchar" + ")")
 
         // we are calling sqlite
         // method for executing our query
         db.execSQL(query)
         db.execSQL(query2)
+        db.execSQL(query3)
     }
 
     override fun onUpgrade(db: SQLiteDatabase, p1: Int, p2: Int) {
         // this method is to check if table already exists
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME)
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_DIS)
+        db.execSQL("DROP TABLE IF EXISTS" + TABLE_NAME_REC)
         onCreate(db)
     }
 
-/************************************Functions For Entry Table************************************/
+    /************************************************************************************************
+     ***********************Functions For Entries Table**********************************************
+     ************************************************************************************************/
     fun insertData(entry: Entry): Long? {
         val database = this.writableDatabase
         val contentValues = ContentValues()
@@ -178,7 +195,9 @@ class EntriesDB(context: Context) :
     }
 
 
-    /*************************Functions For Money Distribution Table***********************************/
+    /************************************************************************************************
+     ***********************Functions For Money Distribution Table***********************************
+     ************************************************************************************************/
     /*
     * To insert a new data into the Distribution table, you need create a new Distribute object
     * and call insert_Distribute()
@@ -213,7 +232,11 @@ class EntriesDB(context: Context) :
         contentValues.put(CATEGORIES_COL, distribute.category)
         contentValues.put(PERCENT_COL, distribute.percentage)
         contentValues.put(MAX_COL, distribute.max_amount)
+        if (this.isUnique(distribute.category)) {
+            return null
+        }
         val result = database.insert(TABLE_NAME_DIS, null, contentValues)
+        this.updatePercent()
         return result
     }
 
@@ -288,4 +311,121 @@ class EntriesDB(context: Context) :
         }
         return list
     }
+
+    fun deleteAll_Distribute(){
+        val db = this.writableDatabase
+        val query = "DELETE FROM $TABLE_NAME_DIS"
+        db.execSQL(query)
+    }
+
+    private fun isUnique(category: String): Boolean{
+        val categories = this.getCategories_Distribute()
+        return (categories.contains(category))
+    }
+
+    @SuppressLint("Range")
+    private fun updatePercent(){
+        this.insert_Distribute(Distribute(null, "Other", 100.0, 0.0))
+        val db = this.writableDatabase
+        val query = "SELECT SUM($PERCENT_COL) AS Total FROM $TABLE_NAME_DIS WHERE $CATEGORIES_COL != \"Other\""
+        val result = db.rawQuery(query, null)
+        if (result.moveToFirst()) {
+            val total = result.getDouble(result.getColumnIndex("Total"))
+            val percentage = 1 - total
+            val query2 = "UPDATE $TABLE_NAME_DIS SET $PERCENT_COL = $percentage WHERE $CATEGORIES_COL = \"Other\""
+            db.execSQL(query2)
+        }
+    }
+
+    /************************************************************************************************
+     ***********************Functions For Recurring Bill Table***************************************
+     ************************************************************************************************/
+
+    /*
+    * To insert a row
+    *       val r = RecurringExpense()
+    *       db.insert_Recurring(r)
+    *
+    * To delete a row, you need id
+    *       db.deleteRow_Recurring(id)
+    *
+    * To delete all rows
+    *       db.deleteAll_Recurring()
+    *
+    * To get all rows
+    *       val result: MutableList<RecurringExpense> = db.getAll_Recurring
+    *
+    * To update a row
+    *       db.updateRow_Recurring(id, new_recurring)
+    **/
+
+    fun insert_Recurring(recurring: RecurringExpense): Long? {
+        val database = this.writableDatabase
+        val contentValues = ContentValues()
+
+        contentValues.put(TITLE_COL, recurring.title)
+        contentValues.put(AMOUNT_COL, recurring.amount)
+        contentValues.put(DATE_COL, recurring.date)
+        contentValues.put(CATEGORIES_COL, recurring.categories)
+        contentValues.put(LAST_PAID_COL, recurring.last_paid)
+        contentValues.put(IS_PAID_COL, recurring.is_paid.toString())
+
+        return database.insert(TABLE_NAME_REC, null, contentValues)
+    }
+
+    fun deleteRow_Recurring(id: Int){
+        val db = this.writableDatabase
+        val query = "DELETE FROM $TABLE_NAME_REC " +
+                "WHERE id = $id"
+        db.execSQL(query)
+    }
+
+    fun deleteAll_Recurring(){
+        val db = this.writableDatabase
+        val query = "DELETE FROM $TABLE_NAME_REC"
+        db.execSQL(query)
+    }
+
+    @SuppressLint("Range")
+    fun getAll_Recurring(): MutableList<RecurringExpense> {
+        val list: MutableList<RecurringExpense> = ArrayList()
+        val db = this.readableDatabase
+        val query = "SELECT * FROM $TABLE_NAME_REC"
+        val result = db.rawQuery(query, null)
+        if (result.moveToFirst()) {
+            do {
+                val recurring = RecurringExpense()
+                recurring.id = result.getString(result.getColumnIndex(ID_COL)).toInt()
+                recurring.title = result.getString(result.getColumnIndex(TITLE_COL))
+                recurring.amount = result.getString(result.getColumnIndex(AMOUNT_COL)).toDouble()
+                recurring.date = result.getString(result.getColumnIndex(DATE_COL))
+                recurring.categories = result.getString(result.getColumnIndex(CATEGORIES_COL))
+                recurring.last_paid = result.getString(result.getColumnIndex(LAST_PAID_COL))
+                recurring.is_paid = result.getString(result.getColumnIndex(IS_PAID_COL)).toBoolean()
+                list.add(recurring)
+            }
+            while (result.moveToNext())
+        }
+        return list
+    }
+
+    fun updateRow_Recurring(id: Int?, new_Recurring: RecurringExpense){
+        if (id != null) {
+            val db = this.writableDatabase
+            val query = "UPDATE $TABLE_NAME_REC SET $TITLE_COL = \'${new_Recurring.title}\', " +
+                    "$AMOUNT_COL = \'${new_Recurring.amount}\', " +
+                    "$DATE_COL = ${new_Recurring.date}, " +
+                    "$CATEGORIES_COL = \"${new_Recurring.categories}\", " +
+                    "$LAST_PAID_COL = ${new_Recurring.last_paid}, " +
+                    "$IS_PAID_COL = \"${new_Recurring.is_paid}\" " +
+                    "WHERE id = $id"
+            db.execSQL(query)
+        }
+    }
+
+
+
+
+
+
 }
