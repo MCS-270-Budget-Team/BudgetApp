@@ -47,7 +47,7 @@
                 android:id="@+id/job_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/job"
+                android:hint="@string/job"
                 android:layout_margin="5dp">
             </EditText>
             <EditText
@@ -55,7 +55,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
-                android:text="@string/amount_paycheck"
+                android:hint="@string/amount_paycheck"
                 android:layout_margin="5dp">
             </EditText>
             <LinearLayout
@@ -133,14 +133,14 @@
                 android:id="@+id/bill_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/bill_title"
+                android:hint="@string/bill_title"
                 android:layout_margin="5dp">
             </EditText>
             <EditText
                 android:id="@+id/bill_amount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/amount_bill"
+                android:hint="@string/amount_bill"
                 android:layout_margin="5dp">
             </EditText>
             <LinearLayout

@@ -92,8 +92,6 @@ class AddEntries : AppCompatActivity() {
             spinner.adapter = adapter
         }
 
-        spinner.selectedItem.toString() != "Not Recurring"
-
 
         billAddButton.setOnClickListener {
             // save in database for amount and message
