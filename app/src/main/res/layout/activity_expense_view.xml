@@ -1,57 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-    <TextView
-        android:text="Your Purchase History"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:textSize="30dp"
-        android:padding="5dp"
-        />
-
+    android:orientation="vertical"
+    tools:context=".MainActivity"
+    android:background="@color/black">
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+    <TextView
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:textSize="25dp"
+        android:background="@color/dark_green"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="20dp"
         android:padding="5dp"
-        >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Current Account Value: "
-            android:textSize="20dp"/>
-        <TextView
-            android:id="@+id/account_amount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:textSize="20dp"/>
+        android:text="View History">
+    </TextView>
+
+    <ListView
+        android:id="@+id/expense_listview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@color/black">
+    </ListView>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Total Amount: $1000"
+        android:textSize="25dp">
+    </TextView>
     </LinearLayout>
-    <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <TableLayout
-            android:id="@+id/expense_table"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:stretchColumns="*"
-            android:padding="5dp"
-            android:layout_margin="20dp"
-            android:divider="@color/black"
-            android:showDividers="middle">
-            <TableRow>
-                <TextView android:text="Name"
-                    android:textStyle="bold"/>
-                <TextView android:text="Date"
-                    android:textStyle="bold"/>
-                <TextView android:text="Category"
-                    android:textStyle="bold"/>
-                <TextView android:text="Amount"
-                    android:textStyle="bold"/>
-            </TableRow>
-        </TableLayout>
-    </ScrollView>
+
 </LinearLayout>

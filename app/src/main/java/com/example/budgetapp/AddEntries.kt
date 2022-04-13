@@ -43,7 +43,7 @@ class AddEntries : AppCompatActivity() {
         datePaycheck.text = "--/--/----"
 
         val context = this
-        val db = EntriesDB(context)
+        val db = EntriesDB(applicationContext)
 
         val dateSetListener = object : DatePickerDialog.OnDateSetListener {
             override fun onDateSet(p0: DatePicker?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
@@ -93,6 +93,9 @@ class AddEntries : AppCompatActivity() {
                     val category = "expense"
                     val newEntry = Entry(id = null, title, date, amount, category)
                     db.insertData(newEntry)
+                    val toast = Toast.makeText(this, "Successfully add new expense!", Toast.LENGTH_SHORT)
+                    toast.setGravity(Gravity.CENTER, 0, 0)
+                    toast.show()
                 }
             }
         }
@@ -127,6 +130,9 @@ class AddEntries : AppCompatActivity() {
                     val category = "paycheck"
                     val newEntry = Entry(id = null, title, date, amount, category)
                     db.insertData(newEntry)
+                    val toast = Toast.makeText(this, "Successfully add new paycheck!", Toast.LENGTH_SHORT)
+                    toast.setGravity(Gravity.CENTER, 0, 0)
+                    toast.show()
                 }
             }
         }
@@ -141,7 +147,7 @@ class AddEntries : AppCompatActivity() {
     private fun updateDateInViewPaycheck() {
         val myFormat = "MM/dd/yyyy" // mention the format you need
         val sdf = SimpleDateFormat(myFormat, Locale.US)
-        sdf.format(cal.getTime()).also { datePaycheck.text = it }
+        datePaycheck.text = sdf.format(cal.getTime())
     }
 
     /* Function to check whether a string is numeric*/

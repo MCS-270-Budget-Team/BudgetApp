@@ -89,7 +89,7 @@ class EntriesDB(context: Context) :
     fun readData(): MutableList<Entry> {
         val list: MutableList<Entry> = ArrayList()
         val db = this.readableDatabase
-        val query = "SELECT * FROM $TABLE_NAME ORDER BY $DATE_COL ASC"
+        val query = "SELECT * FROM $TABLE_NAME ORDER BY $DATE_COL DESC"
         val result = db.rawQuery(query, null)
         if (result.moveToFirst()) {
             do {
