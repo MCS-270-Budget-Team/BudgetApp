@@ -4,6 +4,32 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+    <TextView
+        android:text="Your Purchase History"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:textSize="30dp"
+        android:padding="5dp"
+        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5dp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Current Account Value: "
+            android:textSize="20dp"/>
+        <TextView
+            android:id="@+id/account_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="20dp"/>
+    </LinearLayout>
     <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
@@ -12,27 +38,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:stretchColumns="*"
-            android:padding="5dp">
+            android:padding="5dp"
+            android:layout_margin="20dp"
+            android:divider="@color/black"
+            android:showDividers="middle">
             <TableRow>
-                <TextView android:text="Name"/>
-                <TextView android:text="Date"/>
-                <TextView android:text="Category"/>
-                <TextView android:text="Amount"/>
+                <TextView android:text="Name"
+                    android:textStyle="bold"/>
+                <TextView android:text="Date"
+                    android:textStyle="bold"/>
+                <TextView android:text="Category"
+                    android:textStyle="bold"/>
+                <TextView android:text="Amount"
+                    android:textStyle="bold"/>
             </TableRow>
         </TableLayout>
     </ScrollView>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Current Account Value: "/>
-        <TextView
-            android:id="@+id/account_amount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""/>
-    </LinearLayout>
 </LinearLayout>

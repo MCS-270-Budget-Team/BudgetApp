@@ -5,107 +5,127 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    android:gravity="center"
+    tools:context=".MainActivity"
+    android:background="@color/light_grey">
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="320dp"
         android:layout_height="wrap_content"
-        android:text="Add Paycheck"
+        android:text="Welcome to Budget App!"
+        android:textSize="25dp"
         android:textColor="@color/black"
-        android:textSize="32sp">
+        android:gravity="center"
+        android:padding="10dp"
+        android:layout_margin="20dp"
+        android:background="@drawable/layout_bg">
     </TextView>
-    <EditText
-        android:id="@+id/job_input"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/job">
-    </EditText>
-    <EditText
-        android:id="@+id/paycheck_amount"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:text="@string/amount_paycheck">
-    </EditText>
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/date_input"
-            android:layout_width="320dp"
-            android:layout_height="wrap_content"
-            android:text="@string/date_input"></TextView>
-
-        <Button
-            android:id="@+id/date_picker"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="DATE">
-        </Button>
-    </LinearLayout>
-
-
-    <Button
-        android:id="@+id/add_paycheck_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/add_button">
-    </Button>
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="30dp"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Add Bills"
-        android:textColor="@color/black"
-        android:textSize="32sp">
-    </TextView>
-    <EditText
-        android:id="@+id/bill_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/bill_title">
-    </EditText>
-    <EditText
-        android:id="@+id/bill_amount"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/amount_bill">
-    </EditText>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/date1_input"
-            android:layout_width="320dp"
-            android:layout_height="wrap_content"
-            android:text="@string/date1_input"></TextView>
-
-        <Button
-            android:id="@+id/date1_picker"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="DATE">
-        </Button>
-    </LinearLayout>
-    <Button
-        android:id="@+id/add_bill_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Add">
-    </Button>
-    <Space
         android:layout_width="wrap_content"
-        android:layout_height="30dp">
-    </Space>
-    <Button
-        android:id="@+id/view_expense_button"
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/view_expense">
-    </Button>
+        android:orientation="vertical"
+        android:background="@drawable/layout_bg">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_margin="5dp">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                android:background="@color/white">
+                <ImageView
+                    android:id="@+id/add_imageView"
+                    android:layout_width="150dp"
+                    android:layout_height="80dp"
+                    android:src="@drawable/add"
+                    android:padding="4dp"/>
+                <Button
+                    android:id="@+id/add_entry_button"
+                    android:layout_width="150dp"
+                    android:layout_height="60dp"
+                    android:text="Add Entries"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:backgroundTint="@color/white"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                android:background="@color/white"
+                android:layout_margin="5dp">
+                <ImageView
+                    android:id="@+id/view_imageView"
+                    android:layout_width="150dp"
+                    android:layout_height="80dp"
+                    android:src="@drawable/document_icon"
+                    android:padding="4dp"/>
+                <Button
+                    android:id="@+id/view_history_button"
+                    android:layout_width="150dp"
+                    android:layout_height="60dp"
+                    android:text="View History"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:backgroundTint="@color/white"/>
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_margin="5dp">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                android:background="@color/white">
+                <ImageView
+                    android:id="@+id/expense_imageView"
+                    android:layout_width="150dp"
+                    android:layout_height="80dp"
+                    android:src="@drawable/analytics"
+                    android:padding="4dp"/>
+                <Button
+                    android:id="@+id/adjust_expense_button"
+                    android:layout_width="150dp"
+                    android:layout_height="60dp"
+                    android:text="Adjust Expense"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:backgroundTint="@color/white"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                android:background="@color/white"
+                android:layout_margin="5dp">
+                <ImageView
+                    android:id="@+id/bill_imageView"
+                    android:layout_width="150dp"
+                    android:layout_height="80dp"
+                    android:src="@drawable/history"
+                    android:padding="4dp"/>
+                <Button
+                    android:id="@+id/upcoming_bill_button"
+                    android:layout_width="150dp"
+                    android:layout_height="60dp"
+                    android:text="Upcoming Bills"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:backgroundTint="@color/white"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>
