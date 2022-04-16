@@ -54,6 +54,10 @@ private const val TABLE_NAME_REC = "RecurringBill"
 private const val LAST_PAID_COL = "Last_paid"
 private const val IS_PAID_COL = "is_paid"
 
+private const val TABLE_NAME_GOAL = "GoalTable"
+private const val GOAL_LEVEL_COL = "level"
+private const val GOAL_PLUS_COL = "plus"
+
 class EntriesDB(context: Context) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
@@ -87,11 +91,18 @@ class EntriesDB(context: Context) :
                 LAST_PAID_COL + " TEXT," +
                 IS_PAID_COL + " varchar" + ")")
 
+        val query4 = ("CREATE TABLE " + TABLE_NAME_GOAL + " ("
+                + ID_COL + " INTEGER PRIMARY KEY, " +
+                TITLE_COL + " TEXT," +
+                GOAL_PLUS_COL + " INTEGER," +
+                GOAL_LEVEL_COL + " INTEGER" + ")")
+
         // we are calling sqlite
         // method for executing our query
         db.execSQL(query)
         db.execSQL(query2)
         db.execSQL(query3)
+        db.execSQL(query4)
     }
 
     override fun onUpgrade(db: SQLiteDatabase, p1: Int, p2: Int) {
@@ -99,6 +110,7 @@ class EntriesDB(context: Context) :
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME)
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_DIS)
         db.execSQL("DROP TABLE IF EXISTS" + TABLE_NAME_REC)
+        db.execSQL("DROP TABLE IF EXISTS" + TABLE_NAME_GOAL)
         onCreate(db)
     }
 
@@ -424,9 +436,57 @@ class EntriesDB(context: Context) :
         }
     }
 
+    /************************************************************************************************
+     ***********************Functions For Goal Table*************************************************
+     ************************************************************************************************/
 
+    fun insertGoal(goal: Goal): Long {
+        val database = this.writableDatabase
+        val contentValues = ContentValues()
 
+        contentValues.put(TITLE_COL, goal.title)
+        contentValues.put(GOAL_LEVEL_COL, goal.level)
+        contentValues.put(GOAL_PLUS_COL, goal.plus)
 
+        return database.insert(TABLE_NAME_GOAL, null, contentValues)
+    }
 
+    fun deleteGoal(id:Int){
+        val db = this.writableDatabase
+        val query = "DELETE FROM $TABLE_NAME_GOAL " +
+                "WHERE id = $id"
+        db.execSQL(query)
+    }
+
+    fun editGoal(id: Int?, newGoal: Goal){
+        if (id != null) {
+            val db = this.writableDatabase
+            val query = "UPDATE $TABLE_NAME_GOAL SET $TITLE_COL = \'${newGoal.title}\', " +
+                    "$GOAL_LEVEL_COL = ${newGoal.level}, " +
+                    "$GOAL_PLUS_COL = ${newGoal.plus} " +
+                    "WHERE id = $id"
+            db.execSQL(query)
+        }
+    }
+
+    @SuppressLint("Range")
+    fun getAllGoals(): MutableList<Goal>{
+        val list: MutableList<Goal> = ArrayList()
+        val db = this.readableDatabase
+        val query = "SELECT * FROM $TABLE_NAME_GOAL"
+        val result = db.rawQuery(query, null)
+        if (result.moveToFirst()) {
+            do {
+                val goal = Goal()
+                goal.id = result.getString(result.getColumnIndex(ID_COL)).toInt()
+                goal.title = result.getString(result.getColumnIndex(TITLE_COL))
+                goal.level = result.getInt(result.getColumnIndex(GOAL_LEVEL_COL))
+                goal.plus = result.getInt(result.getColumnIndex(GOAL_PLUS_COL))
+                list.add(goal)
+            }
+            while (result.moveToNext())
+        }
+        return list
+    }
 
 }

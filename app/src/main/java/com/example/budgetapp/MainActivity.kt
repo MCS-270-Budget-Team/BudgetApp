@@ -73,13 +73,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        val goalList = mutableListOf(Goal(null, "Invest $300 monthly", 5, 3),
-            Goal(null, "Save $100 weekly", 10, 4),
-            Goal(null, "Pay all the bills on time", 50, 9),
-            Goal(null, "Spend $100 on yourself", 20, 6),
-            Goal(null, "Eat out twice per week", 8, 3))
-
-        goalAdapter = GoalAdapter(applicationContext, goalList)
+        goalAdapter = GoalAdapter(applicationContext)
         goalListview.adapter = goalAdapter
     }
 
@@ -90,9 +84,9 @@ class MainActivity : AppCompatActivity() {
 * accomplishments, see the progress of each bubbles and edit/delete
 * the content of each bubble
 */
-class GoalAdapter(var context: Context, private var arraylist: MutableList<Goal>): BaseAdapter() {
-//    private val db = EntriesDB(context)
-
+class GoalAdapter(var context: Context): BaseAdapter() {
+    private val db = EntriesDB(context)
+    private var arraylist: MutableList<Goal> = db.getAllGoals()
     // parameter to calculate level's required experience points
     private val X: Double = 0.3
     private val Y: Double = 2.0
@@ -115,7 +109,7 @@ class GoalAdapter(var context: Context, private var arraylist: MutableList<Goal>
         val title: Button = view.findViewById(R.id.goal_button)
         val progressBar: ProgressBar = view.findViewById(R.id.level_progress)
         val level: TextView = view.findViewById(R.id.level)
-        val plus: ImageButton = view.findViewById(R.id.plus)
+        val plusButton: ImageButton = view.findViewById(R.id.plus)
 
         val goal: Goal = arraylist[p0]
 
@@ -131,8 +125,8 @@ class GoalAdapter(var context: Context, private var arraylist: MutableList<Goal>
         //getting and setting the color of the bubble based on the level
         val goalColor = findProgressColor(goal.level)
         progressBar.progressTintList = ColorStateList.valueOf(Color.parseColor(goalColor))
-        plus.setBackgroundColor(Color.parseColor(goalColor))
-        plus.backgroundTintList = ColorStateList.valueOf(Color.parseColor(goalColor))
+        plusButton.setBackgroundColor(Color.parseColor(goalColor))
+        plusButton.backgroundTintList = ColorStateList.valueOf(Color.parseColor(goalColor))
 
         //when click on the title, the user can edit/delete the content of the goal
         title.setOnClickListener {
@@ -145,6 +139,14 @@ class GoalAdapter(var context: Context, private var arraylist: MutableList<Goal>
             intent.putExtra("plus", arraylist[p0].plus)
 
             context.startActivity(intent)
+        }
+
+        //when press the plus button, update the database and the progress bar
+        plusButton.setOnClickListener {
+            goal.plus += 1
+            goal.level = calculateLevel(goal.plus)
+            db.editGoal(goal.id, goal)
+            this.notifyDataSetChanged()
         }
 
         //updating the bubble and the level when the user press the plus icon
@@ -169,6 +171,16 @@ class GoalAdapter(var context: Context, private var arraylist: MutableList<Goal>
             level <= 20 -> {colorList[3]}   //expert's levels
             else -> colorList[4]
         }
+    }
+
+    /* Given plus (the number of time the person accomplish a task, calculate the level */
+    private fun calculateLevel(plus: Int): Int{
+        var currentLevel : Int = 0
+        val currentExp = plus * 20
+        while ((currentLevel / X).pow(Y) < currentExp){
+            currentLevel += 1
+        }
+        return currentLevel - 1
     }
 }
 
@@ -201,18 +213,19 @@ class AddGoals: AppCompatActivity() {
                     toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
                     toast.show()
                 }
-                title.text.toString().length > 20 -> {
-                    val toast = Toast.makeText(this, "Title must not exceed 20 characters. Try again!", Toast.LENGTH_SHORT)
+                title.text.toString().length > 30 -> {
+                    val toast = Toast.makeText(this, "Title must not exceed 30 characters. Try again!", Toast.LENGTH_SHORT)
                     toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
                     toast.show()
                 }
                 else -> {
-                    val newEntry = Goal(
+                    val newGoal = Goal(
                         null,
                         title.text.toString(),
                         0,
                         0
                     )
+                    db.insertGoal(newGoal)
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
                 }
@@ -252,7 +265,7 @@ class EditGoals: AppCompatActivity() {
         val id = extras!!.getInt("id")
         val titleInfo = extras.getString("title")
         val levelInfo = extras.getInt("level")
-        val plus = extras.getInt("plus")
+        val plusInfo = extras.getInt("plus")
 
         title.setText(titleInfo)
 
@@ -263,18 +276,19 @@ class EditGoals: AppCompatActivity() {
                     toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
                     toast.show()
                 }
-                title.text.toString().length > 20 -> {
-                    val toast = Toast.makeText(this, "Title must not exceed 20 characters. Try again!", Toast.LENGTH_SHORT)
+                title.text.toString().length > 30 -> {
+                    val toast = Toast.makeText(this, "Title must not exceed 30 characters. Try again!", Toast.LENGTH_SHORT)
                     toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
                     toast.show()
                 }
                 else -> {
-                    val newEntry = Goal(
+                    val updatedGoal = Goal(
                         null,
                         title.text.toString(),
-                        0,
-                        0
+                        levelInfo,
+                        plusInfo
                     )
+                    db.editGoal(id, updatedGoal)
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
                 }
@@ -284,6 +298,7 @@ class EditGoals: AppCompatActivity() {
         deleteButton.setOnClickListener {
             //delete the goal form the database
             val intent = Intent(this, MainActivity::class.java)
+            db.deleteGoal(id)
             startActivity(intent)
         }
 
