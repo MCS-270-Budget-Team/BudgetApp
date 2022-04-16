@@ -25,6 +25,7 @@
         <activity android:name=".AdjustExpense"/>
         <activity android:name=".AddCategories"/>
         <activity android:name=".AddEntries"/>
+        <activity android:name=".EditEntries"/>
 
     </application>
 

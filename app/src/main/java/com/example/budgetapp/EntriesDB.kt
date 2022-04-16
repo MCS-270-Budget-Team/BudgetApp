@@ -225,14 +225,14 @@ class EntriesDB(context: Context) :
     * */
 
 
-    fun insert_Distribute(distribute: Distribute): Long? {
+    fun insert_Distribute(expense: Expense): Long? {
         val database = this.writableDatabase
         val contentValues = ContentValues()
 
-        contentValues.put(CATEGORIES_COL, distribute.category)
-        contentValues.put(PERCENT_COL, distribute.percentage)
-        contentValues.put(MAX_COL, distribute.max_amount)
-        if (this.isUnique(distribute.category)) {
+        contentValues.put(CATEGORIES_COL, expense.categories)
+        contentValues.put(PERCENT_COL, expense.percentage)
+        contentValues.put(MAX_COL, expense.max)
+        if (this.isUnique(expense.categories)) {
             return null
         }
         val result = database.insert(TABLE_NAME_DIS, null, contentValues)
@@ -247,49 +247,49 @@ class EntriesDB(context: Context) :
         db.execSQL(query)
     }
 
-    fun updateRow_Distribute(id: Int?, new_distribute:Distribute){
+    fun updateRow_Distribute(id: Int?, new_expense:Expense){
         if (id != null) {
             val db = this.writableDatabase
-            val query = "UPDATE $TABLE_NAME_DIS SET $CATEGORIES_COL = \'${new_distribute.category}\', " +
-                    "$PERCENT_COL = \'${new_distribute.percentage}\', " +
-                    "$MAX_COL = ${new_distribute.max_amount} " +
+            val query = "UPDATE $TABLE_NAME_DIS SET $CATEGORIES_COL = \'${new_expense.categories}\', " +
+                    "$PERCENT_COL = \'${new_expense.percentage}\', " +
+                    "$MAX_COL = ${new_expense.max} " +
                     "WHERE id = $id"
             db.execSQL(query)
         }
     }
 
     @SuppressLint("Range")
-    fun getRow_Distribute(id: Int): Distribute {
-        val distribute = Distribute()
+    fun getRow_Distribute(id: Int): Expense {
+        val expense = Expense()
         val db = this.readableDatabase
         val query = "SELECT * FROM $TABLE_NAME_DIS WHERE id = $id"
         val result = db.rawQuery(query, null)
         if (result.moveToFirst()){
             do {
-                distribute.id = result.getString(result.getColumnIndex(ID_COL)).toInt()
-                distribute.category = result.getString(result.getColumnIndex(CATEGORIES_COL))
-                distribute.percentage = result.getString(result.getColumnIndex(PERCENT_COL)).toDouble()
-                distribute.max_amount = result.getString(result.getColumnIndex(MAX_COL)).toDouble()
+                expense.id = result.getString(result.getColumnIndex(ID_COL)).toInt()
+                expense.categories = result.getString(result.getColumnIndex(CATEGORIES_COL))
+                expense.percentage = result.getString(result.getColumnIndex(PERCENT_COL)).toDouble()
+                expense.max = result.getString(result.getColumnIndex(MAX_COL)).toDouble()
             }
                 while (result.moveToNext())
         }
-        return distribute
+        return expense
     }
 
     @SuppressLint("Range")
-    fun getAll_Distribute(): MutableList<Distribute> {
-        val list: MutableList<Distribute> = ArrayList()
+    fun getAll_Distribute(): MutableList<Expense> {
+        val list: MutableList<Expense> = ArrayList()
         val db = this.readableDatabase
         val query = "SELECT * FROM $TABLE_NAME_DIS"
         val result = db.rawQuery(query, null)
         if (result.moveToFirst()) {
             do {
-                val distribute = Distribute()
-                distribute.id = result.getString(result.getColumnIndex(ID_COL)).toInt()
-                distribute.category = result.getString(result.getColumnIndex(CATEGORIES_COL))
-                distribute.percentage = result.getString(result.getColumnIndex(PERCENT_COL)).toDouble()
-                distribute.max_amount = result.getString(result.getColumnIndex(MAX_COL)).toDouble()
-                list.add(distribute)
+                val expense = Expense()
+                expense.id = result.getString(result.getColumnIndex(ID_COL)).toInt()
+                expense.categories = result.getString(result.getColumnIndex(CATEGORIES_COL))
+                expense.percentage = result.getString(result.getColumnIndex(PERCENT_COL)).toDouble()
+                expense.max = result.getString(result.getColumnIndex(MAX_COL)).toDouble()
+                list.add(expense)
             }
             while (result.moveToNext())
         }
@@ -312,20 +312,21 @@ class EntriesDB(context: Context) :
         return list
     }
 
-    fun deleteAll_Distribute(){
+    /* only for testing, not recommend using!!! */
+    private fun deleteAll_Distribute(){
         val db = this.writableDatabase
         val query = "DELETE FROM $TABLE_NAME_DIS"
         db.execSQL(query)
     }
 
-    private fun isUnique(category: String): Boolean{
+    fun isUnique(category: String): Boolean{
         val categories = this.getCategories_Distribute()
         return (categories.contains(category))
     }
 
     @SuppressLint("Range")
     private fun updatePercent(){
-        this.insert_Distribute(Distribute(null, "Other", 100.0, 0.0))
+        this.insert_Distribute(Expense(null, "Other", 100.0, 0.0))
         val db = this.writableDatabase
         val query = "SELECT SUM($PERCENT_COL) AS Total FROM $TABLE_NAME_DIS WHERE $CATEGORIES_COL != \"Other\""
         val result = db.rawQuery(query, null)

@@ -11,6 +11,8 @@ import android.widget.Toast
 import kotlin.math.min
 
 class ExpenseAdapter(var context: Context, private var arraylist: MutableList<Expense>): BaseAdapter() {
+    private val db = EntriesDB(context)
+
     override fun getCount(): Int {
         return arraylist.size
     }
@@ -43,7 +45,7 @@ class ExpenseAdapter(var context: Context, private var arraylist: MutableList<Ex
         action.setOnClickListener {
             // start new activity
             // calc budget
-            remove(p0)
+            remove(p0, arraylist[p0].id!!)
             notifyDataSetChanged()
             Toast.makeText(context, "Delete category successfully!", Toast.LENGTH_SHORT).show()
         }
@@ -51,8 +53,9 @@ class ExpenseAdapter(var context: Context, private var arraylist: MutableList<Ex
         return view
     }
 
-    private fun remove(position: Int) {
-        arraylist.remove(arraylist[position])
+    private fun remove(position: Int, id: Int) {
+        db.delete_Distribute(id)
+        arraylist = db.getAll_Distribute()
     }
 
 }

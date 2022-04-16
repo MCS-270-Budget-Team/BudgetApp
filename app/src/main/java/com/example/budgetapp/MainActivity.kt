@@ -1,5 +1,6 @@
 package com.example.budgetapp
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -17,7 +18,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var spendingBar: ProgressBar
 
     private lateinit var totalAmount: TextView
+    //create database object
+    private val context = this
+    private val db = EntriesDB(context)
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -31,6 +36,9 @@ class MainActivity : AppCompatActivity() {
         spendingBar = findViewById(R.id.spendingBar)
 
         totalAmount = findViewById(R.id.total_amount)
+        val totalMoney = db.addPaycheckAmount() - db.addExpenseAmount()
+
+        totalAmount.text = "Total Amount: $$totalMoney"
 
         adjustExpenseButton.setOnClickListener {
             // start new activity

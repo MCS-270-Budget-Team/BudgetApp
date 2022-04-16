@@ -2,16 +2,17 @@ package com.example.budgetapp
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
+import android.os.Bundle
+import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-
+import androidx.appcompat.app.AppCompatActivity
 
 class ExpenseViewAdapter(var context: Context, private var arraylist: MutableList<Entry>): BaseAdapter() {
     private val entryDB = EntriesDB(context)
-
-
     override fun getCount(): Int {
         return arraylist.size
     }
@@ -62,9 +63,10 @@ class ExpenseViewAdapter(var context: Context, private var arraylist: MutableLis
         }
 
         editButton.setOnClickListener{
-            categoryViewSwitcher.showNext()
-            amountViewSwitcher.showNext()
-            buttonViewSwitcher.showNext()
+            val intent = Intent(context, EditEntries::class.java)
+//            intent.putExtra("newExpense", newExpense
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            context.startActivity(intent)
         }
         return view
     }
@@ -75,4 +77,3 @@ class ExpenseViewAdapter(var context: Context, private var arraylist: MutableLis
     }
 
 }
-
