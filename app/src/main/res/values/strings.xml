@@ -8,8 +8,8 @@
     <string name="amount_paycheck">Amount</string>
     <string name="job">Job</string>
     <string name="bill_title">Bill Title</string>
-    <string name="adjust_btn">ADJUST EXPENSE</string>
-    <string name="recommend_btn">RECOMMEND EXPENSE</string>
+    <string name="adjust_btn">GOALS</string>
+    <string name="recommend_btn">RECOMMENDATIONS</string>
     <string name="percent_hint">%</string>
     <string name="max_hint">$</string>
 </resources>

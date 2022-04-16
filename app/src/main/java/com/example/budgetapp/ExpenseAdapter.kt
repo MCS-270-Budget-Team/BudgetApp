@@ -5,9 +5,10 @@ import android.content.Intent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
+import kotlin.math.min
 
 class ExpenseAdapter(var context: Context, var arraylist: MutableList<Expense>): BaseAdapter() {
     override fun getCount(): Int {
@@ -27,13 +28,16 @@ class ExpenseAdapter(var context: Context, var arraylist: MutableList<Expense>):
         var categories: TextView = view.findViewById(R.id.expense_categories)
         var percent: TextView = view.findViewById(R.id.expense_percent)
         var max: TextView = view.findViewById(R.id.expense_max)
-        var action: Button = view.findViewById(R.id.action)
+        var rec: TextView = view.findViewById(R.id.expense_rec)
+        var action: ImageButton = view.findViewById(R.id.action)
 
         var expense: Expense = arraylist[p0]
 
         categories.setText(expense.categories)
         percent.setText(expense.percentage.toInt().toString() + "%")
-        max.setText("$" + expense.max.toInt().toString())
+        max.setText("Max: $" + expense.max.toInt().toString())
+
+        rec.setText("Rec: $" + min(expense.percentage/100 * 1000.0, expense.max).toString())
 
         action.setOnClickListener {
             // start new activity

@@ -2,22 +2,27 @@ package com.example.budgetapp
 
 import android.app.DatePickerDialog
 import android.content.Intent
+import android.graphics.PorterDuff
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.DatePicker
-import android.widget.EditText
-import android.widget.TextView
+import android.widget.*
 import java.text.SimpleDateFormat
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var addEntryButton: Button
-    private lateinit var adjustExpenseButton: Button
-    private lateinit var viewHistoryButton: Button
-    private lateinit var upcomingBillButton: Button
+    private lateinit var addEntryButton: ImageButton
+    private lateinit var adjustExpenseButton: ImageButton
+    private lateinit var viewHistoryButton: ImageButton
+    private lateinit var upcomingBillButton: ImageButton
+
+    private lateinit var experienceBar: ProgressBar
+    private lateinit var earningBar: ProgressBar
+    private lateinit var spendingBar: ProgressBar
+
+    private lateinit var totalAmount: TextView
+
     var cal = Calendar.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,18 +33,17 @@ class MainActivity : AppCompatActivity() {
         viewHistoryButton = findViewById(R.id.view_history_button)
         upcomingBillButton = findViewById(R.id.upcoming_bill_button)
 
+        experienceBar = findViewById(R.id.experienceBar)
+        earningBar = findViewById(R.id.earningBar)
+        spendingBar = findViewById(R.id.spendingBar)
 
-        addEntryButton.setOnClickListener {
-            // start new activity
-            // calc budget
-            val intent = Intent(this@MainActivity, AddEntries::class.java) //
-            startActivity(intent)
-        }
+        totalAmount = findViewById(R.id.total_amount)
 
         adjustExpenseButton.setOnClickListener {
             // start new activity
             // calc budget
             val intent = Intent(this@MainActivity, AdjustExpense::class.java) //
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivity(intent)
         }
 
@@ -47,15 +51,10 @@ class MainActivity : AppCompatActivity() {
             // start new activity
             // calc budget
             val intent = Intent(this@MainActivity, ExpenseViewer::class.java) //
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivity(intent)
         }
 
-//        upcomingBillButton.setOnClickListener {
-//            // start new activity
-//            // calc budget
-//            val intent = Intent(this@MainActivity, BillsViewer::class.java) //
-//            startActivity(intent)
-//        }
     }
 
 }
