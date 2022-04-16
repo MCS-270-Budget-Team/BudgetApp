@@ -2,6 +2,7 @@ package com.example.budgetapp
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
@@ -33,6 +34,7 @@ class ExpenseAdapter(var context: Context, private var arraylist: MutableList<Ex
         val max: TextView = view.findViewById(R.id.expense_max)
         val rec: TextView = view.findViewById(R.id.expense_rec)
         val action: ImageButton = view.findViewById(R.id.action)
+        val editButton: ImageButton = view.findViewById(R.id.edit)
 
         val expense: Expense = arraylist[p0]
 
@@ -48,6 +50,18 @@ class ExpenseAdapter(var context: Context, private var arraylist: MutableList<Ex
             remove(p0, arraylist[p0].id!!)
             notifyDataSetChanged()
             Toast.makeText(context, "Delete category successfully!", Toast.LENGTH_SHORT).show()
+        }
+
+        editButton.setOnClickListener {
+            val intent = Intent(context, EditCategories::class.java)
+//            intent.putExtra("newExpense", newExpense
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            intent.putExtra("id", arraylist[p0].id)
+            intent.putExtra("categories", arraylist[p0].categories)
+            intent.putExtra("percentage", arraylist[p0].percentage.toString())
+            intent.putExtra("max_amount", arraylist[p0].max.toString())
+
+            context.startActivity(intent)
         }
 
         return view

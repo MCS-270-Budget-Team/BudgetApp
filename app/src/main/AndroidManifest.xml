@@ -24,6 +24,7 @@
         <activity android:name=".ExpenseViewer"/>
         <activity android:name=".AdjustExpense"/>
         <activity android:name=".AddCategories"/>
+        <activity android:name=".EditCategories"/>
         <activity android:name=".AddEntries"/>
         <activity android:name=".EditEntries"/>
 

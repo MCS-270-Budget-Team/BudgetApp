@@ -31,10 +31,7 @@ class ExpenseViewAdapter(var context: Context, private var arraylist: MutableLis
 
         val view: View = View.inflate(context, R.layout.expense_bubble_activity, null)
 
-        val categoryViewSwitcher = view.findViewById(R.id.viewswitcher_categories) as ViewSwitcher
-        val amountViewSwitcher = view.findViewById(R.id.viewswitcher_amount) as ViewSwitcher
-        val buttonViewSwitcher = view.findViewById(R.id.viewswitcher_button) as ViewSwitcher
-
+//        val title: TextView = view.findViewById(R.id.title)
         val categories: TextView = view.findViewById(R.id.categories)
         val date: TextView = view.findViewById(R.id.date)
         val amount: TextView = view.findViewById(R.id.amount)
@@ -66,6 +63,12 @@ class ExpenseViewAdapter(var context: Context, private var arraylist: MutableLis
             val intent = Intent(context, EditEntries::class.java)
 //            intent.putExtra("newExpense", newExpense
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            intent.putExtra("id", arraylist[p0].id)
+            intent.putExtra("title", arraylist[p0].title)
+            intent.putExtra("categories", arraylist[p0].categories)
+            intent.putExtra("amount", arraylist[p0].amount.toString())
+            intent.putExtra("date", arraylist[p0].date)
+
             context.startActivity(intent)
         }
         return view

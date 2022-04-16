@@ -6,9 +6,8 @@
     android:id="@+id/popup_window_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddEntries"
-    android:background="@color/black"
-    android:padding="10dp">
+    tools:context=".EditCategories"
+    android:background="@color/black">
 
 
     <androidx.cardview.widget.CardView
@@ -41,7 +40,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/popup_window_background_container"
-                android:layout_width="250dp"
+                android:layout_width="260dp"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:background="@color/light_grey"
@@ -51,16 +50,17 @@
                     android:id="@+id/popup_window_title"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
-                    android:background="#EF7D75"
+                    android:background="@color/light_grey"
                     android:gravity="center"
-                    android:text="Add Entries"
+                    android:text="Edit Categories"
                     android:textAlignment="center"
                     android:textColor="#FFFFFF"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     app:autoSizeMaxTextSize="24dp"
                     app:autoSizeTextType="uniform"
-                    tools:ignore="MissingConstraints" />
+                    tools:ignore="MissingConstraints"
+                    android:backgroundTint="#6B80F8"/>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -69,64 +69,51 @@
                     tools:ignore="UnknownId">
 
                     <androidx.appcompat.widget.AppCompatEditText
-                        android:id="@+id/title"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Title"
-                        android:padding="10dp"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.677"
-                        tools:ignore="MissingConstraints"
-                        android:textColor="@color/white"
-                        android:textColorHint="@color/white"
-                        tools:layout_editor_absoluteX="0dp" />
-
-                    <androidx.appcompat.widget.AppCompatEditText
-                        android:id="@+id/amount"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Amount"
-                        android:padding="10dp"
-                        android:textColor="@color/white"
-                        android:textColorHint="@color/white"
-                        tools:ignore="MissingConstraints"
-                        app:layout_constraintTop_toBottomOf="@+id/title"/>
-                    <androidx.appcompat.widget.AppCompatEditText
-                        android:id="@+id/date"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="mm/dd/yyyy"
-                        android:padding="10dp"
-                        android:textColor="@color/white"
-                        android:textColorHint="@color/white"
-                        app:layout_constraintTop_toBottomOf="@+id/amount"/>
-                    <androidx.appcompat.widget.AppCompatEditText
                         android:id="@+id/categories"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:layout_constraintTop_toBottomOf="@id/date"
                         android:hint="Categories"
                         android:padding="10dp"
-                        android:textColorHint="@color/white"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="MissingConstraints"
                         android:textColor="@color/white"
-                        />
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/add"
+                        android:textColorHint="@color/white"/>
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/percentage"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:layout_constraintTop_toBottomOf="@id/categories"
-                        android:text="Add"
+                        android:hint="Percentage"
+                        android:padding="10dp"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white"
+                        tools:ignore="MissingConstraints"
+                        app:layout_constraintTop_toBottomOf="@+id/categories"/>
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/max_amount"
+                        android:padding="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Max Amount"
+                        android:textColorHint="@color/white"
+                        android:textColor="@color/white"
+                        app:layout_constraintTop_toBottomOf="@+id/percentage"/>
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/edit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/max_amount"
+                        android:text="Edit"
                         android:textColor="@color/light_green"
-                        android:backgroundTint="@color/black"
-                        />
+                        android:backgroundTint="@color/black"/>
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/cancel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:layout_constraintTop_toBottomOf="@id/add"
-                        android:backgroundTint="@color/black"
+                        app:layout_constraintTop_toBottomOf="@id/edit"
                         android:text="Cancel"
-                        android:textColor="@color/red"/>
+                        android:textColor="@color/red"
+                        android:backgroundTint="@color/black"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>

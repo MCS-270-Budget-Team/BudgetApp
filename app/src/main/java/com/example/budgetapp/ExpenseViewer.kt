@@ -154,6 +154,21 @@ class EditEntries: AppCompatActivity() {
         addButton = findViewById(R.id.edit)
         cancelButton = findViewById(R.id.cancel)
 
+        val extras = intent.extras
+
+        val id = extras!!.getInt("id")
+
+        val titleHint = extras.getString("title")
+        val categoriesHint = extras.getString("categories")
+        val dateHint = extras.getString("date")
+        val amountHint = extras.getString("amount")
+        //The key argument here must match that used in the other activity
+
+        categories.setText(categoriesHint)
+        date.setText(dateHint)
+        amount.setText(amountHint)
+        title.setText(titleHint)
+
         addButton.setOnClickListener {
             if (!isNumeric(amount.text.toString())){
                 val toast = Toast.makeText(this, "Amount must be numeric. Try again!", Toast.LENGTH_SHORT)
@@ -183,7 +198,7 @@ class EditEntries: AppCompatActivity() {
                     amount.text.toString().toDouble(),
                     categories.text.toString()
                 )
-                db.insertData(newEntry)
+                db.updateData(id, newEntry)
                 val intent = Intent(this, ExpenseViewer::class.java)
 //            intent.putExtra("newExpense", newExpense)
                 startActivity(intent)

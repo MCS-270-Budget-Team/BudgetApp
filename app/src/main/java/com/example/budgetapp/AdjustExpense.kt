@@ -131,4 +131,84 @@ class AddCategories : AppCompatActivity() {
     }
 }
 
+class EditCategories : AppCompatActivity() {
+    private lateinit var categories: EditText
+    private lateinit var amount: EditText
+    private lateinit var percentage: EditText
+    private lateinit var editButton: Button
+    private lateinit var cancelButton: Button
+
+    private val context = this
+    private val db = EntriesDB(context)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_edit_categories)
+
+        categories = findViewById(R.id.categories)
+        amount = findViewById(R.id.max_amount)
+        percentage = findViewById(R.id.percentage)
+        editButton = findViewById(R.id.edit)
+        cancelButton = findViewById(R.id.cancel)
+
+        val extras = intent.extras
+
+        val id = extras!!.getInt("id")
+
+        val categoriesHint = extras.getString("categories")
+        val percentageHint = extras.getString("percentage")
+        val amountHint = extras.getString("max_amount")
+
+        categories.setText(categoriesHint)
+        percentage.setText(percentageHint)
+        amount.setText(amountHint)
+
+        editButton.setOnClickListener {
+            if (!isNumeric(percentage.text.toString())){
+                val toast = Toast.makeText(this, "Percentage must be numeric. Try again!", Toast.LENGTH_SHORT)
+                toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
+                toast.show()
+            }
+            else if (percentage.text.toString().toDouble() > 100.0 || percentage.text.toString().toDouble() <= 0){
+                val toast = Toast.makeText(this, "Percentage must be within the range of 0 and 100. Try again!", Toast.LENGTH_SHORT)
+                toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
+                toast.show()
+            }
+            else if (!isNumeric(amount.text.toString())){
+                val toast = Toast.makeText(this, "Amount must be numeric. Try again!", Toast.LENGTH_SHORT)
+                toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
+                toast.show()
+            }
+            else if (categories.text.toString() == ""){
+                val toast = Toast.makeText(this, "Category must not be empty. Try again!", Toast.LENGTH_SHORT)
+                toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
+                toast.show()
+            }
+            else {
+                val newExpense = Expense(
+                    null,
+                    categories.text.toString(),
+                    percentage.text.toString().toDouble(),
+                    amount.text.toString().toDouble()
+                )
+                db.updateRow_Distribute(id, newExpense)
+                val intent = Intent(this, AdjustExpense::class.java)
+//            intent.putExtra("newExpense", newExpense)
+                startActivity(intent)
+            }
+        }
+        cancelButton.setOnClickListener {
+            val intent = Intent(this, AdjustExpense::class.java)
+            startActivity(intent)
+        }
+
+    }
+
+    /* Function to check whether a string is numeric*/
+    private fun isNumeric(toCheck: String): Boolean {
+        val regex = "-?[0-9]+(\\.[0-9]+)?".toRegex()
+        return toCheck.matches(regex)
+    }
+}
+
 
