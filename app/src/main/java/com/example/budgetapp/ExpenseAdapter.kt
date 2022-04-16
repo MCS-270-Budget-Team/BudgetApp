@@ -42,14 +42,14 @@ class ExpenseAdapter(var context: Context, private var arraylist: MutableList<Ex
         percent.text = expense.percentage.toInt().toString() + "%"
         max.text = "Max: $" + expense.max.toInt().toString()
 
-        val total_money = db.addPaycheckAmount() - db.addExpenseAmount()
+        val totalMoney = db.addPaycheckAmount() - db.addExpenseAmount()
 
-        rec.text = "Rec: $" + min(expense.percentage/100 * total_money, expense.max).toString()
+        rec.text = "Rec: $" + min(expense.percentage/100 * totalMoney, expense.max).toString()
 
         action.setOnClickListener {
             // start new activity
             // calc budget
-            remove(p0, arraylist[p0].id!!)
+            remove(arraylist[p0].id!!)
             notifyDataSetChanged()
             Toast.makeText(context, "Delete category successfully!", Toast.LENGTH_SHORT).show()
         }
@@ -69,7 +69,7 @@ class ExpenseAdapter(var context: Context, private var arraylist: MutableList<Ex
         return view
     }
 
-    private fun remove(position: Int, id: Int) {
+    private fun remove(id: Int) {
         db.delete_Distribute(id)
         arraylist = db.getAll_Distribute()
     }

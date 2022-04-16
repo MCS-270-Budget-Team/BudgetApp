@@ -175,7 +175,7 @@ class GoalAdapter(var context: Context): BaseAdapter() {
 
     /* Given plus (the number of time the person accomplish a task, calculate the level */
     private fun calculateLevel(plus: Int): Int{
-        var currentLevel : Int = 0
+        var currentLevel = 0
         val currentExp = plus * 20
         while ((currentLevel / X).pow(Y) < currentExp){
             currentLevel += 1

@@ -4,12 +4,9 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import android.os.Bundle
-import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.appcompat.app.AppCompatActivity
 
 class ExpenseViewAdapter(var context: Context, private var arraylist: MutableList<Entry>): BaseAdapter() {
     private val entryDB = EntriesDB(context)
