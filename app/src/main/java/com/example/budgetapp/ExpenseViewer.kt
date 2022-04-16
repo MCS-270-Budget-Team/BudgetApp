@@ -6,7 +6,6 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 
 class ExpenseViewer : AppCompatActivity() {
-//    private lateinit var currentAmount: TextView
     private lateinit var expenseListview : ListView
     private var expenseViewAdapter: ExpenseViewAdapter? = null
     private lateinit var addButton: Button
@@ -23,12 +22,11 @@ class ExpenseViewer : AppCompatActivity() {
         homepageButton = findViewById(R.id.add_entry_button)
         totalAmount = findViewById(R.id.total_amount)
 
-        val context = this
         //Access the expense and paycheck databases
         val entryDB = EntriesDB(applicationContext)
 
         expenseViewAdapter = ExpenseViewAdapter(applicationContext, entryDB.readData())
-        expenseListview?.adapter = expenseViewAdapter
+        expenseListview.adapter = expenseViewAdapter
 
         addButton.setOnClickListener {
             val intent = Intent(this, AddEntries::class.java)
@@ -37,13 +35,13 @@ class ExpenseViewer : AppCompatActivity() {
 
         adjustExpenseButton.setOnClickListener {
             val intent = Intent(this, AdjustExpense::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NO_ANIMATION;
+            intent.flags = Intent.FLAG_ACTIVITY_NO_ANIMATION
             startActivity(intent)
         }
 
         homepageButton.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NO_ANIMATION;
+            intent.flags = Intent.FLAG_ACTIVITY_NO_ANIMATION
             startActivity(intent)
         }
 

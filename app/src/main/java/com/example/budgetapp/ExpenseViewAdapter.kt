@@ -8,9 +8,8 @@ import android.view.ViewGroup
 import android.widget.*
 
 
-class ExpenseViewAdapter(var context: Context, var arraylist: MutableList<Entry>): BaseAdapter() {
+class ExpenseViewAdapter(var context: Context, private var arraylist: MutableList<Entry>): BaseAdapter() {
     private val entryDB = EntriesDB(context)
-    private val visibilityList = MutableList<Boolean>(arraylist.size){true}
 
 
     override fun getCount(): Int {
@@ -25,7 +24,7 @@ class ExpenseViewAdapter(var context: Context, var arraylist: MutableList<Entry>
         return p0.toLong()
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "ViewHolder")
     override fun getView(p0: Int, p1: View?, p2: ViewGroup?): View {
 
 
@@ -35,14 +34,11 @@ class ExpenseViewAdapter(var context: Context, var arraylist: MutableList<Entry>
         val amountViewSwitcher = view.findViewById(R.id.viewswitcher_amount) as ViewSwitcher
         val buttonViewSwitcher = view.findViewById(R.id.viewswitcher_button) as ViewSwitcher
 
-        var categories: TextView = view.findViewById(R.id.categories)
+        val categories: TextView = view.findViewById(R.id.categories)
         val date: TextView = view.findViewById(R.id.date)
-        var amount: TextView = view.findViewById(R.id.amount)
+        val amount: TextView = view.findViewById(R.id.amount)
         val deleteButton: Button = view.findViewById(R.id.delete_button)
-        var editButton: Button = view.findViewById(R.id.edit_button)
-        var categoriesEdit: EditText = view.findViewById(R.id.categories_edit)
-        var amountEdit: EditText = view.findViewById(R.id.amount_edit)
-        val addButton: Button = view.findViewById(R.id.add_button)
+        val editButton: Button = view.findViewById(R.id.edit_button)
 
         val expense: Entry = arraylist[p0]
 
@@ -70,20 +66,12 @@ class ExpenseViewAdapter(var context: Context, var arraylist: MutableList<Entry>
             amountViewSwitcher.showNext()
             buttonViewSwitcher.showNext()
         }
-
-        addButton.setOnClickListener{
-            categoryViewSwitcher.showPrevious()
-            amountViewSwitcher.showPrevious()
-            buttonViewSwitcher.showPrevious()
-        }
-
-
         return view
     }
 
-    fun remove(id: Int, position: Int) {
+    private fun remove(id: Int, position: Int) {
         entryDB.deleteData(id)
-        arraylist.remove(arraylist.get(position))
+        arraylist.remove(arraylist[position])
     }
 
 }

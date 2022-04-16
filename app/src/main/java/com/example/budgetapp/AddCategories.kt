@@ -1,6 +1,5 @@
 package com.example.budgetapp
 
-import android.content.Context
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -13,7 +12,6 @@ class AddCategories : AppCompatActivity() {
     private lateinit var percentage: EditText
     private lateinit var addButton: Button
     private lateinit var cancelButton: Button
-    private var darkStatusBar = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

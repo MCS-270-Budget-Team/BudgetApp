@@ -36,7 +36,7 @@ class AdjustExpense: AppCompatActivity() {
         )
         // create an adapter to inflate list view, pass the expense bank to the adapter
         expenseAdapter = ExpenseAdapter(applicationContext, expenseBank)
-        expenseList?.adapter = expenseAdapter
+        expenseList.adapter = expenseAdapter
 
         addButton.setOnClickListener {
             val intent = Intent(this, AddCategories::class.java)
@@ -45,7 +45,7 @@ class AdjustExpense: AppCompatActivity() {
 
         homepageButton.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NO_ANIMATION;
+            intent.flags = Intent.FLAG_ACTIVITY_NO_ANIMATION
             startActivity(intent)
         }
 

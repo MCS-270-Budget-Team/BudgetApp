@@ -1,14 +1,9 @@
 package com.example.budgetapp
 
-import android.app.DatePickerDialog
 import android.content.Intent
-import android.graphics.PorterDuff
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.widget.*
-import java.text.SimpleDateFormat
-import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,8 +17,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var spendingBar: ProgressBar
 
     private lateinit var totalAmount: TextView
-
-    var cal = Calendar.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +36,7 @@ class MainActivity : AppCompatActivity() {
             // start new activity
             // calc budget
             val intent = Intent(this@MainActivity, AdjustExpense::class.java) //
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            intent.flags = Intent.FLAG_ACTIVITY_NO_ANIMATION
             startActivity(intent)
         }
 
@@ -51,7 +44,7 @@ class MainActivity : AppCompatActivity() {
             // start new activity
             // calc budget
             val intent = Intent(this@MainActivity, ExpenseViewer::class.java) //
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            intent.flags = Intent.FLAG_ACTIVITY_NO_ANIMATION
             startActivity(intent)
         }
 

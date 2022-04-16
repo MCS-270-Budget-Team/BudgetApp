@@ -1,7 +1,7 @@
 package com.example.budgetapp
 
+import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
@@ -10,7 +10,7 @@ import android.widget.TextView
 import android.widget.Toast
 import kotlin.math.min
 
-class ExpenseAdapter(var context: Context, var arraylist: MutableList<Expense>): BaseAdapter() {
+class ExpenseAdapter(var context: Context, private var arraylist: MutableList<Expense>): BaseAdapter() {
     override fun getCount(): Int {
         return arraylist.size
     }
@@ -23,21 +23,22 @@ class ExpenseAdapter(var context: Context, var arraylist: MutableList<Expense>):
         return p0.toLong()
     }
 
+    @SuppressLint("SetTextI18n", "ViewHolder")
     override fun getView(p0: Int, p1: View?, p2: ViewGroup?): View {
         val view: View = View.inflate(context, R.layout.expense_item, null)
-        var categories: TextView = view.findViewById(R.id.expense_categories)
-        var percent: TextView = view.findViewById(R.id.expense_percent)
-        var max: TextView = view.findViewById(R.id.expense_max)
-        var rec: TextView = view.findViewById(R.id.expense_rec)
-        var action: ImageButton = view.findViewById(R.id.action)
+        val categories: TextView = view.findViewById(R.id.expense_categories)
+        val percent: TextView = view.findViewById(R.id.expense_percent)
+        val max: TextView = view.findViewById(R.id.expense_max)
+        val rec: TextView = view.findViewById(R.id.expense_rec)
+        val action: ImageButton = view.findViewById(R.id.action)
 
-        var expense: Expense = arraylist[p0]
+        val expense: Expense = arraylist[p0]
 
-        categories.setText(expense.categories)
-        percent.setText(expense.percentage.toInt().toString() + "%")
-        max.setText("Max: $" + expense.max.toInt().toString())
+        categories.text = expense.categories
+        percent.text = expense.percentage.toInt().toString() + "%"
+        max.text = "Max: $" + expense.max.toInt().toString()
 
-        rec.setText("Rec: $" + min(expense.percentage/100 * 1000.0, expense.max).toString())
+        rec.text = "Rec: $" + min(expense.percentage/100 * 1000.0, expense.max).toString()
 
         action.setOnClickListener {
             // start new activity
@@ -47,11 +48,11 @@ class ExpenseAdapter(var context: Context, var arraylist: MutableList<Expense>):
             Toast.makeText(context, "Delete category successfully!", Toast.LENGTH_SHORT).show()
         }
 
-        return view!!
+        return view
     }
 
-    fun remove(position: Int) {
-        arraylist.remove(arraylist.get(position))
+    private fun remove(position: Int) {
+        arraylist.remove(arraylist[position])
     }
 
 }
