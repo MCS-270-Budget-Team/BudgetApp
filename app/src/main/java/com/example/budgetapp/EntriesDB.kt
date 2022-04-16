@@ -54,6 +54,9 @@ private const val TABLE_NAME_REC = "RecurringBill"
 private const val LAST_PAID_COL = "Last_paid"
 private const val IS_PAID_COL = "is_paid"
 
+private const val TOAST_INVALID_CATEGORY = "Your input category is duplicated"
+private const val TOAST_INVALID_PERCENTAGE = "Your input percentage exceeds 100% in total"
+
 class EntriesDB(context: Context) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
@@ -122,7 +125,7 @@ class EntriesDB(context: Context) :
     fun readData(): MutableList<Entry> {
         val list: MutableList<Entry> = ArrayList()
         val db = this.readableDatabase
-        val query = "SELECT * FROM $TABLE_NAME ORDER BY $DATE_COL ASC"
+        val query = "SELECT * FROM $TABLE_NAME ORDER BY $DATE_COL DESC"
         val result = db.rawQuery(query, null)
         if (result.moveToFirst()) {
             do {
@@ -203,6 +206,7 @@ class EntriesDB(context: Context) :
     * and call insert_Distribute()
     *       val distribute = Distribute()
     *       db.insert_Distribute(Distribute)
+    * insert function will initialize "Other" row when table contains nothing.
     *
     * To delete a row from the Distribute table, you need the id of the row and call delete_Distribute()
     *       db.delete_Distribute(id)
@@ -222,17 +226,31 @@ class EntriesDB(context: Context) :
     * To get a list of categories in the Distribute table, you need call getCategories_Distribute,
     * then it returns you a MutableList of String
     *       val list:MutableList<String> = db.getCategories_Distribute()
+    *
+    * If you insert a row and it return you null as id, you need call getToast_Distribute() immediately
+    * to catch the string containing error message.
+    *
     * */
 
+    private var temp_Dis = Distribute(category = "None", percentage = 0.0)
 
     fun insert_Distribute(distribute: Distribute): Long? {
         val database = this.writableDatabase
+        if (this.getAll_Distribute().size == 0){
+            val contentValues = ContentValues()
+            contentValues.put(CATEGORIES_COL, "Other")
+            contentValues.put(PERCENT_COL, 100.0)
+            contentValues.put(MAX_COL, 0.0)
+            database.insert(TABLE_NAME_DIS, null, contentValues)
+        }// initialize "Other"
+
         val contentValues = ContentValues()
 
         contentValues.put(CATEGORIES_COL, distribute.category)
         contentValues.put(PERCENT_COL, distribute.percentage)
         contentValues.put(MAX_COL, distribute.max_amount)
-        if (this.isUnique(distribute.category)) {
+        if (this.isUnique(distribute.category) or this.isValid(distribute.percentage)) {
+            temp_Dis = distribute
             return null
         }
         val result = database.insert(TABLE_NAME_DIS, null, contentValues)
@@ -318,14 +336,37 @@ class EntriesDB(context: Context) :
         db.execSQL(query)
     }
 
+    fun getToast_Distribute(): String?{
+        if(isUnique(temp_Dis.category) and (temp_Dis.category != "None")){
+            temp_Dis = Distribute(category = "None", percentage = 0.0)
+            return TOAST_INVALID_CATEGORY
+        }
+        else if(isValid(temp_Dis.percentage) and (temp_Dis.percentage != 0.0)){
+            temp_Dis = Distribute(category = "None", percentage = 0.0)
+            return TOAST_INVALID_PERCENTAGE
+        }
+        else return null
+    }
+
     private fun isUnique(category: String): Boolean{
         val categories = this.getCategories_Distribute()
         return (categories.contains(category))
     }
 
     @SuppressLint("Range")
+    private fun isValid(percentage: Double): Boolean {
+        val db = this.readableDatabase
+        val query = "SELECT $PERCENT_COL FROM $TABLE_NAME_DIS WHERE $CATEGORIES_COL = \"Other\""
+        val result = db.rawQuery(query, null)
+        var otherPercent: Double = 0.0
+        if (result.moveToFirst()){
+            otherPercent = result.getDouble(result.getColumnIndex(PERCENT_COL))
+        }
+        return (percentage > otherPercent)
+    }
+
+    @SuppressLint("Range")
     private fun updatePercent(){
-        this.insert_Distribute(Distribute(null, "Other", 100.0, 0.0))
         val db = this.writableDatabase
         val query = "SELECT SUM($PERCENT_COL) AS Total FROM $TABLE_NAME_DIS WHERE $CATEGORIES_COL != \"Other\""
         val result = db.rawQuery(query, null)
@@ -357,6 +398,10 @@ class EntriesDB(context: Context) :
     *
     * To update a row
     *       db.updateRow_Recurring(id, new_recurring)
+    *
+    * To update due date, you need id and new due date
+    *       val new_date = "05/22/2022/
+    *       db.updateDate_Recurring(id, new_date)
     **/
 
     fun insert_Recurring(recurring: RecurringExpense): Long? {
@@ -423,9 +468,19 @@ class EntriesDB(context: Context) :
         }
     }
 
-
-
-
-
+    @SuppressLint("Range")
+    fun updateDate_Recurring(id:Int, new_date: String){
+        val database = this.writableDatabase
+        val query1 = "SELECT $LAST_PAID_COL FROM $TABLE_NAME_REC WHERE id = $id"
+        val result = database.rawQuery(query1, null)
+        var old_date = ""
+        if (result.moveToFirst()){
+            old_date = result.getString(result.getColumnIndex(LAST_PAID_COL))
+        }
+        val query2 = "UPDATE $TABLE_NAME_REC SET $LAST_PAID_COL = \'$new_date\', " +
+                     "$IS_PAID_COL = \'$old_date\' " +
+                     "WHERE id = $id"
+        database.execSQL(query2)
+    }
 
 }
