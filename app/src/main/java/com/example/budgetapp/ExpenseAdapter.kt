@@ -42,7 +42,9 @@ class ExpenseAdapter(var context: Context, private var arraylist: MutableList<Ex
         percent.text = expense.percentage.toInt().toString() + "%"
         max.text = "Max: $" + expense.max.toInt().toString()
 
-        rec.text = "Rec: $" + min(expense.percentage/100 * 1000.0, expense.max).toString()
+        val total_money = db.addPaycheckAmount() - db.addExpenseAmount()
+
+        rec.text = "Rec: $" + min(expense.percentage/100 * total_money, expense.max).toString()
 
         action.setOnClickListener {
             // start new activity

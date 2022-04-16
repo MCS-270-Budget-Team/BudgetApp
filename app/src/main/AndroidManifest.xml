@@ -27,7 +27,8 @@
         <activity android:name=".EditCategories"/>
         <activity android:name=".AddEntries"/>
         <activity android:name=".EditEntries"/>
-
+        <activity android:name=".AddGoals"/>
+        <activity android:name=".EditGoals"/>
     </application>
 
 </manifest>

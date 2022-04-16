@@ -11,6 +11,7 @@ import android.widget.*
 import kotlin.math.pow
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.view.Gravity
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,6 +27,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var totalAmount: TextView
     private lateinit var goalListview: ListView
     private var goalAdapter: GoalAdapter? = null
+
+    private lateinit var addGoalButton: Button
     //create database object
     private val context = this
     private val db = EntriesDB(context)
@@ -43,16 +46,21 @@ class MainActivity : AppCompatActivity() {
         earningBar = findViewById(R.id.earningBar)
         spendingBar = findViewById(R.id.spendingBar)
 
+        addGoalButton = findViewById(R.id.add_goal)
+
         totalAmount = findViewById(R.id.total_amount)
         val totalMoney = db.addPaycheckAmount() - db.addExpenseAmount()
 
         goalListview = findViewById(R.id.goal_listview)
-
         totalAmount.text = "Total Amount: $$totalMoney"
+
+        addGoalButton.setOnClickListener {
+            val intent = Intent(this@MainActivity, AddGoals::class.java)
+            startActivity(intent)
+        }
 
         adjustExpenseButton.setOnClickListener {
             // start new activity
-            // calc budget
             val intent = Intent(this@MainActivity, AdjustExpense::class.java) //
             intent.flags = Intent.FLAG_ACTIVITY_NO_ANIMATION
             startActivity(intent)
@@ -60,7 +68,6 @@ class MainActivity : AppCompatActivity() {
 
         viewHistoryButton.setOnClickListener {
             // start new activity
-            // calc budget
             val intent = Intent(this@MainActivity, ExpenseViewer::class.java) //
             intent.flags = Intent.FLAG_ACTIVITY_NO_ANIMATION
             startActivity(intent)
@@ -78,6 +85,11 @@ class MainActivity : AppCompatActivity() {
 
 }
 
+/*
+* An adapter to inflate the task bubbles and let the user add their
+* accomplishments, see the progress of each bubbles and edit/delete
+* the content of each bubble
+*/
 class GoalAdapter(var context: Context, private var arraylist: MutableList<Goal>): BaseAdapter() {
 //    private val db = EntriesDB(context)
 
@@ -111,9 +123,9 @@ class GoalAdapter(var context: Context, private var arraylist: MutableList<Goal>
         level.text = "Level ${goal.level}"
 
         //calculating the progress bar percentage
-        val current_level_progress = goal.plus * 20 - findLevelExp(goal.level)
-        val level_difference = findLevelExp(goal.level + 1) - findLevelExp(goal.level)
-        val progress = (current_level_progress / level_difference * 100).toInt()
+        val currentLevelProgress = goal.plus * 20 - findLevelExp(goal.level)
+        val levelDifference = findLevelExp(goal.level + 1) - findLevelExp(goal.level)
+        val progress = (currentLevelProgress / levelDifference * 100).toInt()
         progressBar.progress = progress
 
         //getting and setting the color of the bubble based on the level
@@ -122,32 +134,164 @@ class GoalAdapter(var context: Context, private var arraylist: MutableList<Goal>
         plus.setBackgroundColor(Color.parseColor(goalColor))
         plus.backgroundTintList = ColorStateList.valueOf(Color.parseColor(goalColor))
 
+        //when click on the title, the user can edit/delete the content of the goal
+        title.setOnClickListener {
+            val intent = Intent(context, EditGoals::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+
+            intent.putExtra("id", arraylist[p0].id)
+            intent.putExtra("title", arraylist[p0].title)
+            intent.putExtra("level", arraylist[p0].level)
+            intent.putExtra("plus", arraylist[p0].plus)
+
+            context.startActivity(intent)
+        }
+
         //updating the bubble and the level when the user press the plus icon
         return view
     }
 
+    /* Given the level of the task, calculate the amount of experience points
+    * needed to reach that level. Formula: (level / X)^Y */
     private fun findLevelExp(level: Int): Double{
         return (level / X).pow(Y)
     }
 
+    /* Given the level of the task, find the color to display the task bubble in */
     private fun findProgressColor(level: Int): String{
+        //list of colors available for the bubbles
         val colorList = arrayOf("#8144EF", "#EA7D5B", "#ED4981", "#A9EC5C", "#5DD5E4")
 
-        if (level <= 3){
-            return colorList[0]
-        }
-        else if (level <= 7){
-            return colorList[1]
-        }
-        else if (level <= 12){
-            return colorList[2]
-        }
-        else if (level <= 20){
-            return colorList[3]
-        }
-        else{
-            return colorList[4]
+        return when {
+            level <= 3 -> {colorList[0]}    //beginner's levels
+            level <= 7 -> {colorList[1]}    //intermediate's levels
+            level <= 12 -> {colorList[2]}   //advance's levels
+            level <= 20 -> {colorList[3]}   //expert's levels
+            else -> colorList[4]
         }
     }
+}
 
+/*
+* A PopUp Window for User to add their goals.
+* Included all the flags, including non-empty flags and the 20-character limit flags.
+* Once created, automatically set the level and plus = 0.
+*/
+class AddGoals: AppCompatActivity() {
+    private lateinit var title: EditText
+    private lateinit var addButton: Button
+    private lateinit var cancelButton: Button
+
+    //create database object
+    private val context = this
+    private val db = EntriesDB(context)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_add_goal)
+
+        title = findViewById(R.id.title)
+        addButton = findViewById(R.id.add)
+        cancelButton = findViewById(R.id.cancel)
+
+        addButton.setOnClickListener {
+            when {
+                title.text.toString() == "" -> {
+                    val toast = Toast.makeText(this, "Title cannot be empty. Try again!", Toast.LENGTH_SHORT)
+                    toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
+                    toast.show()
+                }
+                title.text.toString().length > 20 -> {
+                    val toast = Toast.makeText(this, "Title must not exceed 20 characters. Try again!", Toast.LENGTH_SHORT)
+                    toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
+                    toast.show()
+                }
+                else -> {
+                    val newEntry = Goal(
+                        null,
+                        title.text.toString(),
+                        0,
+                        0
+                    )
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                }
+            }
+        }
+
+        // if the user does not want to add anything, let them return to the homepage
+        cancelButton.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+
+    }
+}
+
+class EditGoals: AppCompatActivity() {
+    private lateinit var title: EditText
+    private lateinit var editButton: Button
+    private lateinit var deleteButton: Button
+    private lateinit var cancelButton: Button
+
+    //create database object
+    private val context = this
+    private val db = EntriesDB(context)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_edit_goal)
+
+        title = findViewById(R.id.title)
+        editButton = findViewById(R.id.edit)
+        cancelButton = findViewById(R.id.cancel)
+        deleteButton = findViewById(R.id.delete)
+
+        //get the information of the goal
+        val extras = intent.extras
+        val id = extras!!.getInt("id")
+        val titleInfo = extras.getString("title")
+        val levelInfo = extras.getInt("level")
+        val plus = extras.getInt("plus")
+
+        title.setText(titleInfo)
+
+        editButton.setOnClickListener {
+            when {
+                title.text.toString() == "" -> {
+                    val toast = Toast.makeText(this, "Title cannot be empty. Try again!", Toast.LENGTH_SHORT)
+                    toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
+                    toast.show()
+                }
+                title.text.toString().length > 20 -> {
+                    val toast = Toast.makeText(this, "Title must not exceed 20 characters. Try again!", Toast.LENGTH_SHORT)
+                    toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
+                    toast.show()
+                }
+                else -> {
+                    val newEntry = Goal(
+                        null,
+                        title.text.toString(),
+                        0,
+                        0
+                    )
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                }
+            }
+        }
+
+        deleteButton.setOnClickListener {
+            //delete the goal form the database
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+
+        // if the user does not want to add anything, let them return to the homepage
+        cancelButton.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+
+    }
 }

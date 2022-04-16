@@ -60,6 +60,10 @@ class ExpenseViewer : AppCompatActivity() {
 
 }
 
+/*
+* A PopUp Window for User to Input their entries (could be paycheck or expense).
+* Included all the flags, including numeric type and non-empty flag types.
+*/
 class AddEntries: AppCompatActivity() {
     private lateinit var title: EditText
     private lateinit var categories: EditText
@@ -99,11 +103,6 @@ class AddEntries: AppCompatActivity() {
                 toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
                 toast.show()
             }
-            else if (db.isUnique(categories.text.toString())){
-                val toast = Toast.makeText(this, "This category has been added. Try again!", Toast.LENGTH_SHORT)
-                toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
-                toast.show()
-            }
             else {
                 val newEntry = Entry(
                     null,
@@ -118,6 +117,8 @@ class AddEntries: AppCompatActivity() {
                 startActivity(intent)
             }
         }
+
+        // if the user does not want to add anything, let them return to the homepage
         cancelButton.setOnClickListener {
             val intent = Intent(this, ExpenseViewer::class.java)
             startActivity(intent)
@@ -131,6 +132,9 @@ class AddEntries: AppCompatActivity() {
     }
 }
 
+/* A PopUp window that allow the user to edit their paycheck/expense inputs.
+* Included all flag types, including the non-numeric and non-empty flags.
+* Preserve the user old input as text (not hint) when the popup window show up. */
 class EditEntries: AppCompatActivity() {
     private lateinit var title: EditText
     private lateinit var categories: EditText
@@ -185,11 +189,6 @@ class EditEntries: AppCompatActivity() {
                 toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
                 toast.show()
             }
-            else if (db.isUnique(categories.text.toString())){
-                val toast = Toast.makeText(this, "This category has been added. Try again!", Toast.LENGTH_SHORT)
-                toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
-                toast.show()
-            }
             else {
                 val newEntry = Entry(
                     null,
@@ -204,6 +203,8 @@ class EditEntries: AppCompatActivity() {
                 startActivity(intent)
             }
         }
+
+        //if the user don't want to change anything, let them return to the homepage
         cancelButton.setOnClickListener {
             val intent = Intent(this, ExpenseViewer::class.java)
             startActivity(intent)

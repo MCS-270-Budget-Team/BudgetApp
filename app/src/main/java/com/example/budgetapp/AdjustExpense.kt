@@ -104,6 +104,11 @@ class AddCategories : AppCompatActivity() {
                 toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
                 toast.show()
             }
+            else if (db.isUnique(categories.text.toString())){
+                val toast = Toast.makeText(this, "This category has been added. Try again!", Toast.LENGTH_SHORT)
+                toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
+                toast.show()
+            }
             else {
                 val newExpense = Expense(
                     null,
@@ -154,7 +159,6 @@ class EditCategories : AppCompatActivity() {
         val extras = intent.extras
 
         val id = extras!!.getInt("id")
-
         val categoriesHint = extras.getString("categories")
         val percentageHint = extras.getString("percentage")
         val amountHint = extras.getString("max_amount")
@@ -181,6 +185,11 @@ class EditCategories : AppCompatActivity() {
             }
             else if (categories.text.toString() == ""){
                 val toast = Toast.makeText(this, "Category must not be empty. Try again!", Toast.LENGTH_SHORT)
+                toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
+                toast.show()
+            }
+            else if (db.isUnique(categories.text.toString())){
+                val toast = Toast.makeText(this, "This category has been added. Try again!", Toast.LENGTH_SHORT)
                 toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
                 toast.show()
             }
