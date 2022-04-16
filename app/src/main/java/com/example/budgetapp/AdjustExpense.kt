@@ -109,6 +109,11 @@ class AddCategories : AppCompatActivity() {
                 toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
                 toast.show()
             }
+            else if (categories.text.toString().length >10 ){
+                val toast = Toast.makeText(this, "Categories cannot exceed 10 characters. Try again!", Toast.LENGTH_SHORT)
+                toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
+                toast.show()
+            }
             else {
                 val newExpense = Expense(
                     null,
@@ -190,6 +195,11 @@ class EditCategories : AppCompatActivity() {
             }
             else if (db.isUnique(categories.text.toString())){
                 val toast = Toast.makeText(this, "This category has been added. Try again!", Toast.LENGTH_SHORT)
+                toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
+                toast.show()
+            }
+            else if (categories.text.toString().length >10 ){
+                val toast = Toast.makeText(this, "Categories cannot exceed 10 characters. Try again!", Toast.LENGTH_SHORT)
                 toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
                 toast.show()
             }

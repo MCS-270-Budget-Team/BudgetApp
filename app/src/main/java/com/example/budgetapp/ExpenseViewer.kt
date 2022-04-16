@@ -103,6 +103,11 @@ class AddEntries: AppCompatActivity() {
                 toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
                 toast.show()
             }
+            else if(title.text.toString().length > 10){
+                val toast = Toast.makeText(this, "Title cannot exceed 10 characters. Try again!", Toast.LENGTH_SHORT)
+                toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
+                toast.show()
+            }
             else {
                 val newEntry = Entry(
                     null,
@@ -181,6 +186,11 @@ class EditEntries: AppCompatActivity() {
             }
             else if(title.text.toString() == ""){
                 val toast = Toast.makeText(this, "Title cannot be empty. Try again!", Toast.LENGTH_SHORT)
+                toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
+                toast.show()
+            }
+            else if(title.text.toString().length > 10){
+                val toast = Toast.makeText(this, "Title cannot exceed 10 characters. Try again!", Toast.LENGTH_SHORT)
                 toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
                 toast.show()
             }
