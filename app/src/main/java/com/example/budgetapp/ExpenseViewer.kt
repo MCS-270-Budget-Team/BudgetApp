@@ -4,8 +4,12 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.Gravity
+import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import java.text.ParseException
+import java.text.SimpleDateFormat
+
 
 class ExpenseViewer : AppCompatActivity() {
     private lateinit var expenseListview : ListView
@@ -64,13 +68,16 @@ class ExpenseViewer : AppCompatActivity() {
 * A PopUp Window for User to Input their entries (could be paycheck or expense).
 * Included all the flags, including numeric type and non-empty flag types.
 */
-class AddEntries: AppCompatActivity() {
+class AddEntries: AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private lateinit var title: EditText
-    private lateinit var categories: EditText
+    private lateinit var categories: Spinner
     private lateinit var amount: EditText
     private lateinit var date: EditText
     private lateinit var addButton: Button
     private lateinit var cancelButton: Button
+
+    private var selectedCategories: String = ""
+    private val categoriesOption = arrayOf("paycheck", "expense")
 
     //create database object
     private val context = this
@@ -87,9 +94,21 @@ class AddEntries: AppCompatActivity() {
         addButton = findViewById(R.id.add)
         cancelButton = findViewById(R.id.cancel)
 
+        val adapter: ArrayAdapter<String> =
+            ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categoriesOption)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        categories.adapter = adapter
+        categories.onItemSelectedListener = context
+
+
         addButton.setOnClickListener {
             if (!isNumeric(amount.text.toString())){
                 val toast = Toast.makeText(this, "Amount must be numeric. Try again!", Toast.LENGTH_SHORT)
+                toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
+                toast.show()
+            }
+            else if (isValidDate(date.text.toString())){
+                val toast = Toast.makeText(this, "Date format is invalid. Try again!", Toast.LENGTH_SHORT)
                 toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
                 toast.show()
             }
@@ -98,7 +117,7 @@ class AddEntries: AppCompatActivity() {
                 toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
                 toast.show()
             }
-            else if(categories.text.toString() == ""){
+            else if(selectedCategories == ""){
                 val toast = Toast.makeText(this, "Categories cannot be empty. Try again!", Toast.LENGTH_SHORT)
                 toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
                 toast.show()
@@ -114,11 +133,10 @@ class AddEntries: AppCompatActivity() {
                     title.text.toString(),
                     date.text.toString(),
                     amount.text.toString().toDouble(),
-                    categories.text.toString()
+                    selectedCategories
                 )
                 db.insertData(newEntry)
                 val intent = Intent(this, ExpenseViewer::class.java)
-//            intent.putExtra("newExpense", newExpense)
                 startActivity(intent)
             }
         }
@@ -135,18 +153,42 @@ class AddEntries: AppCompatActivity() {
         val regex = "-?[0-9]+(\\.[0-9]+)?".toRegex()
         return toCheck.matches(regex)
     }
+
+    override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
+        selectedCategories = categoriesOption[position]
+    }
+
+    override fun onNothingSelected(p0: AdapterView<*>?) {
+        val toast = Toast.makeText(this, "Must select a categories!", Toast.LENGTH_SHORT)
+        toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
+        toast.show()
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    private fun isValidDate(inDate: String): Boolean {
+        val dateFormat = SimpleDateFormat("MM/dd/yyyy")
+        dateFormat.isLenient = false
+        try {
+            dateFormat.parse(inDate.trim { it <= ' ' })
+        } catch (pe: ParseException) {
+            return false
+        }
+        return true
+    }
 }
 
 /* A PopUp window that allow the user to edit their paycheck/expense inputs.
 * Included all flag types, including the non-numeric and non-empty flags.
 * Preserve the user old input as text (not hint) when the popup window show up. */
-class EditEntries: AppCompatActivity() {
+class EditEntries: AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private lateinit var title: EditText
-    private lateinit var categories: EditText
+    private lateinit var categories: Spinner
     private lateinit var amount: EditText
     private lateinit var date: EditText
     private lateinit var addButton: Button
     private lateinit var cancelButton: Button
+    private var categoriesOption = arrayOf("paycheck", "expense")
+    private var selectedCategories = ""
 
     //create database object
     private val context = this
@@ -163,17 +205,21 @@ class EditEntries: AppCompatActivity() {
         addButton = findViewById(R.id.edit)
         cancelButton = findViewById(R.id.cancel)
 
+        val adapter: ArrayAdapter<String> =
+            ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categoriesOption)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        categories.adapter = adapter
+        categories.onItemSelectedListener = this
+
         val extras = intent.extras
 
         val id = extras!!.getInt("id")
 
         val titleHint = extras.getString("title")
-        val categoriesHint = extras.getString("categories")
         val dateHint = extras.getString("date")
         val amountHint = extras.getString("amount")
         //The key argument here must match that used in the other activity
 
-        categories.setText(categoriesHint)
         date.setText(dateHint)
         amount.setText(amountHint)
         title.setText(titleHint)
@@ -181,6 +227,11 @@ class EditEntries: AppCompatActivity() {
         addButton.setOnClickListener {
             if (!isNumeric(amount.text.toString())){
                 val toast = Toast.makeText(this, "Amount must be numeric. Try again!", Toast.LENGTH_SHORT)
+                toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
+                toast.show()
+            }
+            else if (isValidDate(date.text.toString())){
+                val toast = Toast.makeText(this, "Date format is invalid. Try again!", Toast.LENGTH_SHORT)
                 toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
                 toast.show()
             }
@@ -194,7 +245,7 @@ class EditEntries: AppCompatActivity() {
                 toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
                 toast.show()
             }
-            else if(categories.text.toString() == ""){
+            else if(selectedCategories == ""){
                 val toast = Toast.makeText(this, "Categories cannot be empty. Try again!", Toast.LENGTH_SHORT)
                 toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
                 toast.show()
@@ -205,7 +256,7 @@ class EditEntries: AppCompatActivity() {
                     title.text.toString(),
                     date.text.toString(),
                     amount.text.toString().toDouble(),
-                    categories.text.toString()
+                    selectedCategories
                 )
                 db.updateData(id, newEntry)
                 val intent = Intent(this, ExpenseViewer::class.java)
@@ -226,5 +277,28 @@ class EditEntries: AppCompatActivity() {
         val regex = "-?[0-9]+(\\.[0-9]+)?".toRegex()
         return toCheck.matches(regex)
     }
+
+    override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+        selectedCategories = categoriesOption[p2]
+    }
+
+    override fun onNothingSelected(p0: AdapterView<*>?) {
+        val toast = Toast.makeText(this, "Must select a categories!", Toast.LENGTH_SHORT)
+        toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
+        toast.show()
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    private fun isValidDate(inDate: String): Boolean {
+        val dateFormat = SimpleDateFormat("MM/dd/yyyy")
+        dateFormat.isLenient = false
+        try {
+            dateFormat.parse(inDate.trim { it <= ' ' })
+        } catch (pe: ParseException) {
+            return false
+        }
+        return true
+    }
+
 }
 
