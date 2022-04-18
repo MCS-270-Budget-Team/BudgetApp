@@ -36,6 +36,8 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import java.util.*
+import kotlin.collections.ArrayList
 
 private const val DATABASE_NAME = "BUDGET APP DATABASE"
 private const val DATABASE_VERSION = 1
@@ -349,8 +351,8 @@ class EntriesDB(context: Context) :
     }
 
     private fun isUnique(category: String): Boolean{
-        val categories = this.getCategories_Distribute()
-        return (categories.contains(category))
+        val categories = this.getCategories_Distribute().map { it.lowercase(Locale.getDefault()) }
+        return (categories.contains(category.lowercase(Locale.getDefault())))
     }
 
     @SuppressLint("Range")
