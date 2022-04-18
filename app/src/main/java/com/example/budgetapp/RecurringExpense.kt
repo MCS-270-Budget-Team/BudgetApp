@@ -1,5 +1,7 @@
 package com.example.budgetapp
 
+import java.time.temporal.TemporalAmount
+
 data class RecurringExpense(var id: Int? = null,
                             var title: String = "title",
                             var amount: Double = 0.1,

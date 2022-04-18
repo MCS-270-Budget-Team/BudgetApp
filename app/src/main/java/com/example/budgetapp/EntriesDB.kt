@@ -235,14 +235,22 @@ class EntriesDB(context: Context) :
     *       val list:MutableList<String> = db.getCategories_Distribute()
     * */
 
-
     fun insert_Distribute(expense: Expense): Long? {
         val database = this.writableDatabase
-        val contentValues = ContentValues()
+        if (this.getAll_Distribute().size == 0) {
+            val contentValues = ContentValues()
+            contentValues.put(CATEGORIES_COL, "Others")
+            contentValues.put(PERCENT_COL, 100.0)
+            contentValues.put(MAX_COL, 0.0)
 
+            database.insert(TABLE_NAME_DIS, null, contentValues)
+        }
+
+        val contentValues = ContentValues()
         contentValues.put(CATEGORIES_COL, expense.categories)
         contentValues.put(PERCENT_COL, expense.percentage)
         contentValues.put(MAX_COL, expense.max)
+
         if (this.isUnique(expense.categories)) {
             return null
         }
@@ -334,17 +342,27 @@ class EntriesDB(context: Context) :
         val categories = this.getCategories_Distribute().map{ it.lowercase() }
         return (categories.contains(category))
     }
+    @SuppressLint("Range")
+    private fun isValid(percentage: Double): Boolean {
+        val db = this.readableDatabase
+        val query = "SELECT $PERCENT_COL FROM $TABLE_NAME_DIS WHERE $CATEGORIES_COL = \"Others\""
+        val result = db.rawQuery(query, null)
+        var otherPercent = 0.0
+        if (result.moveToFirst()){
+            otherPercent = result.getDouble(result.getColumnIndex(PERCENT_COL))
+        }
+        return (percentage > otherPercent)
+    }
 
     @SuppressLint("Range")
     private fun updatePercent(){
-        this.insert_Distribute(Expense(null, "Other", 100.0, 0.0))
         val db = this.writableDatabase
-        val query = "SELECT SUM($PERCENT_COL) AS Total FROM $TABLE_NAME_DIS WHERE $CATEGORIES_COL != \"Other\""
+        val query = "SELECT SUM($PERCENT_COL) AS Total FROM $TABLE_NAME_DIS WHERE $CATEGORIES_COL != \"Others\""
         val result = db.rawQuery(query, null)
         if (result.moveToFirst()) {
             val total = result.getDouble(result.getColumnIndex("Total"))
-            val percentage = 1 - total
-            val query2 = "UPDATE $TABLE_NAME_DIS SET $PERCENT_COL = $percentage WHERE $CATEGORIES_COL = \"Other\""
+            val percentage = 100.0 - total
+            val query2 = "UPDATE $TABLE_NAME_DIS SET $PERCENT_COL = $percentage WHERE $CATEGORIES_COL = \"Others\""
             db.execSQL(query2)
         }
     }
