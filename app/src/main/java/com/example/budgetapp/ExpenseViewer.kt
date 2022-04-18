@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import java.text.ParseException
 import java.text.SimpleDateFormat
 
-
 class ExpenseViewer : AppCompatActivity() {
     private lateinit var expenseListview : ListView
     private var expenseViewAdapter: ExpenseViewAdapter? = null
@@ -107,7 +106,7 @@ class AddEntries: AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
                 toast.show()
             }
-            else if (isValidDate(date.text.toString())){
+            else if (!isValidDate(date.text.toString())){
                 val toast = Toast.makeText(this, "Date format is invalid. Try again!", Toast.LENGTH_SHORT)
                 toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
                 toast.show()
@@ -230,7 +229,7 @@ class EditEntries: AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
                 toast.show()
             }
-            else if (isValidDate(date.text.toString())){
+            else if (!isValidDate(date.text.toString())){
                 val toast = Toast.makeText(this, "Date format is invalid. Try again!", Toast.LENGTH_SHORT)
                 toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
                 toast.show()

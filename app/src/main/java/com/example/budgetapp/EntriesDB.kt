@@ -107,10 +107,10 @@ class EntriesDB(context: Context) :
 
     override fun onUpgrade(db: SQLiteDatabase, p1: Int, p2: Int) {
         // this method is to check if table already exists
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME)
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_DIS)
-        db.execSQL("DROP TABLE IF EXISTS" + TABLE_NAME_REC)
-        db.execSQL("DROP TABLE IF EXISTS" + TABLE_NAME_GOAL)
+        db.execSQL("DROP TABLE IF EXISTS $TABLE_NAME")
+        db.execSQL("DROP TABLE IF EXISTS $TABLE_NAME_DIS")
+        db.execSQL("DROP TABLE IF EXISTS $TABLE_NAME_REC")
+        db.execSQL("DROP TABLE IF EXISTS $TABLE_NAME_GOAL")
         onCreate(db)
     }
 
@@ -120,13 +120,12 @@ class EntriesDB(context: Context) :
     fun insertData(entry: Entry): Long? {
         val database = this.writableDatabase
         val contentValues = ContentValues()
-        
+
         contentValues.put(TITLE_COL, entry.title)
         contentValues.put(DATE_COL, entry.date)
         contentValues.put(AMOUNT_COL, entry.amount)
         contentValues.put(CATEGORIES_COL, entry.categories)
-        val result = database.insert(TABLE_NAME, null, contentValues)
-        return result
+        return database.insert(TABLE_NAME, null, contentValues)
 
     }
 
@@ -332,7 +331,7 @@ class EntriesDB(context: Context) :
     }
 
     fun isUnique(category: String): Boolean{
-        val categories = this.getCategories_Distribute()
+        val categories = this.getCategories_Distribute().map{ it.lowercase() }
         return (categories.contains(category))
     }
 
