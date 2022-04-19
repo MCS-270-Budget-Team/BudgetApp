@@ -62,7 +62,7 @@ class EntriesDB(context: Context) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
     /*
-    * Setup database with three tables
+    * Setup database with four tables
     * */
     // below is the method for creating a database by a sqlite query
     override fun onCreate(db: SQLiteDatabase) {
@@ -241,7 +241,7 @@ class EntriesDB(context: Context) :
             val contentValues = ContentValues()
             contentValues.put(CATEGORIES_COL, "Others")
             contentValues.put(PERCENT_COL, 100.0)
-            contentValues.put(MAX_COL, 0.0)
+            contentValues.put(MAX_COL, 10000000000.0)
 
             database.insert(TABLE_NAME_DIS, null, contentValues)
         }
@@ -264,6 +264,7 @@ class EntriesDB(context: Context) :
         val query = "DELETE FROM $TABLE_NAME_DIS " +
                     "WHERE id = $id"
         db.execSQL(query)
+        updatePercent()
     }
 
     fun updateRow_Distribute(id: Int?, new_expense:Expense){
@@ -275,6 +276,7 @@ class EntriesDB(context: Context) :
                     "WHERE id = $id"
             db.execSQL(query)
         }
+        updatePercent()
     }
 
     @SuppressLint("Range")
@@ -343,7 +345,7 @@ class EntriesDB(context: Context) :
         return (categories.contains(category))
     }
     @SuppressLint("Range")
-    private fun isValid(percentage: Double): Boolean {
+    fun isValid(percentage: Double): Boolean {
         val db = this.readableDatabase
         val query = "SELECT $PERCENT_COL FROM $TABLE_NAME_DIS WHERE $CATEGORIES_COL = \"Others\""
         val result = db.rawQuery(query, null)

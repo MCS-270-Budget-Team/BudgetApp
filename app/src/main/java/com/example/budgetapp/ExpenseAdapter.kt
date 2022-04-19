@@ -33,7 +33,7 @@ class ExpenseAdapter(var context: Context, private var arraylist: MutableList<Ex
         val percent: TextView = view.findViewById(R.id.expense_percent)
         val max: TextView = view.findViewById(R.id.expense_max)
         val rec: TextView = view.findViewById(R.id.expense_rec)
-        val action: ImageButton = view.findViewById(R.id.action)
+        val deleteButton: ImageButton = view.findViewById(R.id.action)
         val editButton: ImageButton = view.findViewById(R.id.edit)
 
         val expense: Expense = arraylist[p0]
@@ -46,7 +46,13 @@ class ExpenseAdapter(var context: Context, private var arraylist: MutableList<Ex
 
         rec.text = "Rec: $" + min(expense.percentage/100 * totalMoney, expense.max).toString()
 
-        action.setOnClickListener {
+        if (expense.categories == "Others"){
+            deleteButton.isEnabled = false
+            editButton.isEnabled = false
+            max.text = ""
+        }
+
+        deleteButton.setOnClickListener {
             // start new activity
             // calc budget
             remove(arraylist[p0].id!!)

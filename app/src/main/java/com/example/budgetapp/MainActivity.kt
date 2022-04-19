@@ -54,6 +54,8 @@ class MainActivity : AppCompatActivity() {
         goalListview = findViewById(R.id.goal_listview)
         totalAmount.text = "Total Amount: $$totalMoney"
 
+        spendingBar.progress = (db.addExpenseAmount() / db.addPaycheckAmount() * 100).toInt()
+
         addGoalButton.setOnClickListener {
             val intent = Intent(this@MainActivity, AddGoals::class.java)
             startActivity(intent)

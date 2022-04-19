@@ -8,6 +8,9 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 
 class AdjustExpense: AppCompatActivity() {
+    private lateinit var experienceBar: ProgressBar
+    private lateinit var earningBar: ProgressBar
+    private lateinit var spendingBar: ProgressBar
 
     private lateinit var addButton: Button
     private lateinit var expenseList: ListView
@@ -33,11 +36,16 @@ class AdjustExpense: AppCompatActivity() {
         viewHistoryButton = findViewById(R.id.view_history_button)
         totalAmount = findViewById(R.id.total_amount)
 
+        experienceBar = findViewById(R.id.experienceBar)
+        earningBar = findViewById(R.id.earningBar)
+        spendingBar = findViewById(R.id.spendingBar)
+
         val totalMoney = db.addPaycheckAmount() - db.addExpenseAmount()
 
         totalAmount.text = "Total Amount: $$totalMoney"
 
         expenseBank = db.getAll_Distribute()
+        spendingBar.progress = (db.addExpenseAmount() / db.addPaycheckAmount() * 100).toInt()
 
         // create an adapter to inflate list view, pass the expense bank to the adapter
         expenseAdapter = ExpenseAdapter(applicationContext, expenseBank)
@@ -106,6 +114,11 @@ class AddCategories : AppCompatActivity() {
             }
             else if (db.isUnique(categories.text.toString())){
                 val toast = Toast.makeText(this, "This category has been added. Try again!", Toast.LENGTH_SHORT)
+                toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
+                toast.show()
+            }
+            else if (db.isValid(percentage.text.toString().toDouble())){
+                val toast = Toast.makeText(this, "The entered percentage is too high. Try again!", Toast.LENGTH_SHORT)
                 toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
                 toast.show()
             }
@@ -193,8 +206,14 @@ class EditCategories : AppCompatActivity() {
                 toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
                 toast.show()
             }
-            else if (db.isUnique(categories.text.toString())){
+            else if (categories.text.toString() != categoriesHint &&
+                db.isUnique(categories.text.toString())){
                 val toast = Toast.makeText(this, "This category has been added. Try again!", Toast.LENGTH_SHORT)
+                toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
+                toast.show()
+            }
+            else if (db.isValid(percentage.text.toString().toDouble())){
+                val toast = Toast.makeText(this, "The entered percentage is too high. Try again!", Toast.LENGTH_SHORT)
                 toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
                 toast.show()
             }

@@ -48,6 +48,7 @@ class ExpenseViewAdapter(var context: Context, private var arraylist: MutableLis
             amount.setTextColor(Color.parseColor("#ED0606"))
         }
 
+
         deleteButton.setOnClickListener {
             // start new activity
             // calc budget

@@ -11,6 +11,10 @@ import java.text.ParseException
 import java.text.SimpleDateFormat
 
 class ExpenseViewer : AppCompatActivity() {
+    private lateinit var experienceBar: ProgressBar
+    private lateinit var earningBar: ProgressBar
+    private lateinit var spendingBar: ProgressBar
+
     private lateinit var expenseListview : ListView
     private var expenseViewAdapter: ExpenseViewAdapter? = null
     private lateinit var addButton: Button
@@ -26,15 +30,21 @@ class ExpenseViewer : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_expense_view)
+        experienceBar = findViewById(R.id.experienceBar)
+        earningBar = findViewById(R.id.earningBar)
+        spendingBar = findViewById(R.id.spendingBar)
+
         expenseListview = findViewById(R.id.expense_listview)
         addButton = findViewById(R.id.add_bill_btn)
         adjustExpenseButton = findViewById(R.id.adjust_expense_button)
         homepageButton = findViewById(R.id.add_entry_button)
         totalAmount = findViewById(R.id.total_amount)
 
-        val totalMoney = db.addPaycheckAmount() - db.addExpenseAmount()
 
+        val totalMoney = db.addPaycheckAmount() - db.addExpenseAmount()
         totalAmount.text = "Total Amount: $$totalMoney"
+        spendingBar.progress = (db.addExpenseAmount() / db.addPaycheckAmount() * 100).toInt()
+
 
         //Access the expense and paycheck databases
         val entryDB = EntriesDB(applicationContext)
