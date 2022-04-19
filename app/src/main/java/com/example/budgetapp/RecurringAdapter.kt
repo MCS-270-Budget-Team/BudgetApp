@@ -25,10 +25,10 @@ class RecurringAdapter(var context: Context, var arraylist: MutableList<Recurrin
 
     override fun getView(p0: Int, p1: View?, p2: ViewGroup?): View {
         val view: View = View.inflate(context, R.layout.expense_item, null)
-        var name: TextView = view.findViewById(R.id.recurring_expense_name)
+        var name: TextView = view.findViewById(R.id.recurring_name)
         var amount: TextView = view.findViewById(R.id.recurring_amount)
-        var deleteButton: Button = view.findViewById(R.id.recurring_delete)
-        var nextDateToPayOn: TextView = view.findViewById(R.id.next_bill)
+        var deleteButton: Button = view.findViewById(R.id.recurring_action)
+        var nextDateToPayOn: TextView = view.findViewById(R.id.recurring_date)
 
         var expense: RecurringExpense = arraylist[p0]
 
