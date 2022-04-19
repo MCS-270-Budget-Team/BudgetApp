@@ -35,11 +35,12 @@ class MainActivity : AppCompatActivity() {
     private lateinit var avatar: ImageView
     //create database object
     private val context = this
-    private val db = EntriesDB(context)
+    private lateinit var db: EntriesDB
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        db = EntriesDB(this)
         setContentView(R.layout.activity_main)
         addEntryButton = findViewById(R.id.add_entry_button)
         adjustExpenseButton = findViewById(R.id.adjust_expense_button)
