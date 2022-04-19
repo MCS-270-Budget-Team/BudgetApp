@@ -58,6 +58,12 @@ private const val TABLE_NAME_GOAL = "GoalTable"
 private const val GOAL_LEVEL_COL = "level"
 private const val GOAL_PLUS_COL = "plus"
 
+private const val TABLE_NAME_PER = "PersonalInfo"
+private const val PER_LEVEL_COL = "level"
+private const val PER_EXP_COL = "exp"
+private const val PER_AVA_COL = "avatar"
+private const val PER_EARN_COL = "earningGoal"
+
 class EntriesDB(context: Context) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
@@ -97,12 +103,20 @@ class EntriesDB(context: Context) :
                 GOAL_PLUS_COL + " INTEGER," +
                 GOAL_LEVEL_COL + " INTEGER" + ")")
 
+        val query5 = ("CREATE TABLE " + TABLE_NAME_PER + " ("
+                + ID_COL + " INTEGER PRIMARY KEY, " +
+                PER_LEVEL_COL + " INTEGER," +
+                PER_EXP_COL + " INTEGER," +
+                PER_AVA_COL + " TEXT," +
+                PER_EARN_COL + " REAL" + ")")
+
         // we are calling sqlite
         // method for executing our query
         db.execSQL(query)
         db.execSQL(query2)
         db.execSQL(query3)
         db.execSQL(query4)
+        db.execSQL(query5)
     }
 
     override fun onUpgrade(db: SQLiteDatabase, p1: Int, p2: Int) {
