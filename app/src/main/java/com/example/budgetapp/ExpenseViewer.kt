@@ -23,6 +23,7 @@ class ExpenseViewer : AppCompatActivity() {
     private lateinit var totalAmount: TextView
 
     private lateinit var avatar: ImageView
+    private lateinit var levelText: TextView
 
     //create database object
     private val context = this
@@ -43,6 +44,10 @@ class ExpenseViewer : AppCompatActivity() {
         adjustExpenseButton = findViewById(R.id.adjust_expense_button)
         homepageButton = findViewById(R.id.add_entry_button)
         totalAmount = findViewById(R.id.total_amount)
+        levelText = findViewById(R.id.level)
+
+        //get the level
+        levelText.text = "Level ${db.getLevel()}"
 
         //calculate the total amount of money left
         val totalMoney = db.addPaycheckAmount() - db.addExpenseAmount()

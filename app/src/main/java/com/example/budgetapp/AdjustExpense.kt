@@ -21,6 +21,7 @@ class AdjustExpense: AppCompatActivity() {
     private var expenseAdapter: ExpenseAdapter? = null
     private lateinit var expenseBank: MutableList<Expense>
     private lateinit var avatar: ImageView
+    private lateinit var levelText: TextView
 
     //create database object
     private val context = this
@@ -36,12 +37,15 @@ class AdjustExpense: AppCompatActivity() {
         homepageButton = findViewById(R.id.add_entry_button)
         viewHistoryButton = findViewById(R.id.view_history_button)
         totalAmount = findViewById(R.id.total_amount)
+        levelText = findViewById(R.id.level)
 
         experienceBar = findViewById(R.id.experienceBar)
         earningBar = findViewById(R.id.earningBar)
         spendingBar = findViewById(R.id.spendingBar)
 
         avatar = findViewById(R.id.avatar)
+        //get the level
+        levelText.text = "Level ${db.getLevel()}"
 
         //get the total amount of money
         val totalMoney = db.addPaycheckAmount() - db.addExpenseAmount()
