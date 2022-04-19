@@ -163,6 +163,7 @@ class GoalAdapter(var context: Context): BaseAdapter() {
             goal.plus += 1
             goal.level = calculateLevel(goal.plus)
             db.editGoal(goal.id, goal)
+            // update the experience points and the level
             db.updateExp(db.getExp() + 10)
             db.updateTable()
             this.notifyDataSetChanged()
