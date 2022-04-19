@@ -40,12 +40,15 @@ class AdjustExpense: AppCompatActivity() {
         earningBar = findViewById(R.id.earningBar)
         spendingBar = findViewById(R.id.spendingBar)
 
+        //get the total amount of money
         val totalMoney = db.addPaycheckAmount() - db.addExpenseAmount()
-
         totalAmount.text = "Total Amount: $$totalMoney"
 
         expenseBank = db.getAll_Distribute()
+        //set up the bars
         spendingBar.progress = (db.addExpenseAmount() / db.addPaycheckAmount() * 100).toInt()
+        experienceBar.progress = ((db.getExp() - db.get_level_exp(db.getLevel())).toDouble() / (db.get_levelup_exp()) * 100).toInt()
+        earningBar.progress = (totalMoney / db.getEarning() * 100).toInt()
 
         // create an adapter to inflate list view, pass the expense bank to the adapter
         expenseAdapter = ExpenseAdapter(applicationContext, expenseBank)

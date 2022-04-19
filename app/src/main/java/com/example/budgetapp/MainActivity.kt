@@ -24,6 +24,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var earningBar: ProgressBar
     private lateinit var spendingBar: ProgressBar
 
+    private lateinit var levelText: TextView
     private lateinit var totalAmount: TextView
     private lateinit var goalListview: ListView
     private var goalAdapter: GoalAdapter? = null
@@ -47,14 +48,20 @@ class MainActivity : AppCompatActivity() {
         spendingBar = findViewById(R.id.spendingBar)
 
         addGoalButton = findViewById(R.id.add_goal)
-
+        levelText = findViewById(R.id.level)
         totalAmount = findViewById(R.id.total_amount)
-        val totalMoney = db.addPaycheckAmount() - db.addExpenseAmount()
 
         goalListview = findViewById(R.id.goal_listview)
+        //get the level
+        levelText.text = "Level ${db.getLevel()}"
+        //set the total amount of money
+        val totalMoney = db.addPaycheckAmount() - db.addExpenseAmount()
         totalAmount.text = "Total Amount: $$totalMoney"
 
+        //set up the bars
         spendingBar.progress = (db.addExpenseAmount() / db.addPaycheckAmount() * 100).toInt()
+        experienceBar.progress = ((db.getExp() - db.get_level_exp(db.getLevel())).toDouble() / (db.get_levelup_exp()) * 100).toInt()
+        earningBar.progress = (totalMoney / db.getEarning() * 100).toInt()
 
         addGoalButton.setOnClickListener {
             val intent = Intent(this@MainActivity, AddGoals::class.java)

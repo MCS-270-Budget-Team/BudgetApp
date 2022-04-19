@@ -45,10 +45,13 @@ class ExpenseViewer : AppCompatActivity() {
         totalAmount.text = "Total Amount: $$totalMoney"
         spendingBar.progress = (db.addExpenseAmount() / db.addPaycheckAmount() * 100).toInt()
 
+        //set up the bars
+        spendingBar.progress = (db.addExpenseAmount() / db.addPaycheckAmount() * 100).toInt()
+        experienceBar.progress = ((db.getExp() - db.get_level_exp(db.getLevel())).toDouble() / (db.get_levelup_exp()) * 100).toInt()
+        earningBar.progress = (totalMoney / db.getEarning() * 100).toInt()
 
         //Access the expense and paycheck databases
         val entryDB = EntriesDB(applicationContext)
-
         expenseViewAdapter = ExpenseViewAdapter(applicationContext, entryDB.readData())
         expenseListview.adapter = expenseViewAdapter
 
