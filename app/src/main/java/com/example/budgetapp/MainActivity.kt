@@ -13,6 +13,7 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import kotlin.math.pow
 
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var addEntryButton: ImageButton
@@ -89,7 +90,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        goalAdapter = GoalAdapter(applicationContext)
+        goalAdapter = GoalAdapter(this)
         goalListview.adapter = goalAdapter
     }
 
@@ -165,11 +166,11 @@ class GoalAdapter(var context: Context): BaseAdapter() {
             db.updateExp(db.getExp() + 10)
             db.updateTable()
             this.notifyDataSetChanged()
-
-            // alert changes in EXP and level back to the main activity
-//            val i = Intent("ALERT_CHANGE")
-//            i.putExtra("DATA", "News")
-//            this.sendBroadcast(i)
+            // notify the MainActivity of the changes in level and exp
+            val levelText = (context as MainActivity).findViewById<TextView>(R.id.level)
+            levelText.text = "Level ${db.getLevel()}"
+            val experienceBar = (context as MainActivity).findViewById<ProgressBar>(R.id.experienceBar)
+            experienceBar.progress = ((db.getExp() - db.get_level_exp(db.getLevel())).toDouble() / (db.get_levelup_exp()) * 100).toInt()
         }
 
         //updating the bubble and the level when the user press the plus icon
