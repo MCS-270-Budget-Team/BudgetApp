@@ -51,7 +51,7 @@
                     android:id="@+id/popup_window_title"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
-                    android:background="#EDB561"
+                    android:background="#50B8AE"
                     android:gravity="center"
                     android:text="Edit Earning Goal"
                     android:textAlignment="center"
@@ -60,6 +60,7 @@
                     android:textStyle="bold"
                     app:autoSizeMaxTextSize="24dp"
                     app:autoSizeTextType="uniform"
+                    app:layout_constraintEnd_toEndOf="parent"
                     tools:ignore="MissingConstraints" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout

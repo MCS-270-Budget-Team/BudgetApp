@@ -157,7 +157,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/lightest_grey"
-            android:text="Edit Earning Goal" />
+            android:text="Earning Goal"
+            android:layout_marginLeft="10dp"/>
     </LinearLayout>
 
     <ListView

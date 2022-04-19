@@ -69,10 +69,16 @@ class MainActivity : AppCompatActivity() {
         earningBar.progress = (totalMoney / db.getEarning() * 100).toInt()
 
         //set up the avatar
-
+        val drawableId = this.resources.getIdentifier(db.getAvatar(), "drawable", context.packageName)
+        avatar.setImageResource(drawableId)
 
         addGoalButton.setOnClickListener {
             val intent = Intent(this@MainActivity, AddGoals::class.java)
+            startActivity(intent)
+        }
+
+        addEarningGoal.setOnClickListener {
+            val intent = Intent(this@MainActivity, EditEarning::class.java) //
             startActivity(intent)
         }
 
@@ -333,5 +339,62 @@ class EditGoals: AppCompatActivity() {
             startActivity(intent)
         }
 
+    }
+}
+
+class EditEarning: AppCompatActivity() {
+    private lateinit var earningGoal: EditText
+    private lateinit var editButton: Button
+    private lateinit var cancelButton: Button
+
+    //create database object
+    private val context = this
+    private val db = EntriesDB(context)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_edit_earning_goal)
+
+        editButton = findViewById(R.id.edit)
+        cancelButton = findViewById(R.id.cancel)
+        earningGoal = findViewById(R.id.earning_goal)
+
+        //get the information of the goal
+        val earningHint = db.getEarning()
+
+        earningGoal.hint = earningHint.toString()
+
+        editButton.setOnClickListener {
+            when {
+                earningGoal.text.toString() == "" -> {
+                    val toast = Toast.makeText(this, "Earning goal cannot be empty. Try again!", Toast.LENGTH_SHORT)
+                    toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
+                    toast.show()
+                }
+                !isNumeric(earningGoal.text.toString())-> {
+                    val toast = Toast.makeText(this, "Earning goal must be numeric. Try again!", Toast.LENGTH_SHORT)
+                    toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
+                    toast.show()
+                }
+                else -> {
+                    db.updateEarning(earningGoal.text.toString().toDouble())
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                }
+            }
+        }
+
+        // if the user does not want to add anything, let them return to the homepage
+        cancelButton.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+
+    }
+
+    /* Function to check whether a string is numeric*/
+    private fun isNumeric(toCheck: String): Boolean {
+        val regex = "-?[0-9]+(\\.[0-9]+)?".toRegex()
+        return toCheck.matches(regex)
     }
 }
