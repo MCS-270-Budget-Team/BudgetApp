@@ -40,7 +40,7 @@ class ExpenseViewer : AppCompatActivity() {
         homepageButton = findViewById(R.id.add_entry_button)
         totalAmount = findViewById(R.id.total_amount)
 
-
+        //calculate the total amount of money left
         val totalMoney = db.addPaycheckAmount() - db.addExpenseAmount()
         totalAmount.text = "Total Amount: $$totalMoney"
         spendingBar.progress = (db.addExpenseAmount() / db.addPaycheckAmount() * 100).toInt()

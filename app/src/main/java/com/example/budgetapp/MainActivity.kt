@@ -30,6 +30,7 @@ class MainActivity : AppCompatActivity() {
     private var goalAdapter: GoalAdapter? = null
 
     private lateinit var addGoalButton: Button
+    private lateinit var addEarningGoal: Button
     //create database object
     private val context = this
     private val db = EntriesDB(context)
@@ -48,6 +49,7 @@ class MainActivity : AppCompatActivity() {
         spendingBar = findViewById(R.id.spendingBar)
 
         addGoalButton = findViewById(R.id.add_goal)
+        addEarningGoal = findViewById(R.id.add_earning_goal)
         levelText = findViewById(R.id.level)
         totalAmount = findViewById(R.id.total_amount)
 

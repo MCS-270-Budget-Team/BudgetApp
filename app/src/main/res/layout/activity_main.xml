@@ -139,15 +139,25 @@
                 android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
-
-    <Button
-        android:id="@+id/add_goal"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add Goal"
-        android:layout_marginTop="180dp"
         android:layout_marginLeft="20dp"
-        android:backgroundTint="@color/lightest_grey"/>
+        android:layout_marginTop="180dp"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/add_goal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/lightest_grey"
+            android:text="Add Goals" />
+        <Button
+            android:id="@+id/add_earning_goal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/lightest_grey"
+            android:text="Edit Earning Goal" />
+    </LinearLayout>
 
     <ListView
         android:id="@+id/goal_listview"
