@@ -55,7 +55,8 @@ class ExpenseViewer : AppCompatActivity() {
         earningBar.progress = (totalMoney / db.getEarning() * 100).toInt()
 
         //set up the avatar
-
+        val drawableId = this.resources.getIdentifier(db.getAvatar(), "drawable", context.packageName)
+        avatar.setImageResource(drawableId)
 
         //Access the expense and paycheck databases
         val entryDB = EntriesDB(applicationContext)

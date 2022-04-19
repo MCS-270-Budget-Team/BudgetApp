@@ -54,7 +54,7 @@ class AdjustExpense: AppCompatActivity() {
         earningBar.progress = (totalMoney / db.getEarning() * 100).toInt()
 
         //set up the avatar
-        val drawableId = this.getResources().getIdentifier(db.getAvatar(), "drawable", context.packageName)
+        val drawableId = this.resources.getIdentifier(db.getAvatar(), "drawable", context.packageName)
         avatar.setImageResource(drawableId)
 
         // create an adapter to inflate list view, pass the expense bank to the adapter
