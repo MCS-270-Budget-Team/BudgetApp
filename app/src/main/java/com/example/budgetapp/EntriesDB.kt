@@ -112,7 +112,7 @@ class EntriesDB(context: Context) :
                 PER_EARN_COL + " REAL" + ")")
 
         val query6 = "INSERT INTO $TABLE_NAME_PER ($ID_COL, $PER_LEVEL_COL, $PER_EXP_COL, $PER_AVA_COL, $PER_EARN_COL)" +
-                    "VALUES (0,0,0,'@drawable/baseline_add_task_white_18',3000.0)"
+                    "VALUES (0,0,0,'baseline_add_task_white_18',3000.0)"
 
         // we are calling sqlite
         // method for executing our query
@@ -545,28 +545,28 @@ class EntriesDB(context: Context) :
 
     fun updateEarning(new_earning: Double){
         val db = this.writableDatabase
-        val query = "UPDATE $TABLE_NAME_PER SET $PER_EARN_COL = ${new_earning}, " +
+        val query = "UPDATE $TABLE_NAME_PER SET $PER_EARN_COL = ${new_earning} " +
                 "WHERE id = 0"
         db.execSQL(query)
     }
 
     fun updateLevel(new_level: Int){
         val db = this.writableDatabase
-        val query = "UPDATE $TABLE_NAME_PER SET $PER_LEVEL_COL = ${new_level}, " +
+        val query = "UPDATE $TABLE_NAME_PER SET $PER_LEVEL_COL = ${new_level} " +
                 "WHERE id = 0"
         db.execSQL(query)
     }
 
     fun updateExp(new_exp: Int){
         val db = this.writableDatabase
-        val query = "UPDATE $TABLE_NAME_PER SET $PER_EXP_COL = ${new_exp}, " +
+        val query = "UPDATE $TABLE_NAME_PER SET $PER_EXP_COL = ${new_exp} " +
                 "WHERE id = 0"
         db.execSQL(query)
     }
 
     fun updateAvatar(new_avatar: String){
         val db = this.writableDatabase
-        val query = "UPDATE $TABLE_NAME_PER SET $PER_AVA_COL = ${new_avatar}, " +
+        val query = "UPDATE $TABLE_NAME_PER SET $PER_AVA_COL = ${new_avatar} " +
                 "WHERE id = 0"
         db.execSQL(query)
     }
@@ -645,6 +645,22 @@ class EntriesDB(context: Context) :
         val nextLevel = currentLevel + 1
 
         return get_level_exp(nextLevel) - get_level_exp(currentLevel)
+    }
+
+    fun updateTable(): Boolean{
+        // return whether or not a user reaches a new level
+        // return true if the user level up
+        // return false otherwise
+        var currentLevel = this.getLevel()
+        var nextLevelEXP = this.get_level_exp(currentLevel)
+
+        while (nextLevelEXP <= this.getExp()){
+            currentLevel += 1
+            nextLevelEXP = this.get_level_exp(currentLevel)
+        }
+        val returnValue = !(currentLevel - 1 == this.getLevel())
+        this.updateLevel(currentLevel - 1)
+        return returnValue
     }
 
 }

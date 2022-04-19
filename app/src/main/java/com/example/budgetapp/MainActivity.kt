@@ -3,15 +3,15 @@ package com.example.budgetapp
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import kotlin.math.pow
-import android.content.res.ColorStateList
-import android.graphics.Color
-import android.view.Gravity
 
 class MainActivity : AppCompatActivity() {
 
@@ -31,6 +31,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var addGoalButton: Button
     private lateinit var addEarningGoal: Button
+    private lateinit var avatar: ImageView
     //create database object
     private val context = this
     private val db = EntriesDB(context)
@@ -52,6 +53,7 @@ class MainActivity : AppCompatActivity() {
         addEarningGoal = findViewById(R.id.add_earning_goal)
         levelText = findViewById(R.id.level)
         totalAmount = findViewById(R.id.total_amount)
+        avatar = findViewById(R.id.avatar)
 
         goalListview = findViewById(R.id.goal_listview)
         //get the level
@@ -64,6 +66,9 @@ class MainActivity : AppCompatActivity() {
         spendingBar.progress = (db.addExpenseAmount() / db.addPaycheckAmount() * 100).toInt()
         experienceBar.progress = ((db.getExp() - db.get_level_exp(db.getLevel())).toDouble() / (db.get_levelup_exp()) * 100).toInt()
         earningBar.progress = (totalMoney / db.getEarning() * 100).toInt()
+
+        //set up the avatar
+
 
         addGoalButton.setOnClickListener {
             val intent = Intent(this@MainActivity, AddGoals::class.java)
@@ -157,7 +162,14 @@ class GoalAdapter(var context: Context): BaseAdapter() {
             goal.plus += 1
             goal.level = calculateLevel(goal.plus)
             db.editGoal(goal.id, goal)
+            db.updateExp(db.getExp() + 10)
+            db.updateTable()
             this.notifyDataSetChanged()
+
+            // alert changes in EXP and level back to the main activity
+//            val i = Intent("ALERT_CHANGE")
+//            i.putExtra("DATA", "News")
+//            this.sendBroadcast(i)
         }
 
         //updating the bubble and the level when the user press the plus icon

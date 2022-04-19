@@ -20,6 +20,7 @@ class AdjustExpense: AppCompatActivity() {
 
     private var expenseAdapter: ExpenseAdapter? = null
     private lateinit var expenseBank: MutableList<Expense>
+    private lateinit var avatar: ImageView
 
     //create database object
     private val context = this
@@ -40,6 +41,8 @@ class AdjustExpense: AppCompatActivity() {
         earningBar = findViewById(R.id.earningBar)
         spendingBar = findViewById(R.id.spendingBar)
 
+        avatar = findViewById(R.id.avatar)
+
         //get the total amount of money
         val totalMoney = db.addPaycheckAmount() - db.addExpenseAmount()
         totalAmount.text = "Total Amount: $$totalMoney"
@@ -49,6 +52,10 @@ class AdjustExpense: AppCompatActivity() {
         spendingBar.progress = (db.addExpenseAmount() / db.addPaycheckAmount() * 100).toInt()
         experienceBar.progress = ((db.getExp() - db.get_level_exp(db.getLevel())).toDouble() / (db.get_levelup_exp()) * 100).toInt()
         earningBar.progress = (totalMoney / db.getEarning() * 100).toInt()
+
+        //set up the avatar
+        val drawableId = this.getResources().getIdentifier(db.getAvatar(), "drawable", context.packageName)
+        avatar.setImageResource(drawableId)
 
         // create an adapter to inflate list view, pass the expense bank to the adapter
         expenseAdapter = ExpenseAdapter(applicationContext, expenseBank)

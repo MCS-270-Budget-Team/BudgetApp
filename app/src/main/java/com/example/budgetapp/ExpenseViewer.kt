@@ -22,6 +22,8 @@ class ExpenseViewer : AppCompatActivity() {
     private lateinit var homepageButton: ImageButton
     private lateinit var totalAmount: TextView
 
+    private lateinit var avatar: ImageView
+
     //create database object
     private val context = this
     private val db = EntriesDB(context)
@@ -33,6 +35,8 @@ class ExpenseViewer : AppCompatActivity() {
         experienceBar = findViewById(R.id.experienceBar)
         earningBar = findViewById(R.id.earningBar)
         spendingBar = findViewById(R.id.spendingBar)
+
+        avatar = findViewById(R.id.avatar)
 
         expenseListview = findViewById(R.id.expense_listview)
         addButton = findViewById(R.id.add_bill_btn)
@@ -49,6 +53,9 @@ class ExpenseViewer : AppCompatActivity() {
         spendingBar.progress = (db.addExpenseAmount() / db.addPaycheckAmount() * 100).toInt()
         experienceBar.progress = ((db.getExp() - db.get_level_exp(db.getLevel())).toDouble() / (db.get_levelup_exp()) * 100).toInt()
         earningBar.progress = (totalMoney / db.getEarning() * 100).toInt()
+
+        //set up the avatar
+
 
         //Access the expense and paycheck databases
         val entryDB = EntriesDB(applicationContext)
