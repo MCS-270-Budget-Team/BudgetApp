@@ -75,6 +75,13 @@ class MainActivity : AppCompatActivity() {
 
         goalAdapter = GoalAdapter(applicationContext)
         goalListview.adapter = goalAdapter
+
+
+        upcomingBillButton.setOnClickListener {
+            val intent = Intent(this@MainActivity, RecurringViewer::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NO_ANIMATION
+            startActivity(intent)
+        }
     }
 
 }

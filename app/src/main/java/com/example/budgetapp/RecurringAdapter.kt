@@ -11,6 +11,7 @@ import android.widget.Toast
 import org.w3c.dom.Text
 
 class RecurringAdapter(var context: Context, var arraylist: MutableList<RecurringExpense>): BaseAdapter() {
+    private val entryDB = EntriesDB(context)
     override fun getCount(): Int {
         return arraylist.size
     }
@@ -39,7 +40,7 @@ class RecurringAdapter(var context: Context, var arraylist: MutableList<Recurrin
         deleteButton.setOnClickListener {
             // start new activity
             // calc budget
-            remove(p0)
+            remove(expense.id!!, p0)
             notifyDataSetChanged()
             Toast.makeText(context, "Successfully deleted recurring expense!", Toast.LENGTH_SHORT).show()
         }
@@ -47,7 +48,8 @@ class RecurringAdapter(var context: Context, var arraylist: MutableList<Recurrin
         return view!!
     }
 
-    private fun remove(position: Int) {
+    private fun remove(id: Int, position: Int) {
+        entryDB.deleteRow_Recurring(id)
         arraylist.remove(arraylist.get(position))
     }
 
