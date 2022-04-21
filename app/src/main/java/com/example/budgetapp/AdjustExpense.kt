@@ -33,7 +33,7 @@ class AdjustExpense: AppCompatActivity() {
         homepageButton = findViewById(R.id.add_entry_button)
         viewHistoryButton = findViewById(R.id.view_history_button)
         totalAmount = findViewById(R.id.total_amount)
-
+        upcomingBillButton = findViewById(R.id.upcoming_bill_button)
 
         val totalMoney = db.addPaycheckAmount() - db.addExpenseAmount()
 

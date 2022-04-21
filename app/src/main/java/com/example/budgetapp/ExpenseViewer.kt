@@ -33,6 +33,7 @@ class ExpenseViewer : AppCompatActivity() {
         adjustExpenseButton = findViewById(R.id.adjust_expense_button)
         homepageButton = findViewById(R.id.add_entry_button)
         totalAmount = findViewById(R.id.total_amount)
+        upcomingBillButton = findViewById(R.id.upcoming_bill_button)
 
         val totalMoney = db.addPaycheckAmount() - db.addExpenseAmount()
 

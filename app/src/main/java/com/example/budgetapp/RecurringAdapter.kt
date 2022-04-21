@@ -4,10 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
-import android.widget.Button
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import org.w3c.dom.Text
 
 class RecurringAdapter(var context: Context, var arraylist: MutableList<RecurringExpense>): BaseAdapter() {
@@ -25,10 +22,10 @@ class RecurringAdapter(var context: Context, var arraylist: MutableList<Recurrin
     }
 
     override fun getView(p0: Int, p1: View?, p2: ViewGroup?): View {
-        val view: View = View.inflate(context, R.layout.expense_item, null)
+        val view: View = View.inflate(context, R.layout.recurring_expense_item, null)
         var name: TextView = view.findViewById(R.id.recurring_name)
         var amount: TextView = view.findViewById(R.id.recurring_amount)
-        var deleteButton: Button = view.findViewById(R.id.recurring_action)
+        var deleteButton: ImageButton = view.findViewById(R.id.recurring_action)
         var nextDateToPayOn: TextView = view.findViewById(R.id.recurring_date)
 
         var expense: RecurringExpense = arraylist[p0]

@@ -18,6 +18,7 @@ class RecurringViewer : AppCompatActivity() {
     private lateinit var adjustExpenseButton: ImageButton
     private lateinit var homepageButton: ImageButton
     private lateinit var totalAmount: TextView
+    private lateinit var viewHistoryButton: ImageButton
     private lateinit var upcomingBillButton: ImageButton
 
     //create database object
@@ -27,12 +28,14 @@ class RecurringViewer : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_expense_view)
+        setContentView(R.layout.recurring_view)
         recurringListview = findViewById(R.id.recurring_listview)
         addButton = findViewById(R.id.add_recurring_btn)
         adjustExpenseButton = findViewById(R.id.adjust_expense_button)
         homepageButton = findViewById(R.id.add_entry_button)
         totalAmount = findViewById(R.id.total_amount)
+        upcomingBillButton = findViewById(R.id.upcoming_bill_button)
+        viewHistoryButton = findViewById(R.id.view_history_button)
 
         val totalMoney = db.addPaycheckAmount() - db.addExpenseAmount()
 
@@ -45,7 +48,7 @@ class RecurringViewer : AppCompatActivity() {
         recurringListview.adapter = recurringAdapter
 
         addButton.setOnClickListener {
-            val intent = Intent(this, AddEntries::class.java)
+            val intent = Intent(this, AddRecurringBill::class.java)
             startActivity(intent)
         }
 
@@ -57,6 +60,11 @@ class RecurringViewer : AppCompatActivity() {
 
         homepageButton.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NO_ANIMATION
+            startActivity(intent)
+        }
+        viewHistoryButton.setOnClickListener {
+            val intent = Intent(this, ExpenseViewer::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NO_ANIMATION
             startActivity(intent)
         }
@@ -78,6 +86,7 @@ class AddRecurringBill: AppCompatActivity(), AdapterView.OnItemSelectedListener 
     private lateinit var cancelButton: Button
 
     private var selectedCategories: String = ""
+    private var selectedFrequency: String = ""
     private val categoriesOption = arrayOf("paycheck", "expense")
     private val frequencyOptions = arrayOf("Weekly", "Monthly", "Annually")
 
@@ -87,7 +96,7 @@ class AddRecurringBill: AppCompatActivity(), AdapterView.OnItemSelectedListener 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_entries)
+        setContentView(R.layout.activity_add_recurring)
 
         categories = findViewById(R.id.categories)
         frequency = findViewById(R.id.frequency_spinner)
@@ -103,10 +112,10 @@ class AddRecurringBill: AppCompatActivity(), AdapterView.OnItemSelectedListener 
         categories.adapter = adapter
         categories.onItemSelectedListener = context
 
-        val frequency_adapter: ArrayAdapter<String> =
+        val frequencyAdapter: ArrayAdapter<String> =
             ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, frequencyOptions)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        frequency.adapter = frequency_adapter
+        frequency.adapter = frequencyAdapter
         frequency.onItemSelectedListener = context
 
 
