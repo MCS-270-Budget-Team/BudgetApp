@@ -3,6 +3,7 @@ package com.example.budgetapp
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.*
@@ -87,7 +88,7 @@ class AddRecurringBill: AppCompatActivity(), AdapterView.OnItemSelectedListener 
 
     private var selectedCategories: String = ""
     private var selectedFrequency: String = ""
-    private val categoriesOption = arrayOf("paycheck", "expense")
+    private val categoriesOption = arrayOf("paycheck", "expense") //This should draw from user-defined categories
     private val frequencyOptions = arrayOf("Weekly", "Monthly", "Annually")
 
     //create database object
@@ -120,7 +121,7 @@ class AddRecurringBill: AppCompatActivity(), AdapterView.OnItemSelectedListener 
 
 
         addButton.setOnClickListener {
-            // add check date not in past
+            // Should probably prevent the user from creating recurring bills due in the past
 
             if (!isNumeric(amount.text.toString())){
                 val toast = Toast.makeText(this, "Amount must be numeric. Try again!", Toast.LENGTH_SHORT)
@@ -148,14 +149,16 @@ class AddRecurringBill: AppCompatActivity(), AdapterView.OnItemSelectedListener 
                 toast.show()
             }
             else {
+                if(selectedFrequency == "") selectedFrequency = "Monthly" //Default to monthly if user doesn't specify
+
                 val newEntry = RecurringExpense(
                     null,
                     title.text.toString(),
                     amount.text.toString().toDouble(),
                     date.text.toString(),
                     selectedCategories,
-                    "placeholder",
-                    false
+                    "Placeholder",
+                    selectedFrequency,
                 )
                 db.insert_Recurring(newEntry)
                 val intent = Intent(this, RecurringViewer::class.java)
@@ -176,8 +179,14 @@ class AddRecurringBill: AppCompatActivity(), AdapterView.OnItemSelectedListener 
         return toCheck.matches(regex)
     }
 
+    @SuppressLint("ResourceType")
     override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
-        selectedCategories = categoriesOption[position]
+        //Update the correct variable depending on the id of the spinner that was selected
+        when(p0!!.id) {
+            R.id.categories -> selectedCategories = categoriesOption[position]
+            R.id.frequency_spinner -> selectedFrequency = frequencyOptions[position]
+            else -> {}
+        }
     }
 
     override fun onNothingSelected(p0: AdapterView<*>?) {

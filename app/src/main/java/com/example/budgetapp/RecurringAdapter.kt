@@ -25,6 +25,7 @@ class RecurringAdapter(var context: Context, var arraylist: MutableList<Recurrin
         val view: View = View.inflate(context, R.layout.recurring_expense_item, null)
         var name: TextView = view.findViewById(R.id.recurring_name)
         var amount: TextView = view.findViewById(R.id.recurring_amount)
+        var category: TextView = view.findViewById(R.id.recurring_category)
         var deleteButton: ImageButton = view.findViewById(R.id.recurring_action)
         var nextDateToPayOn: TextView = view.findViewById(R.id.recurring_date)
 
@@ -33,6 +34,7 @@ class RecurringAdapter(var context: Context, var arraylist: MutableList<Recurrin
         name.setText(expense.title)
         amount.setText(expense.amount.toString())
         nextDateToPayOn.setText(expense.date)
+        category.setText(expense.categories)
 
         deleteButton.setOnClickListener {
             // start new activity
