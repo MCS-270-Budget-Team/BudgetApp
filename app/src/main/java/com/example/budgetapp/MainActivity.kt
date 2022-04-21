@@ -5,17 +5,16 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import kotlin.math.pow
-import android.content.res.ColorStateList
-import android.graphics.Color
 import android.util.Log
-import android.view.Gravity
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -192,6 +191,7 @@ class GoalAdapter(var context: Context): BaseAdapter() {
         return p0.toLong()
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     @SuppressLint("SetTextI18n", "ViewHolder")
     override fun getView(p0: Int, p1: View?, p2: ViewGroup?): View {
         val view: View = View.inflate(context, R.layout.activity_game_bubble, null)
