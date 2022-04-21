@@ -5,16 +5,13 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import kotlin.math.pow
-import android.util.Log
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -41,7 +38,7 @@ class MainActivity : AppCompatActivity() {
     private val context = this
     private lateinit var db: EntriesDB
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "SimpleDateFormat")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         db = EntriesDB(this)
@@ -129,7 +126,7 @@ class MainActivity : AppCompatActivity() {
 
                 db.insertData(entry)
                 val newDate = getNewDate(dueDate, bill.frequency)
-                val sdf: SimpleDateFormat = SimpleDateFormat("MM/dd/yyyy")
+                val sdf = SimpleDateFormat("MM/dd/yyyy")
                 bill.last_paid = bill.date
                 bill.date = sdf.format(newDate.time)
                 db.updateRow_Recurring(bill.id, bill)
@@ -139,31 +136,32 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getDate(expense: RecurringExpense): Calendar {
-        var dueDate = Calendar.getInstance()
-        var dateString = expense.date
+        val dueDate = Calendar.getInstance()
+        val dateString = expense.date
         val tokens = dateString.split("/")
 
         if(tokens.size < 3) return dueDate
-        dueDate.set(tokens.get(2).toInt(), tokens.get(0).toInt()-1, tokens.get(1).toInt())
+        dueDate.set(tokens[2].toInt(), tokens[0].toInt()-1, tokens[1].toInt())
         //Minus 1s offset from 1-12 to 0-11 for the month
 
         return dueDate
     }
 
     private fun getNewDate(oldDate: Calendar, frequency: String): Calendar {
-        val newDate = oldDate
 
-        if(frequency == "Weekly") {
-            newDate.add(Calendar.DATE, 7)
-        }
-        else if(frequency == "Monthly") {
-            newDate.add(Calendar.MONTH, 1)
-        }
-        else if(frequency == "Annually") {
-            newDate.add(Calendar.YEAR, 1)
+        when (frequency) {
+            "Weekly" -> {
+                oldDate.add(Calendar.DATE, 7)
+            }
+            "Monthly" -> {
+                oldDate.add(Calendar.MONTH, 1)
+            }
+            "Annually" -> {
+                oldDate.add(Calendar.YEAR, 1)
+            }
         }
 
-        return newDate
+        return oldDate
     }
 }
 
@@ -191,7 +189,6 @@ class GoalAdapter(var context: Context): BaseAdapter() {
         return p0.toLong()
     }
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     @SuppressLint("SetTextI18n", "ViewHolder")
     override fun getView(p0: Int, p1: View?, p2: ViewGroup?): View {
         val view: View = View.inflate(context, R.layout.activity_game_bubble, null)

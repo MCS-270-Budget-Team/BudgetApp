@@ -67,7 +67,7 @@ class ExpenseViewer : AppCompatActivity() {
 
         //Access the expense and paycheck databases
         val entryDB = EntriesDB(applicationContext)
-        expenseViewAdapter = ExpenseViewAdapter(applicationContext, entryDB.readData())
+        expenseViewAdapter = ExpenseViewAdapter(this, entryDB.readData())
         expenseListview.adapter = expenseViewAdapter
 
         addButton.setOnClickListener {
