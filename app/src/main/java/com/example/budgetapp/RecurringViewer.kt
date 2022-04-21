@@ -157,7 +157,7 @@ class AddRecurringBill: AppCompatActivity(), AdapterView.OnItemSelectedListener 
                     amount.text.toString().toDouble(),
                     date.text.toString(),
                     selectedCategories,
-                    "Placeholder",
+                    "",
                     selectedFrequency,
                 )
                 db.insert_Recurring(newEntry)
