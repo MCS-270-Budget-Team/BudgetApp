@@ -1,5 +1,6 @@
 package com.example.budgetapp
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.view.View
@@ -21,20 +22,21 @@ class RecurringAdapter(var context: Context, var arraylist: MutableList<Recurrin
         return p0.toLong()
     }
 
+    @SuppressLint("ViewHolder")
     override fun getView(p0: Int, p1: View?, p2: ViewGroup?): View {
         val view: View = View.inflate(context, R.layout.recurring_expense_item, null)
-        var name: TextView = view.findViewById(R.id.recurring_name)
-        var amount: TextView = view.findViewById(R.id.recurring_amount)
-        var category: TextView = view.findViewById(R.id.recurring_category)
-        var deleteButton: ImageButton = view.findViewById(R.id.recurring_action)
-        var nextDateToPayOn: TextView = view.findViewById(R.id.recurring_date)
+        val name: TextView = view.findViewById(R.id.recurring_name)
+        val amount: TextView = view.findViewById(R.id.recurring_amount)
+        val category: TextView = view.findViewById(R.id.recurring_category)
+        val deleteButton: ImageButton = view.findViewById(R.id.recurring_action)
+        val nextDateToPayOn: TextView = view.findViewById(R.id.recurring_date)
 
-        var expense: RecurringExpense = arraylist[p0]
+        val expense: RecurringExpense = arraylist[p0]
 
-        name.setText(expense.title)
-        amount.setText(expense.amount.toString())
-        nextDateToPayOn.setText(expense.date)
-        category.setText(expense.categories)
+        name.text = expense.title
+        amount.text = expense.amount.toString()
+        nextDateToPayOn.text = expense.date
+        category.text = expense.categories
 
         deleteButton.setOnClickListener {
             // start new activity
@@ -44,7 +46,7 @@ class RecurringAdapter(var context: Context, var arraylist: MutableList<Recurrin
             Toast.makeText(context, "Successfully deleted recurring expense!", Toast.LENGTH_SHORT).show()
         }
 
-        return view!!
+        return view
     }
 
     private fun remove(id: Int, position: Int) {

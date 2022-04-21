@@ -48,12 +48,17 @@ class ExpenseViewAdapter(var context: Context, private var arraylist: MutableLis
             amount.setTextColor(Color.parseColor("#ED0606"))
         }
 
-
         deleteButton.setOnClickListener {
             // start new activity
             // calc budget
             remove(expense.id!!, p0)
             notifyDataSetChanged()
+
+            //make changes to the outside activity
+            val totalAmount = (context as ExpenseViewer).findViewById<TextView>(R.id.total_amount)
+            //calculate the total amount of money left
+            val totalMoney = entryDB.addPaycheckAmount() - entryDB.addExpenseAmount()
+            totalAmount.text = "Total Amount: $$totalMoney"
             Toast.makeText(context, "Delete expense successfully!", Toast.LENGTH_SHORT).show()
         }
 
