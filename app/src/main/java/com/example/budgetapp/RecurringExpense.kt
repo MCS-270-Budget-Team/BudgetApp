@@ -6,4 +6,4 @@ data class RecurringExpense(var id: Int? = null,
                             var date: String = "04/11/2022",
                             var categories: String = "Living",
                             var last_paid: String = "03/11/2022",
-                            var is_paid: Boolean = false)
+                            var frequency: String = "monthly")

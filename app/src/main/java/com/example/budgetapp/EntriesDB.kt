@@ -52,7 +52,7 @@ private const val MAX_COL = "Maximum"
 
 private const val TABLE_NAME_REC = "RecurringBill"
 private const val LAST_PAID_COL = "Last_paid"
-private const val IS_PAID_COL = "is_paid"
+private const val FREQUENCY_COL = "frequency"
 
 private const val TABLE_NAME_GOAL = "GoalTable"
 private const val GOAL_LEVEL_COL = "level"
@@ -89,7 +89,7 @@ class EntriesDB(context: Context) :
                 DATE_COL + " TEXT," +
                 CATEGORIES_COL + " TEXT," +
                 LAST_PAID_COL + " TEXT," +
-                IS_PAID_COL + " varchar" + ")")
+                FREQUENCY_COL + " TEXT" + ")")
 
         val query4 = ("CREATE TABLE " + TABLE_NAME_GOAL + " ("
                 + ID_COL + " INTEGER PRIMARY KEY, " +
@@ -381,7 +381,7 @@ class EntriesDB(context: Context) :
         contentValues.put(DATE_COL, recurring.date)
         contentValues.put(CATEGORIES_COL, recurring.categories)
         contentValues.put(LAST_PAID_COL, recurring.last_paid)
-        contentValues.put(IS_PAID_COL, recurring.is_paid.toString())
+        contentValues.put(FREQUENCY_COL, recurring.frequency)
 
         return database.insert(TABLE_NAME_REC, null, contentValues)
     }
@@ -414,7 +414,7 @@ class EntriesDB(context: Context) :
                 recurring.date = result.getString(result.getColumnIndex(DATE_COL))
                 recurring.categories = result.getString(result.getColumnIndex(CATEGORIES_COL))
                 recurring.last_paid = result.getString(result.getColumnIndex(LAST_PAID_COL))
-                recurring.is_paid = result.getString(result.getColumnIndex(IS_PAID_COL)).toBoolean()
+                recurring.frequency = result.getString(result.getColumnIndex(FREQUENCY_COL))
                 list.add(recurring)
             }
             while (result.moveToNext())
@@ -430,7 +430,7 @@ class EntriesDB(context: Context) :
                     "$DATE_COL = ${new_Recurring.date}, " +
                     "$CATEGORIES_COL = \"${new_Recurring.categories}\", " +
                     "$LAST_PAID_COL = ${new_Recurring.last_paid}, " +
-                    "$IS_PAID_COL = \"${new_Recurring.is_paid}\" " +
+                    "$FREQUENCY_COL = \"${new_Recurring.frequency}\" " +
                     "WHERE id = $id"
             db.execSQL(query)
         }
