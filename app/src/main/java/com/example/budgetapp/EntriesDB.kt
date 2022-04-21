@@ -426,10 +426,10 @@ class EntriesDB(context: Context) :
         if (id != null) {
             val db = this.writableDatabase
             val query = "UPDATE $TABLE_NAME_REC SET $TITLE_COL = \'${new_Recurring.title}\', " +
-                    "$AMOUNT_COL = \'${new_Recurring.amount}\', " +
-                    "$DATE_COL = ${new_Recurring.date}, " +
+                    "$AMOUNT_COL = ${new_Recurring.amount}, " +
+                    "$DATE_COL = \'${new_Recurring.date}\', " +
                     "$CATEGORIES_COL = \"${new_Recurring.categories}\", " +
-                    "$LAST_PAID_COL = ${new_Recurring.last_paid}, " +
+                    "$LAST_PAID_COL = \'${new_Recurring.last_paid}\', " +
                     "$FREQUENCY_COL = \"${new_Recurring.frequency}\" " +
                     "WHERE id = $id"
             db.execSQL(query)

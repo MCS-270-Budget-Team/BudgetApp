@@ -89,11 +89,11 @@ class MainActivity : AppCompatActivity() {
         val today = Calendar.getInstance()
         //Check to see if any of the recurring bills have passed their deadlines
         val recurringBills = db.getAll_Recurring()
-        CheckDate@for(bill in recurringBills) {
+
+        for(bill in recurringBills) {
             var dueDate = getDate(bill)
 
-            if(today.after(dueDate)) {
-                //Need to create a new entry and update the dueDate of this
+            while(today.after(dueDate)) {
                 val entry = Entry(
                     id = null,
                     title = bill.title,
@@ -108,7 +108,7 @@ class MainActivity : AppCompatActivity() {
                 bill.last_paid = bill.date
                 bill.date = sdf.format(newDate.time)
                 db.updateRow_Recurring(bill.id, bill)
-                if(today.after(newDate)) break@CheckDate
+                dueDate = newDate
             }
         }
     }
@@ -118,6 +118,7 @@ class MainActivity : AppCompatActivity() {
         var dateString = expense.date
         val tokens = dateString.split("/")
 
+        if(tokens.size < 3) return dueDate
         dueDate.set(tokens.get(2).toInt(), tokens.get(0).toInt()-1, tokens.get(1).toInt())
         //Minus 1s offset from 1-12 to 0-11 for the month
 
