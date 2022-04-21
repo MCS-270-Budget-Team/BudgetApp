@@ -65,6 +65,12 @@ private const val PER_EXP_COL = "exp"
 private const val PER_AVA_COL = "avatar"
 private const val PER_EARN_COL = "earningGoal"
 
+private const val TABLE_NAME_AVATAR = "AvatarInfo"
+private const val AVATAR_COL = "avatarTitle"
+private const val AVATAR_LEVEL_COL = "level"
+private const val IS_CHOSEN_COL = "is_chosen"
+private const val IS_ACTIVATED = "is_activated"
+
 class EntriesDB(context: Context) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
@@ -114,6 +120,17 @@ class EntriesDB(context: Context) :
         val query6 = "INSERT INTO $TABLE_NAME_PER ($ID_COL, $PER_LEVEL_COL, $PER_EXP_COL, $PER_AVA_COL, $PER_EARN_COL)" +
                     "VALUES (0,0,0,'baseline_add_task_white_18',3000.0)"
 
+        val query7 = ("CREATE TABLE " + TABLE_NAME_AVATAR + " ("
+                + ID_COL + " INTEGER PRIMARY KEY, " +
+                AVATAR_COL + " TEXT," +
+                AVATAR_LEVEL_COL + " INTEGER," +
+                IS_CHOSEN_COL + " TEXT," +
+                IS_ACTIVATED + " TEXT" + ")")
+
+        val query8 = "INSERT INTO $TABLE_NAME_AVATAR VALUES " +
+                     "(0, 'example', 0, 'false', 'false')," +
+                     "(1, 'example', 0, 'false', 'false')"
+
         // we are calling sqlite
         // method for executing our query
         db.execSQL(query)
@@ -122,6 +139,8 @@ class EntriesDB(context: Context) :
         db.execSQL(query4)
         db.execSQL(query5)
         db.execSQL(query6)
+        db.execSQL(query7)
+        db.execSQL(query8)
     }
 
     override fun onUpgrade(db: SQLiteDatabase, p1: Int, p2: Int) {
@@ -130,6 +149,7 @@ class EntriesDB(context: Context) :
         db.execSQL("DROP TABLE IF EXISTS $TABLE_NAME_DIS")
         db.execSQL("DROP TABLE IF EXISTS $TABLE_NAME_REC")
         db.execSQL("DROP TABLE IF EXISTS $TABLE_NAME_GOAL")
+        db.execSQL("DROP TABLE IF EXISTS $TABLE_NAME_AVATAR")
         onCreate(db)
     }
 
@@ -663,4 +683,87 @@ class EntriesDB(context: Context) :
         return returnValue
     }
 
+    /************************************************************************************************
+     ***********************Functions For PersonalInfo Table*****************************************
+     ************************************************************************************************/
+
+    @SuppressLint("Range")
+    fun get_AvatarName(id: Int): String{
+        val db = this.readableDatabase
+        val query = "SELECT $AVATAR_COL FROM $TABLE_NAME_AVATAR WHERE id = $id"
+        val result = db.rawQuery(query, null)
+        var name = ""
+        if (result.moveToFirst()){
+            do {
+                name = result.getString(result.getColumnIndex(AVATAR_COL))
+            }
+            while (result.moveToNext())
+        }
+        return name
+    }
+
+    @SuppressLint("Range")
+    fun get_AvatarLevel(id: Int): Int{
+        val db = this.readableDatabase
+        val query = "SELECT $AVATAR_LEVEL_COL FROM $TABLE_NAME_AVATAR WHERE id = $id"
+        val result = db.rawQuery(query, null)
+        var level = 0
+        if (result.moveToFirst()){
+            do {
+                level = result.getInt(result.getColumnIndex(AVATAR_LEVEL_COL))
+            }
+            while (result.moveToNext())
+        }
+        return level
+    }
+
+    @SuppressLint("Range")
+    fun get_isChosen(id: Int): Boolean{
+        val db = this.readableDatabase
+        val query = "SELECT $IS_CHOSEN_COL FROM $TABLE_NAME_AVATAR WHERE id = $id"
+        val result = db.rawQuery(query, null)
+        var bool = false
+        if (result.moveToFirst()){
+            do {
+                bool = result.getString(result.getColumnIndex(IS_CHOSEN_COL)).toBoolean()
+            }
+            while (result.moveToNext())
+        }
+        return bool
+    }
+
+    fun update_isChosen(id: Int, new_bool: Boolean){
+        val db = this.writableDatabase
+        val query = "UPDATE $TABLE_NAME_AVATAR SET $IS_CHOSEN_COL = $new_bool " +
+                "WHERE id = $id"
+        db.execSQL(query)
+    }
+
+    fun setDefault_isChosen(){
+        val db = this.writableDatabase
+        val query = "UPDATE $TABLE_NAME_AVATAR SET $IS_CHOSEN_COL = \"false\""
+        db.execSQL(query)
+    }
+
+    @SuppressLint("Range")
+    fun get_isActivated(id: Int): Boolean{
+        val db = this.readableDatabase
+        val query = "SELECT $IS_ACTIVATED FROM $TABLE_NAME_AVATAR WHERE id = $id"
+        val result = db.rawQuery(query, null)
+        var bool = false
+        if (result.moveToFirst()){
+            do {
+                bool = result.getString(result.getColumnIndex(IS_ACTIVATED)).toBoolean()
+            }
+            while (result.moveToNext())
+        }
+        return bool
+    }
+
+    fun update_isActivated(id: Int, new_bool: Boolean){
+        val db = this.writableDatabase
+        val query = "UPDATE $IS_ACTIVATED SET $IS_CHOSEN_COL = $new_bool " +
+                "WHERE id = $id"
+        db.execSQL(query)
+    }
 }
