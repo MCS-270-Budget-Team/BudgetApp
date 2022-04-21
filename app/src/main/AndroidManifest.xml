@@ -30,6 +30,7 @@
         <activity android:name=".AddGoals"/>
         <activity android:name=".EditGoals"/>
         <activity android:name=".EditEarning"/>
+        <activity android:name=".Avatar"/>
     </application>
 
 </manifest>
