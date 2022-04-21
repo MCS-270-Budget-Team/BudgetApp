@@ -10,8 +10,11 @@ import androidx.appcompat.app.AppCompatActivity
 import java.text.ParseException
 import java.text.SimpleDateFormat
 
-
 class ExpenseViewer : AppCompatActivity() {
+    private lateinit var experienceBar: ProgressBar
+    private lateinit var earningBar: ProgressBar
+    private lateinit var spendingBar: ProgressBar
+
     private lateinit var expenseListview : ListView
     private var expenseViewAdapter: ExpenseViewAdapter? = null
     private lateinit var addButton: Button
@@ -19,6 +22,9 @@ class ExpenseViewer : AppCompatActivity() {
     private lateinit var homepageButton: ImageButton
     private lateinit var totalAmount: TextView
     private lateinit var upcomingBillButton: ImageButton
+
+    private lateinit var avatar: ImageView
+    private lateinit var levelText: TextView
 
     //create database object
     private val context = this
@@ -28,20 +34,39 @@ class ExpenseViewer : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_expense_view)
+        experienceBar = findViewById(R.id.experienceBar)
+        earningBar = findViewById(R.id.earningBar)
+        spendingBar = findViewById(R.id.spendingBar)
+
+        avatar = findViewById(R.id.avatar)
+
         expenseListview = findViewById(R.id.expense_listview)
         addButton = findViewById(R.id.add_bill_btn)
         adjustExpenseButton = findViewById(R.id.adjust_expense_button)
         homepageButton = findViewById(R.id.add_entry_button)
         totalAmount = findViewById(R.id.total_amount)
         upcomingBillButton = findViewById(R.id.upcoming_bill_button)
+        levelText = findViewById(R.id.level)
 
+        //get the level
+        levelText.text = "Level ${db.getLevel()}"
+
+        //calculate the total amount of money left
         val totalMoney = db.addPaycheckAmount() - db.addExpenseAmount()
-
         totalAmount.text = "Total Amount: $$totalMoney"
+        spendingBar.progress = (db.addExpenseAmount() / db.addPaycheckAmount() * 100).toInt()
+
+        //set up the bars
+        spendingBar.progress = (db.addExpenseAmount() / db.addPaycheckAmount() * 100).toInt()
+        experienceBar.progress = ((db.getExp() - db.get_level_exp(db.getLevel())).toDouble() / (db.get_levelup_exp()) * 100).toInt()
+        earningBar.progress = (totalMoney / db.getEarning() * 100).toInt()
+
+        //set up the avatar
+        val drawableId = this.resources.getIdentifier(db.getAvatar(), "drawable", context.packageName)
+        avatar.setImageResource(drawableId)
 
         //Access the expense and paycheck databases
         val entryDB = EntriesDB(applicationContext)
-
         expenseViewAdapter = ExpenseViewAdapter(applicationContext, entryDB.readData())
         expenseListview.adapter = expenseViewAdapter
 
@@ -237,7 +262,7 @@ class EditEntries: AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
                 toast.show()
             }
-            else if (isValidDate(date.text.toString())){
+            else if (!isValidDate(date.text.toString())){
                 val toast = Toast.makeText(this, "Date format is invalid. Try again!", Toast.LENGTH_SHORT)
                 toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
                 toast.show()

@@ -8,6 +8,9 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 
 class AdjustExpense: AppCompatActivity() {
+    private lateinit var experienceBar: ProgressBar
+    private lateinit var earningBar: ProgressBar
+    private lateinit var spendingBar: ProgressBar
 
     private lateinit var addButton: Button
     private lateinit var expenseList: ListView
@@ -18,6 +21,8 @@ class AdjustExpense: AppCompatActivity() {
 
     private var expenseAdapter: ExpenseAdapter? = null
     private lateinit var expenseBank: MutableList<Expense>
+    private lateinit var avatar: ImageView
+    private lateinit var levelText: TextView
 
     //create database object
     private val context = this
@@ -34,12 +39,29 @@ class AdjustExpense: AppCompatActivity() {
         viewHistoryButton = findViewById(R.id.view_history_button)
         totalAmount = findViewById(R.id.total_amount)
         upcomingBillButton = findViewById(R.id.upcoming_bill_button)
+        levelText = findViewById(R.id.level)
 
+        experienceBar = findViewById(R.id.experienceBar)
+        earningBar = findViewById(R.id.earningBar)
+        spendingBar = findViewById(R.id.spendingBar)
+
+        avatar = findViewById(R.id.avatar)
+        //get the level
+        levelText.text = "Level ${db.getLevel()}"
+
+        //get the total amount of money
         val totalMoney = db.addPaycheckAmount() - db.addExpenseAmount()
-
         totalAmount.text = "Total Amount: $$totalMoney"
 
         expenseBank = db.getAll_Distribute()
+        //set up the bars
+        spendingBar.progress = (db.addExpenseAmount() / db.addPaycheckAmount() * 100).toInt()
+        experienceBar.progress = ((db.getExp() - db.get_level_exp(db.getLevel())).toDouble() / (db.get_levelup_exp()) * 100).toInt()
+        earningBar.progress = (totalMoney / db.getEarning() * 100).toInt()
+
+        //set up the avatar
+        val drawableId = this.resources.getIdentifier(db.getAvatar(), "drawable", context.packageName)
+        avatar.setImageResource(drawableId)
 
         // create an adapter to inflate list view, pass the expense bank to the adapter
         expenseAdapter = ExpenseAdapter(applicationContext, expenseBank)
@@ -114,6 +136,11 @@ class AddCategories : AppCompatActivity() {
             }
             else if (db.isUnique(categories.text.toString())){
                 val toast = Toast.makeText(this, "This category has been added. Try again!", Toast.LENGTH_SHORT)
+                toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
+                toast.show()
+            }
+            else if (!db.isValid(percentage.text.toString().toDouble())){
+                val toast = Toast.makeText(this, "The entered percentage is too high. Try again!", Toast.LENGTH_SHORT)
                 toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
                 toast.show()
             }
@@ -201,8 +228,14 @@ class EditCategories : AppCompatActivity() {
                 toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
                 toast.show()
             }
-            else if (db.isUnique(categories.text.toString())){
+            else if (categories.text.toString() != categoriesHint &&
+                db.isUnique(categories.text.toString())){
                 val toast = Toast.makeText(this, "This category has been added. Try again!", Toast.LENGTH_SHORT)
+                toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
+                toast.show()
+            }
+            else if (!db.isValid(percentage.text.toString().toDouble())){
+                val toast = Toast.makeText(this, "The entered percentage is too high. Try again!", Toast.LENGTH_SHORT)
                 toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
                 toast.show()
             }

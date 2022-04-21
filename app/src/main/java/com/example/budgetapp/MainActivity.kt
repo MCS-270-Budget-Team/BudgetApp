@@ -3,11 +3,14 @@ package com.example.budgetapp
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import kotlin.math.pow
 import android.content.res.ColorStateList
 import android.graphics.Color
@@ -27,18 +30,22 @@ class MainActivity : AppCompatActivity() {
     private lateinit var earningBar: ProgressBar
     private lateinit var spendingBar: ProgressBar
 
+    private lateinit var levelText: TextView
     private lateinit var totalAmount: TextView
     private lateinit var goalListview: ListView
     private var goalAdapter: GoalAdapter? = null
 
     private lateinit var addGoalButton: Button
+    private lateinit var addEarningGoal: Button
+    private lateinit var avatar: ImageView
     //create database object
     private val context = this
-    private val db = EntriesDB(context)
+    private lateinit var db: EntriesDB
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        db = EntriesDB(this)
         setContentView(R.layout.activity_main)
         addEntryButton = findViewById(R.id.add_entry_button)
         adjustExpenseButton = findViewById(R.id.adjust_expense_button)
@@ -50,15 +57,34 @@ class MainActivity : AppCompatActivity() {
         spendingBar = findViewById(R.id.spendingBar)
 
         addGoalButton = findViewById(R.id.add_goal)
-
+        addEarningGoal = findViewById(R.id.add_earning_goal)
+        levelText = findViewById(R.id.level)
         totalAmount = findViewById(R.id.total_amount)
-        val totalMoney = db.addPaycheckAmount() - db.addExpenseAmount()
+        avatar = findViewById(R.id.avatar)
 
         goalListview = findViewById(R.id.goal_listview)
+        //get the level
+        levelText.text = "Level ${db.getLevel()}"
+        //set the total amount of money
+        val totalMoney = db.addPaycheckAmount() - db.addExpenseAmount()
         totalAmount.text = "Total Amount: $$totalMoney"
+
+        //set up the bars
+        spendingBar.progress = (db.addExpenseAmount() / db.addPaycheckAmount() * 100).toInt()
+        experienceBar.progress = ((db.getExp() - db.get_level_exp(db.getLevel())).toDouble() / (db.get_levelup_exp()) * 100).toInt()
+        earningBar.progress = (totalMoney / db.getEarning() * 100).toInt()
+
+        //set up the avatar
+        val drawableId = this.resources.getIdentifier(db.getAvatar(), "drawable", context.packageName)
+        avatar.setImageResource(drawableId)
 
         addGoalButton.setOnClickListener {
             val intent = Intent(this@MainActivity, AddGoals::class.java)
+            startActivity(intent)
+        }
+
+        addEarningGoal.setOnClickListener {
+            val intent = Intent(this@MainActivity, EditEarning::class.java) //
             startActivity(intent)
         }
 
@@ -76,7 +102,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        goalAdapter = GoalAdapter(applicationContext)
+        goalAdapter = GoalAdapter(this)
         goalListview.adapter = goalAdapter
 
 
@@ -209,7 +235,15 @@ class GoalAdapter(var context: Context): BaseAdapter() {
             goal.plus += 1
             goal.level = calculateLevel(goal.plus)
             db.editGoal(goal.id, goal)
+            // update the experience points and the level
+            db.updateExp(db.getExp() + 10)
+            db.updateTable()
             this.notifyDataSetChanged()
+            // notify the MainActivity of the changes in level and exp
+            val levelText = (context as MainActivity).findViewById<TextView>(R.id.level)
+            levelText.text = "Level ${db.getLevel()}"
+            val experienceBar = (context as MainActivity).findViewById<ProgressBar>(R.id.experienceBar)
+            experienceBar.progress = ((db.getExp() - db.get_level_exp(db.getLevel())).toDouble() / (db.get_levelup_exp()) * 100).toInt()
         }
 
         //updating the bubble and the level when the user press the plus icon
@@ -371,5 +405,62 @@ class EditGoals: AppCompatActivity() {
             startActivity(intent)
         }
 
+    }
+}
+
+class EditEarning: AppCompatActivity() {
+    private lateinit var earningGoal: EditText
+    private lateinit var editButton: Button
+    private lateinit var cancelButton: Button
+
+    //create database object
+    private val context = this
+    private val db = EntriesDB(context)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_edit_earning_goal)
+
+        editButton = findViewById(R.id.edit)
+        cancelButton = findViewById(R.id.cancel)
+        earningGoal = findViewById(R.id.earning_goal)
+
+        //get the information of the goal
+        val earningHint = db.getEarning()
+
+        earningGoal.hint = earningHint.toString()
+
+        editButton.setOnClickListener {
+            when {
+                earningGoal.text.toString() == "" -> {
+                    val toast = Toast.makeText(this, "Earning goal cannot be empty. Try again!", Toast.LENGTH_SHORT)
+                    toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
+                    toast.show()
+                }
+                !isNumeric(earningGoal.text.toString())-> {
+                    val toast = Toast.makeText(this, "Earning goal must be numeric. Try again!", Toast.LENGTH_SHORT)
+                    toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
+                    toast.show()
+                }
+                else -> {
+                    db.updateEarning(earningGoal.text.toString().toDouble())
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                }
+            }
+        }
+
+        // if the user does not want to add anything, let them return to the homepage
+        cancelButton.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+
+    }
+
+    /* Function to check whether a string is numeric*/
+    private fun isNumeric(toCheck: String): Boolean {
+        val regex = "-?[0-9]+(\\.[0-9]+)?".toRegex()
+        return toCheck.matches(regex)
     }
 }
