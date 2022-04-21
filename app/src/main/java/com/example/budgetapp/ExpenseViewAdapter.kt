@@ -59,6 +59,11 @@ class ExpenseViewAdapter(var context: Context, private var arraylist: MutableLis
             //calculate the total amount of money left
             val totalMoney = entryDB.addPaycheckAmount() - entryDB.addExpenseAmount()
             totalAmount.text = "Total Amount: $$totalMoney"
+
+            val earningBar: ProgressBar = (context as ExpenseViewer).findViewById(R.id.earningBar)
+            val spendingBar: ProgressBar = (context as ExpenseViewer).findViewById(R.id.spendingBar)
+            spendingBar.progress = (entryDB.addExpenseAmount() / entryDB.addPaycheckAmount() * 100).toInt()
+            earningBar.progress = (totalMoney / entryDB.getEarning() * 100).toInt()
             Toast.makeText(context, "Delete expense successfully!", Toast.LENGTH_SHORT).show()
         }
 
