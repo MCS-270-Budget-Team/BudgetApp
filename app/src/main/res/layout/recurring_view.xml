@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".MainActivity"
-    android:background="@color/black">
 
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    tools:ignore="MissingDefaultResource"
+    android:background="@color/black"
+    tools:context=".AdjustExpense">
     <LinearLayout
         android:layout_margin="10dp"
         android:layout_width="match_parent"
@@ -21,7 +22,6 @@
             android:weightSum="2">
 
             <ImageView
-                android:id="@+id/avatar"
                 android:layout_width="0dp"
                 android:layout_height="120dp"
                 android:layout_margin="5dp"
@@ -46,13 +46,12 @@
                         android:textColor="#FFEB3B"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
-
                     <ProgressBar
                         android:id="@+id/experienceBar"
                         style="@android:style/Widget.ProgressBar.Horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:progress="75" />
+                        android:progress="75"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -117,7 +116,6 @@
             android:gravity="center"
             android:orientation="horizontal">
             <TextView
-                android:id="@+id/level"
                 android:layout_weight="1.6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -141,35 +139,40 @@
                 android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="180dp"
-        android:orientation="horizontal">
-        <Button
-            android:id="@+id/add_goal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/lightest_grey"
-            android:text="Add Goals" />
-        <Button
-            android:id="@+id/add_earning_goal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/lightest_grey"
-            android:text="Earning Goal"
-            android:layout_marginLeft="10dp"/>
-    </LinearLayout>
 
-    <ListView
-        android:id="@+id/goal_listview"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="240dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="70dp" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="170dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="60dp"
+        android:background="@color/black"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/add_recurring_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginRight="5dp"
+                android:backgroundTint="@color/light_grey"
+                android:text="Add Recurring Bill" />
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/recurring_listview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@color/black">
+        </ListView>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_alignParentBottom="true"
@@ -222,6 +225,6 @@
             android:textStyle="bold"
             android:gravity="center"
             android:textColor="@color/white"
-            android:backgroundTint="@color/lightest_grey" />}
+            android:backgroundTint="@color/lightest_grey" />
     </LinearLayout>
 </RelativeLayout>

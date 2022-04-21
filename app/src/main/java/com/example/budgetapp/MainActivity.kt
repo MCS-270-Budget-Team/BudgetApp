@@ -12,7 +12,12 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import kotlin.math.pow
-
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.util.Log
+import android.view.Gravity
+import java.text.SimpleDateFormat
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -99,8 +104,68 @@ class MainActivity : AppCompatActivity() {
 
         goalAdapter = GoalAdapter(this)
         goalListview.adapter = goalAdapter
+
+
+        upcomingBillButton.setOnClickListener {
+            val intent = Intent(this@MainActivity, RecurringViewer::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NO_ANIMATION
+            startActivity(intent)
+        }
+
+        val today = Calendar.getInstance()
+        //Check to see if any of the recurring bills have passed their deadlines
+        val recurringBills = db.getAll_Recurring()
+
+        for(bill in recurringBills) {
+            var dueDate = getDate(bill)
+
+            while(today.after(dueDate)) {
+                val entry = Entry(
+                    id = null,
+                    title = bill.title,
+                    date = bill.date,
+                    amount = bill.amount,
+                    categories = bill.categories
+                )
+
+                db.insertData(entry)
+                val newDate = getNewDate(dueDate, bill.frequency)
+                val sdf: SimpleDateFormat = SimpleDateFormat("MM/dd/yyyy")
+                bill.last_paid = bill.date
+                bill.date = sdf.format(newDate.time)
+                db.updateRow_Recurring(bill.id, bill)
+                dueDate = newDate
+            }
+        }
     }
 
+    private fun getDate(expense: RecurringExpense): Calendar {
+        var dueDate = Calendar.getInstance()
+        var dateString = expense.date
+        val tokens = dateString.split("/")
+
+        if(tokens.size < 3) return dueDate
+        dueDate.set(tokens.get(2).toInt(), tokens.get(0).toInt()-1, tokens.get(1).toInt())
+        //Minus 1s offset from 1-12 to 0-11 for the month
+
+        return dueDate
+    }
+
+    private fun getNewDate(oldDate: Calendar, frequency: String): Calendar {
+        val newDate = oldDate
+
+        if(frequency == "Weekly") {
+            newDate.add(Calendar.DATE, 7)
+        }
+        else if(frequency == "Monthly") {
+            newDate.add(Calendar.MONTH, 1)
+        }
+        else if(frequency == "Annually") {
+            newDate.add(Calendar.YEAR, 1)
+        }
+
+        return newDate
+    }
 }
 
 /*

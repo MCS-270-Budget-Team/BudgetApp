@@ -29,6 +29,8 @@
         <activity android:name=".EditEntries"/>
         <activity android:name=".AddGoals"/>
         <activity android:name=".EditGoals"/>
+        <activity android:name=".RecurringViewer"/>
+        <activity android:name=".RecurringViewer$AddRecurringBill"/>
         <activity android:name=".EditEarning"/>
     </application>
 
