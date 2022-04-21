@@ -128,7 +128,7 @@ class AddRecurringBill: AppCompatActivity(), AdapterView.OnItemSelectedListener 
                 toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
                 toast.show()
             }
-            else if (isValidDate(date.text.toString())){
+            else if (!isValidDate(date.text.toString())){
                 val toast = Toast.makeText(this, "Date format is invalid. Try again!", Toast.LENGTH_SHORT)
                 toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
                 toast.show()
