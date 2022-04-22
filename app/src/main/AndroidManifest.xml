@@ -9,7 +9,9 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:background="@color/light_grey"
         android:theme="@style/Theme.BudgetApp">
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -20,6 +22,16 @@
             </intent-filter>
         </activity>
         <activity android:name=".ExpenseViewer"/>
+        <activity android:name=".AdjustExpense"/>
+        <activity android:name=".AddCategories"/>
+        <activity android:name=".EditCategories"/>
+        <activity android:name=".AddEntries"/>
+        <activity android:name=".EditEntries"/>
+        <activity android:name=".AddGoals"/>
+        <activity android:name=".EditGoals"/>
+        <activity android:name=".RecurringViewer"/>
+        <activity android:name=".RecurringViewer$AddRecurringBill"/>
+        <activity android:name=".EditEarning"/>
     </application>
 
 </manifest>

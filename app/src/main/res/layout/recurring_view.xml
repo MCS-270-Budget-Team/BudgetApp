@@ -22,7 +22,6 @@
             android:weightSum="2">
 
             <ImageView
-                android:id="@+id/avatar"
                 android:layout_width="0dp"
                 android:layout_height="120dp"
                 android:layout_margin="5dp"
@@ -117,7 +116,6 @@
             android:gravity="center"
             android:orientation="horizontal">
             <TextView
-                android:id="@+id/level"
                 android:layout_weight="1.6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -157,18 +155,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-        <Button
-            android:id="@+id/add_bill_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginRight="5dp"
-            android:backgroundTint="@color/light_grey"
-            android:text="Add Entries" />
+            <Button
+                android:id="@+id/add_recurring_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginRight="5dp"
+                android:backgroundTint="@color/light_grey"
+                android:text="Add Recurring Bill" />
         </LinearLayout>
 
         <ListView
-            android:id="@+id/expense_listview"
+            android:id="@+id/recurring_listview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

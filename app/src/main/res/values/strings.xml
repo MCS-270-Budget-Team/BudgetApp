@@ -8,4 +8,13 @@
     <string name="amount_paycheck">Amount</string>
     <string name="job">Job</string>
     <string name="bill_title">Bill Title</string>
+    <string name="adjust_btn">GOALS</string>
+    <string name="recommend_btn">RECOMMENDATIONS</string>
+    <string name="percent_hint">%</string>
+    <string name="max_hint">$</string>
+    <string-array name="recurring_options">
+        <item>Not Recurring</item>
+        <item>Monthly</item>
+        <item>Annually</item>
+    </string-array>
 </resources>
