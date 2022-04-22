@@ -44,7 +44,7 @@ class ExpenseAdapter(var context: Context, private var arraylist: MutableList<Ex
 
         val totalMoney = db.addPaycheckAmount() - db.addExpenseAmount()
 
-        rec.text = "Rec: $" + min(expense.percentage/100 * totalMoney, expense.max).toString()
+        rec.text = "Rec: $" + min(expense.percentage/100 * totalMoney, expense.max).toInt().toString()
 
         if (expense.categories == "Others"){
             deleteButton.isEnabled = false
