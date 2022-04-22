@@ -22,6 +22,10 @@ class RecurringViewer : AppCompatActivity() {
     private lateinit var viewHistoryButton: ImageButton
     private lateinit var upcomingBillButton: ImageButton
 
+    private lateinit var experienceBar: ProgressBar
+    private lateinit var earningBar: ProgressBar
+    private lateinit var spendingBar: ProgressBar
+
     //create database object
     private val context = this
     private val db = EntriesDB(context)
@@ -38,6 +42,10 @@ class RecurringViewer : AppCompatActivity() {
         upcomingBillButton = findViewById(R.id.upcoming_bill_button)
         viewHistoryButton = findViewById(R.id.view_history_button)
 
+        experienceBar = findViewById(R.id.experienceBar)
+        earningBar = findViewById(R.id.earningBar)
+        spendingBar = findViewById(R.id.spendingBar)
+
         val totalMoney = db.addPaycheckAmount() - db.addExpenseAmount()
 
         totalAmount.text = "Total Amount: $$totalMoney"
@@ -47,6 +55,11 @@ class RecurringViewer : AppCompatActivity() {
 
         recurringAdapter = RecurringAdapter(applicationContext, entryDB.getAll_Recurring())
         recurringListview.adapter = recurringAdapter
+
+        //update the bars
+        spendingBar.progress = (db.addExpenseAmount() / db.addPaycheckAmount() * 100).toInt()
+        experienceBar.progress = ((db.getExp() - db.get_level_exp(db.getLevel())).toDouble() / (db.get_levelup_exp()) * 100).toInt()
+        earningBar.progress = (totalMoney / db.getEarning() * 100).toInt()
 
         addButton.setOnClickListener {
             val intent = Intent(this, AddRecurringBill::class.java)
