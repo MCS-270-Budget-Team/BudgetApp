@@ -32,6 +32,7 @@
         <activity android:name=".RecurringViewer"/>
         <activity android:name=".RecurringViewer$AddRecurringBill"/>
         <activity android:name=".EditEarning"/>
+        <activity android:name=".Avatar"/>
     </application>
 
 </manifest>

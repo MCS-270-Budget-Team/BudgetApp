@@ -26,6 +26,7 @@
                 android:layout_height="120dp"
                 android:layout_margin="5dp"
                 android:layout_weight="0.75"
+                android:backgroundTint="@color/black"
                 android:src="@drawable/baseline_add_task_white_18" />
 
             <LinearLayout

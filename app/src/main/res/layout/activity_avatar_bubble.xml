@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="120dp"
+    android:layout_height="150dp"
+    android:orientation="vertical"
+    android:background="@color/black"
+    android:gravity="center"
+    >
+    <ImageView
+        android:id="@+id/avatar_image"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:src="@drawable/baby_turtle"/>
+    <TextView
+        android:id="@+id/level_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Unlock at Level 3"
+        android:gravity="center"
+        android:textSize="11dp"
+        android:textColor="@color/white"/>
+    <Button
+        android:id="@+id/choose_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Choose"
+        android:textAllCaps="true"
+        android:textSize="12dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:textColor="@color/light_green"
+        android:backgroundTint="@color/lightest_grey"/>
+
+</LinearLayout>
