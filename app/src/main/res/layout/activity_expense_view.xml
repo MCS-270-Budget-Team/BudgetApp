@@ -7,7 +7,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     tools:ignore="MissingDefaultResource"
-    android:background="@color/black"
+    android:background="@color/background_color"
     tools:context=".AdjustExpense">
     <LinearLayout
         android:layout_margin="10dp"
@@ -150,7 +150,7 @@
         android:layout_marginTop="170dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="60dp"
-        android:background="@color/black"
+        android:background="@color/background_color"
         android:orientation="vertical">
 
         <LinearLayout
@@ -163,17 +163,16 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:layout_marginRight="5dp"
-            android:backgroundTint="@color/light_grey"
+            android:backgroundTint="@color/button_color"
             android:text="Add Entries" />
         </LinearLayout>
 
         <ListView
             android:id="@+id/expense_listview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:background="@color/black">
-        </ListView>
+            android:background="@color/background_color"/>
     </LinearLayout>
 
     <LinearLayout
@@ -184,7 +183,7 @@
         android:weightSum="4"
         android:layout_margin="0dp"
         android:gravity="bottom"
-        android:background="@color/lightest_grey">
+        android:background="@color/button_color">
         <ImageButton
             android:id="@+id/add_entry_button"
             android:layout_width="0dp"
@@ -194,7 +193,7 @@
             android:textStyle="bold"
             android:gravity="center"
             android:textColor="@color/white"
-            android:backgroundTint="@color/lightest_grey"/>
+            android:backgroundTint="@color/button_color"/>
 
         <ImageButton
             android:id="@+id/view_history_button"
@@ -205,7 +204,7 @@
             android:textStyle="bold"
             android:gravity="center"
             android:textColor="@color/white"
-            android:backgroundTint="@color/lightest_grey" />
+            android:backgroundTint="@color/button_color" />
 
         <ImageButton
             android:id="@+id/adjust_expense_button"
@@ -216,7 +215,7 @@
             android:textStyle="bold"
             android:gravity="center"
             android:textColor="@color/white"
-            android:backgroundTint="@color/lightest_grey" />
+            android:backgroundTint="@color/button_color" />
 
         <ImageButton
             android:id="@+id/upcoming_bill_button"
@@ -227,6 +226,6 @@
             android:textStyle="bold"
             android:gravity="center"
             android:textColor="@color/white"
-            android:backgroundTint="@color/lightest_grey" />
+            android:backgroundTint="@color/button_color" />
     </LinearLayout>
 </RelativeLayout>

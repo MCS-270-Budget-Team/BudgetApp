@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="70dp"
-    android:background="@color/light_grey"
+    android:background="@color/button_color"
     android:orientation="horizontal"
     android:weightSum="4"
     android:layout_marginTop="3dp">
@@ -12,8 +12,8 @@
         android:layout_height="match_parent"
         android:src="@drawable/baseline_add_white_18"
         android:layout_weight="0.8"
-        android:backgroundTint="#8144EF"
-        android:background="#8144EF"/>
+        android:backgroundTint="@color/progress_color"
+        android:background="@color/progress_color"/>
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
@@ -30,7 +30,7 @@
             android:textColor="@color/white"
             android:textSize="15dp"
             android:textStyle="bold"
-            android:backgroundTint="@color/light_grey"
+            android:backgroundTint="@color/button_color"
             android:textAllCaps="false"/>
         <ProgressBar
             android:id="@+id/level_progress"
@@ -39,7 +39,7 @@
             android:layout_weight="0.3"
             style="@android:style/Widget.ProgressBar.Horizontal"
             android:progress="75"
-            android:progressTint="#8144EF"
+            android:progressTint="@color/progress_color"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             />

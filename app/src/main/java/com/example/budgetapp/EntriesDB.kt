@@ -118,7 +118,7 @@ class EntriesDB(context: Context) :
                 PER_EARN_COL + " REAL" + ")")
 
         val query6 = "INSERT INTO $TABLE_NAME_PER ($ID_COL, $PER_LEVEL_COL, $PER_EXP_COL, $PER_AVA_COL, $PER_EARN_COL)" +
-                    "VALUES (0,0,0,'baseline_add_task_white_18',3000.0)"
+                    "VALUES (0,0,0,'baby_turtle',3000.0)"
 
         val query7 = ("CREATE TABLE " + TABLE_NAME_AVATAR + " ("
                 + ID_COL + " INTEGER PRIMARY KEY, " +
@@ -128,8 +128,10 @@ class EntriesDB(context: Context) :
                 IS_ACTIVATED + " TEXT" + ")")
 
         val query8 = "INSERT INTO $TABLE_NAME_AVATAR VALUES " +
-                     "(0, 'example', 0, 'false', 'false')," +
-                     "(1, 'example', 0, 'false', 'false')"
+                     "(0, 'baby_turtle', 0, 'false', 'false')," +
+                    "(1, 'budget_turtle', 3, 'false', 'false')," +
+                    "(2, 'happy_turtle', 6, 'false', 'false')," +
+                    "(3, 'old_turtle', 9, 'false', 'false')"
 
         // we are calling sqlite
         // method for executing our query
@@ -586,7 +588,7 @@ class EntriesDB(context: Context) :
 
     fun updateAvatar(new_avatar: String){
         val db = this.writableDatabase
-        val query = "UPDATE $TABLE_NAME_PER SET $PER_AVA_COL = ${new_avatar} " +
+        val query = "UPDATE $TABLE_NAME_PER SET $PER_AVA_COL = \'$new_avatar\' " +
                 "WHERE id = 0"
         db.execSQL(query)
     }
@@ -734,7 +736,7 @@ class EntriesDB(context: Context) :
 
     fun update_isChosen(id: Int, new_bool: Boolean){
         val db = this.writableDatabase
-        val query = "UPDATE $TABLE_NAME_AVATAR SET $IS_CHOSEN_COL = $new_bool " +
+        val query = "UPDATE $TABLE_NAME_AVATAR SET $IS_CHOSEN_COL = \'$new_bool\' " +
                 "WHERE id = $id"
         db.execSQL(query)
     }
@@ -760,10 +762,19 @@ class EntriesDB(context: Context) :
         return bool
     }
 
-    fun update_isActivated(id: Int, new_bool: Boolean){
+    fun update_isActivated(){
         val db = this.writableDatabase
-        val query = "UPDATE $IS_ACTIVATED SET $IS_CHOSEN_COL = $new_bool " +
-                "WHERE id = $id"
-        db.execSQL(query)
+        for (i in 0..3){
+            if (this.get_AvatarLevel(i) <= this.getLevel() ){
+                val query = "UPDATE $TABLE_NAME_AVATAR SET $IS_ACTIVATED = \"true\" " +
+                        "WHERE id = $i"
+                db.execSQL(query)
+            }
+            else{
+                val query = "UPDATE $TABLE_NAME_AVATAR SET $IS_ACTIVATED = \"false\" " +
+                        "WHERE id = $i"
+                db.execSQL(query)
+            }
+        }
     }
 }

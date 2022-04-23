@@ -3,7 +3,7 @@
     android:layout_width="120dp"
     android:layout_height="150dp"
     android:orientation="vertical"
-    android:background="@color/black"
+    android:background="@color/button_color"
     android:gravity="center"
     >
     <ImageView
@@ -30,6 +30,6 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:textColor="@color/light_green"
-        android:backgroundTint="@color/lightest_grey"/>
+        android:backgroundTint="@color/black"/>
 
 </LinearLayout>

@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var adjustExpenseButton: ImageButton
     private lateinit var viewHistoryButton: ImageButton
     private lateinit var upcomingBillButton: ImageButton
+    private lateinit var customizeButton: ImageButton
 
     private lateinit var experienceBar: ProgressBar
     private lateinit var earningBar: ProgressBar
@@ -47,6 +48,7 @@ class MainActivity : AppCompatActivity() {
         adjustExpenseButton = findViewById(R.id.adjust_expense_button)
         viewHistoryButton = findViewById(R.id.view_history_button)
         upcomingBillButton = findViewById(R.id.upcoming_bill_button)
+        customizeButton = findViewById(R.id.customize_button)
 
         experienceBar = findViewById(R.id.experienceBar)
         earningBar = findViewById(R.id.earningBar)
@@ -101,9 +103,14 @@ class MainActivity : AppCompatActivity() {
         goalAdapter = GoalAdapter(this)
         goalListview.adapter = goalAdapter
 
-
         upcomingBillButton.setOnClickListener {
             val intent = Intent(this@MainActivity, RecurringViewer::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NO_ANIMATION
+            startActivity(intent)
+        }
+
+        customizeButton.setOnClickListener {
+            val intent = Intent(this@MainActivity, Avatar::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NO_ANIMATION
             startActivity(intent)
         }

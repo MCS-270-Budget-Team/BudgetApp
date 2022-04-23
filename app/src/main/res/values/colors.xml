@@ -14,4 +14,10 @@
     <color name="light_grey">#4E5050</color>
     <color name="lightest_grey">#656767</color>
     <color name="red">#ED0606</color>
+
+    <color name="background_color">#0D1013</color>
+    <color name="button_color">#212930</color>
+    <color name="text_color">#2E3943</color>
+    <color name="progress_color">#3B4956</color>
+    <color name="title_color">#256D66</color>
 </resources>
