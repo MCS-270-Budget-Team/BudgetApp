@@ -22,6 +22,7 @@
             android:weightSum="2">
 
             <ImageView
+                android:id="@+id/avatar"
                 android:layout_width="0dp"
                 android:layout_height="120dp"
                 android:layout_margin="5dp"
@@ -179,7 +180,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:weightSum="4"
+        android:weightSum="5"
         android:layout_margin="0dp"
         android:gravity="bottom"
         android:background="@color/button_color">
@@ -219,6 +220,17 @@
         <ImageButton
             android:id="@+id/upcoming_bill_button"
             android:src="@drawable/baseline_credit_card_white_18"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="60dp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/button_color" />
+
+        <ImageButton
+            android:id="@+id/customize_button"
+            android:src="@drawable/baseline_menu_white_18"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="60dp"

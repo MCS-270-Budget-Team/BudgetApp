@@ -18,10 +18,12 @@ class ExpenseViewer : AppCompatActivity() {
     private lateinit var expenseListview : ListView
     private var expenseViewAdapter: ExpenseViewAdapter? = null
     private lateinit var addButton: Button
+
     private lateinit var adjustExpenseButton: ImageButton
     private lateinit var homepageButton: ImageButton
     private lateinit var totalAmount: TextView
     private lateinit var upcomingBillButton: ImageButton
+    private lateinit var customizeButton: ImageButton
 
     private lateinit var avatar: ImageView
     private lateinit var levelText: TextView
@@ -44,6 +46,7 @@ class ExpenseViewer : AppCompatActivity() {
         addButton = findViewById(R.id.add_bill_btn)
         adjustExpenseButton = findViewById(R.id.adjust_expense_button)
         homepageButton = findViewById(R.id.add_entry_button)
+        customizeButton = findViewById(R.id.customize_button)
         totalAmount = findViewById(R.id.total_amount)
         upcomingBillButton = findViewById(R.id.upcoming_bill_button)
         levelText = findViewById(R.id.level)
@@ -88,6 +91,12 @@ class ExpenseViewer : AppCompatActivity() {
         }
         upcomingBillButton.setOnClickListener {
             val intent = Intent(this, RecurringViewer::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NO_ANIMATION
+            startActivity(intent)
+        }
+
+        customizeButton.setOnClickListener {
+            val intent = Intent(this, Avatar::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NO_ANIMATION
             startActivity(intent)
         }

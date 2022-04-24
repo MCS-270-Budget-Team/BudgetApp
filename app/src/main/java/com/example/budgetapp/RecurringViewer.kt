@@ -21,10 +21,13 @@ class RecurringViewer : AppCompatActivity() {
     private lateinit var totalAmount: TextView
     private lateinit var viewHistoryButton: ImageButton
     private lateinit var upcomingBillButton: ImageButton
+    private lateinit var customizeButton: ImageButton
 
     private lateinit var experienceBar: ProgressBar
     private lateinit var earningBar: ProgressBar
     private lateinit var spendingBar: ProgressBar
+
+    private lateinit var avatar: ImageView
 
     //create database object
     private val context = this
@@ -41,10 +44,13 @@ class RecurringViewer : AppCompatActivity() {
         totalAmount = findViewById(R.id.total_amount)
         upcomingBillButton = findViewById(R.id.upcoming_bill_button)
         viewHistoryButton = findViewById(R.id.view_history_button)
+        customizeButton = findViewById(R.id.customize_button)
 
         experienceBar = findViewById(R.id.experienceBar)
         earningBar = findViewById(R.id.earningBar)
         spendingBar = findViewById(R.id.spendingBar)
+
+        avatar = findViewById(R.id.avatar)
 
         val totalMoney = db.addPaycheckAmount() - db.addExpenseAmount()
 
@@ -60,6 +66,10 @@ class RecurringViewer : AppCompatActivity() {
         spendingBar.progress = (db.addExpenseAmount() / db.addPaycheckAmount() * 100).toInt()
         experienceBar.progress = ((db.getExp() - db.get_level_exp(db.getLevel())).toDouble() / (db.get_levelup_exp()) * 100).toInt()
         earningBar.progress = (totalMoney / db.getEarning() * 100).toInt()
+
+        //set up the avatar
+        val drawableId = this.resources.getIdentifier(db.getAvatar(), "drawable", context.packageName)
+        avatar.setImageResource(drawableId)
 
         addButton.setOnClickListener {
             val intent = Intent(this, AddRecurringBill::class.java)
@@ -84,6 +94,11 @@ class RecurringViewer : AppCompatActivity() {
         }
         upcomingBillButton.setOnClickListener {
             val intent = Intent(this, RecurringViewer::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NO_ANIMATION
+            startActivity(intent)
+        }
+        customizeButton.setOnClickListener {
+            val intent = Intent(this, Avatar::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NO_ANIMATION
             startActivity(intent)
         }

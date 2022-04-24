@@ -171,7 +171,7 @@
     <LinearLayout
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
-        android:weightSum="4"
+        android:weightSum="5"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_margin="0dp"
@@ -219,7 +219,17 @@
             android:textStyle="bold"
             android:gravity="center"
             android:textColor="@color/white"
-            android:backgroundTint="@color/button_color" />}
+            android:backgroundTint="@color/button_color" />
+        <ImageButton
+            android:id="@+id/customize_button"
+            android:src="@drawable/baseline_menu_white_18"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="60dp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/button_color" />
     </LinearLayout>
 </RelativeLayout>
 

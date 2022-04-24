@@ -10,6 +10,7 @@
         android:id="@+id/avatar_image"
         android:layout_width="match_parent"
         android:layout_height="100dp"
+        android:layout_marginTop="10dp"
         android:src="@drawable/baby_turtle"/>
     <TextView
         android:id="@+id/level_text"
@@ -17,7 +18,7 @@
         android:layout_height="wrap_content"
         android:text="Unlock at Level 3"
         android:gravity="center"
-        android:textSize="11dp"
+        android:textSize="11sp"
         android:textColor="@color/white"/>
     <Button
         android:id="@+id/choose_button"
@@ -25,7 +26,7 @@
         android:layout_height="wrap_content"
         android:text="Choose"
         android:textAllCaps="true"
-        android:textSize="12dp"
+        android:textSize="12sp"
         android:layout_gravity="center"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
