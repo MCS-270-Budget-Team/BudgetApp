@@ -64,7 +64,7 @@ class RecurringViewer : AppCompatActivity() {
         //Access the expense and paycheck databases
         val entryDB = EntriesDB(applicationContext)
 
-        recurringAdapter = RecurringAdapter(applicationContext, entryDB.getAll_Recurring())
+        recurringAdapter = RecurringAdapter(this, entryDB.getAll_Recurring())
         recurringListview.adapter = recurringAdapter
 
         //update the bars
@@ -151,6 +151,7 @@ class RecurringViewer : AppCompatActivity() {
 
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
+            this.setTheme()
             setContentView(R.layout.activity_add_recurring)
 
             categories = findViewById(R.id.categories)
@@ -277,6 +278,26 @@ class RecurringViewer : AppCompatActivity() {
                 return false
             }
             return true
+        }
+
+        private fun setTheme(){
+            when (db.getThemeID()) {
+                0 -> {
+                    setTheme(R.style.Theme_BudgetApp)
+                }
+                1 -> {
+                    setTheme(R.style.Forest)
+                }
+                2 -> {
+                    setTheme(R.style.Eggplant)
+                }
+                3 -> {
+                    setTheme(R.style.Pumpkin)
+                }
+                else -> {
+                    setTheme(R.style.Vintage)
+                }
+            }
         }
     }
 }

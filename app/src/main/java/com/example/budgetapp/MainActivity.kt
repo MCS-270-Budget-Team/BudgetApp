@@ -321,6 +321,7 @@ class AddGoals: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        this.setTheme()
         setContentView(R.layout.activity_add_goal)
 
         title = findViewById(R.id.title)
@@ -360,6 +361,25 @@ class AddGoals: AppCompatActivity() {
         }
 
     }
+    private fun setTheme(){
+        when (db.getThemeID()) {
+            0 -> {
+                setTheme(R.style.Theme_BudgetApp)
+            }
+            1 -> {
+                setTheme(R.style.Forest)
+            }
+            2 -> {
+                setTheme(R.style.Eggplant)
+            }
+            3 -> {
+                setTheme(R.style.Pumpkin)
+            }
+            else -> {
+                setTheme(R.style.Vintage)
+            }
+        }
+    }
 }
 
 class EditGoals: AppCompatActivity() {
@@ -374,6 +394,7 @@ class EditGoals: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        this.setTheme()
         setContentView(R.layout.activity_edit_goal)
 
         title = findViewById(R.id.title)
@@ -430,6 +451,25 @@ class EditGoals: AppCompatActivity() {
         }
 
     }
+    private fun setTheme(){
+        when (db.getThemeID()) {
+            0 -> {
+                setTheme(R.style.Theme_BudgetApp)
+            }
+            1 -> {
+                setTheme(R.style.Forest)
+            }
+            2 -> {
+                setTheme(R.style.Eggplant)
+            }
+            3 -> {
+                setTheme(R.style.Pumpkin)
+            }
+            else -> {
+                setTheme(R.style.Vintage)
+            }
+        }
+    }
 }
 
 class EditEarning: AppCompatActivity() {
@@ -443,6 +483,7 @@ class EditEarning: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        this.setTheme()
         setContentView(R.layout.activity_edit_earning_goal)
 
         editButton = findViewById(R.id.edit)
@@ -486,5 +527,24 @@ class EditEarning: AppCompatActivity() {
     private fun isNumeric(toCheck: String): Boolean {
         val regex = "-?[0-9]+(\\.[0-9]+)?".toRegex()
         return toCheck.matches(regex)
+    }
+    private fun setTheme(){
+        when (db.getThemeID()) {
+            0 -> {
+                setTheme(R.style.Theme_BudgetApp)
+            }
+            1 -> {
+                setTheme(R.style.Forest)
+            }
+            2 -> {
+                setTheme(R.style.Eggplant)
+            }
+            3 -> {
+                setTheme(R.style.Pumpkin)
+            }
+            else -> {
+                setTheme(R.style.Vintage)
+            }
+        }
     }
 }

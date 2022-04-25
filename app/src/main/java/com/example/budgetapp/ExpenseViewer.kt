@@ -145,6 +145,7 @@ class AddEntries: AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        this.setTheme()
         setContentView(R.layout.activity_add_entries)
 
         categories = findViewById(R.id.categories)
@@ -235,6 +236,26 @@ class AddEntries: AppCompatActivity(), AdapterView.OnItemSelectedListener {
         }
         return true
     }
+
+    private fun setTheme(){
+        when (db.getThemeID()) {
+            0 -> {
+                setTheme(R.style.Theme_BudgetApp)
+            }
+            1 -> {
+                setTheme(R.style.Forest)
+            }
+            2 -> {
+                setTheme(R.style.Eggplant)
+            }
+            3 -> {
+                setTheme(R.style.Pumpkin)
+            }
+            else -> {
+                setTheme(R.style.Vintage)
+            }
+        }
+    }
 }
 
 /* A PopUp window that allow the user to edit their paycheck/expense inputs.
@@ -256,6 +277,7 @@ class EditEntries: AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        this.setTheme()
         setContentView(R.layout.activity_edit_entries)
 
         categories = findViewById(R.id.categories)
@@ -358,6 +380,26 @@ class EditEntries: AppCompatActivity(), AdapterView.OnItemSelectedListener {
             return false
         }
         return true
+    }
+
+    private fun setTheme(){
+        when (db.getThemeID()) {
+            0 -> {
+                setTheme(R.style.Theme_BudgetApp)
+            }
+            1 -> {
+                setTheme(R.style.Forest)
+            }
+            2 -> {
+                setTheme(R.style.Eggplant)
+            }
+            3 -> {
+                setTheme(R.style.Pumpkin)
+            }
+            else -> {
+                setTheme(R.style.Vintage)
+            }
+        }
     }
 
 }

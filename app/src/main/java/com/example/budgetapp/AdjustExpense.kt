@@ -67,7 +67,7 @@ class AdjustExpense: AppCompatActivity() {
         avatar.setImageResource(drawableId)
 
         // create an adapter to inflate list view, pass the expense bank to the adapter
-        expenseAdapter = ExpenseAdapter(applicationContext, expenseBank)
+        expenseAdapter = ExpenseAdapter(this, expenseBank)
         expenseList.adapter = expenseAdapter
 
         addButton.setOnClickListener {
@@ -132,6 +132,7 @@ class AddCategories : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        this.setTheme()
         setContentView(R.layout.activity_add_categories)
 
         categories = findViewById(R.id.categories)
@@ -201,6 +202,26 @@ class AddCategories : AppCompatActivity() {
         val regex = "-?[0-9]+(\\.[0-9]+)?".toRegex()
         return toCheck.matches(regex)
     }
+
+    private fun setTheme(){
+        when (db.getThemeID()) {
+            0 -> {
+                setTheme(R.style.Theme_BudgetApp)
+            }
+            1 -> {
+                setTheme(R.style.Forest)
+            }
+            2 -> {
+                setTheme(R.style.Eggplant)
+            }
+            3 -> {
+                setTheme(R.style.Pumpkin)
+            }
+            else -> {
+                setTheme(R.style.Vintage)
+            }
+        }
+    }
 }
 
 class EditCategories : AppCompatActivity() {
@@ -215,6 +236,7 @@ class EditCategories : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        this.setTheme()
         setContentView(R.layout.activity_edit_categories)
 
         categories = findViewById(R.id.categories)
@@ -295,6 +317,26 @@ class EditCategories : AppCompatActivity() {
     private fun isNumeric(toCheck: String): Boolean {
         val regex = "-?[0-9]+(\\.[0-9]+)?".toRegex()
         return toCheck.matches(regex)
+    }
+
+    private fun setTheme(){
+        when (db.getThemeID()) {
+            0 -> {
+                setTheme(R.style.Theme_BudgetApp)
+            }
+            1 -> {
+                setTheme(R.style.Forest)
+            }
+            2 -> {
+                setTheme(R.style.Eggplant)
+            }
+            3 -> {
+                setTheme(R.style.Pumpkin)
+            }
+            else -> {
+                setTheme(R.style.Vintage)
+            }
+        }
     }
 }
 
