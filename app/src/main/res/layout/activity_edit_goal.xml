@@ -80,7 +80,6 @@
                         android:textColor="@color/white"
                         android:textColorHint="@color/white"
                         tools:layout_editor_absoluteX="0dp" />
-                    />
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/edit"
                         android:layout_width="match_parent"
