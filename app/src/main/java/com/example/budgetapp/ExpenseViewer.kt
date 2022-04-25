@@ -35,6 +35,7 @@ class ExpenseViewer : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        this.setTheme()
         setContentView(R.layout.activity_expense_view)
         experienceBar = findViewById(R.id.experienceBar)
         earningBar = findViewById(R.id.earningBar)
@@ -102,7 +103,25 @@ class ExpenseViewer : AppCompatActivity() {
         }
 
     }
-
+    private fun setTheme(){
+        when (db.getThemeID()) {
+            0 -> {
+                setTheme(R.style.Theme_BudgetApp)
+            }
+            1 -> {
+                setTheme(R.style.Forest)
+            }
+            2 -> {
+                setTheme(R.style.Eggplant)
+            }
+            3 -> {
+                setTheme(R.style.Pumpkin)
+            }
+            else -> {
+                setTheme(R.style.Vintage)
+            }
+        }
+    }
 }
 
 /*

@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:gravity="fill_horizontal"
     android:weightSum="4"
-    android:background="@color/text_color">
+    android:background="?textColor">
 
     <LinearLayout
         android:layout_width="0dp"
@@ -99,7 +99,7 @@
                 android:layout_weight="1"
                 android:textSize="13dp"
                 android:padding="10dp"
-                android:backgroundTint="@color/button_color"
+                android:backgroundTint="?buttonColor"
                 android:textColor="@color/red"/>
             <ImageButton
                 android:id="@+id/recurring_action"
@@ -110,7 +110,7 @@
                 android:layout_weight="1"
                 android:textSize="13dp"
                 android:padding="10dp"
-                android:backgroundTint="@color/button_color"
+                android:backgroundTint="?buttonColor"
                 android:textColor="@color/red"/>
 
         </LinearLayout>

@@ -7,7 +7,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     tools:ignore="MissingDefaultResource"
-    android:background="@color/background_color"
+    android:background="?backgroundColor"
     tools:context=".AdjustExpense">
     <LinearLayout
         android:layout_margin="10dp"
@@ -150,7 +150,7 @@
         android:layout_marginTop="170dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="60dp"
-        android:background="@color/background_color"
+        android:background="?backgroundColor"
         android:orientation="vertical">
 
         <LinearLayout
@@ -163,7 +163,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:layout_marginRight="5dp"
-            android:backgroundTint="@color/button_color"
+            android:backgroundTint="?buttonColor"
             android:text="Add Entries" />
         </LinearLayout>
 
@@ -172,7 +172,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:background="@color/background_color"/>
+            android:background="?backgroundColor"/>
     </LinearLayout>
 
     <LinearLayout
@@ -183,7 +183,7 @@
         android:weightSum="5"
         android:layout_margin="0dp"
         android:gravity="bottom"
-        android:background="@color/button_color">
+        android:background="?buttonColor">
         <ImageButton
             android:id="@+id/add_entry_button"
             android:layout_width="0dp"
@@ -193,7 +193,7 @@
             android:textStyle="bold"
             android:gravity="center"
             android:textColor="@color/white"
-            android:backgroundTint="@color/button_color"/>
+            android:backgroundTint="?buttonColor"/>
 
         <ImageButton
             android:id="@+id/view_history_button"
@@ -204,7 +204,7 @@
             android:textStyle="bold"
             android:gravity="center"
             android:textColor="@color/white"
-            android:backgroundTint="@color/button_color" />
+            android:backgroundTint="?buttonColor" />
 
         <ImageButton
             android:id="@+id/adjust_expense_button"
@@ -215,7 +215,7 @@
             android:textStyle="bold"
             android:gravity="center"
             android:textColor="@color/white"
-            android:backgroundTint="@color/button_color" />
+            android:backgroundTint="?buttonColor" />
 
         <ImageButton
             android:id="@+id/upcoming_bill_button"
@@ -226,7 +226,7 @@
             android:textStyle="bold"
             android:gravity="center"
             android:textColor="@color/white"
-            android:backgroundTint="@color/button_color" />
+            android:backgroundTint="?buttonColor" />
         <ImageButton
             android:id="@+id/customize_button"
             android:src="@drawable/baseline_menu_white_18"
@@ -236,6 +236,6 @@
             android:textStyle="bold"
             android:gravity="center"
             android:textColor="@color/white"
-            android:backgroundTint="@color/button_color" />
+            android:backgroundTint="?buttonColor" />
     </LinearLayout>
 </RelativeLayout>

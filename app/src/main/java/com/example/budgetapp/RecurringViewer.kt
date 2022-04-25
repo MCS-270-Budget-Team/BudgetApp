@@ -8,6 +8,7 @@ import android.view.Gravity
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import org.w3c.dom.Text
 import java.text.ParseException
 import java.text.SimpleDateFormat
 
@@ -28,6 +29,7 @@ class RecurringViewer : AppCompatActivity() {
     private lateinit var spendingBar: ProgressBar
 
     private lateinit var avatar: ImageView
+    private lateinit var levelText: TextView
 
     //create database object
     private val context = this
@@ -36,6 +38,7 @@ class RecurringViewer : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        this.setTheme()
         setContentView(R.layout.recurring_view)
         recurringListview = findViewById(R.id.recurring_listview)
         addButton = findViewById(R.id.add_recurring_btn)
@@ -51,11 +54,13 @@ class RecurringViewer : AppCompatActivity() {
         spendingBar = findViewById(R.id.spendingBar)
 
         avatar = findViewById(R.id.avatar)
+        levelText = findViewById(R.id.level_text)
 
         val totalMoney = db.addPaycheckAmount() - db.addExpenseAmount()
 
         totalAmount.text = "Total Amount: $$totalMoney"
-
+        //get the level
+        levelText.text = "Level ${db.getLevel()}"
         //Access the expense and paycheck databases
         val entryDB = EntriesDB(applicationContext)
 
@@ -103,6 +108,26 @@ class RecurringViewer : AppCompatActivity() {
             startActivity(intent)
         }
 
+    }
+
+    private fun setTheme(){
+        when (db.getThemeID()) {
+            0 -> {
+                setTheme(R.style.Theme_BudgetApp)
+            }
+            1 -> {
+                setTheme(R.style.Forest)
+            }
+            2 -> {
+                setTheme(R.style.Eggplant)
+            }
+            3 -> {
+                setTheme(R.style.Pumpkin)
+            }
+            else -> {
+                setTheme(R.style.Vintage)
+            }
+        }
     }
 
     class AddRecurringBill : AppCompatActivity(), AdapterView.OnItemSelectedListener {

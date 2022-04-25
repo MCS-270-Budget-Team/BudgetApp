@@ -64,6 +64,7 @@ private const val PER_LEVEL_COL = "level"
 private const val PER_EXP_COL = "exp"
 private const val PER_AVA_COL = "avatar"
 private const val PER_EARN_COL = "earningGoal"
+private const val PER_THEME_ID = "themeID"
 
 private const val TABLE_NAME_AVATAR = "AvatarInfo"
 private const val AVATAR_COL = "avatarTitle"
@@ -115,10 +116,11 @@ class EntriesDB(context: Context) :
                 PER_LEVEL_COL + " INTEGER," +
                 PER_EXP_COL + " INTEGER," +
                 PER_AVA_COL + " TEXT," +
+                PER_THEME_ID + " INTEGER," +
                 PER_EARN_COL + " REAL" + ")")
 
-        val query6 = "INSERT INTO $TABLE_NAME_PER ($ID_COL, $PER_LEVEL_COL, $PER_EXP_COL, $PER_AVA_COL, $PER_EARN_COL)" +
-                    "VALUES (0,0,0,'baby_turtle',3000.0)"
+        val query6 = "INSERT INTO $TABLE_NAME_PER ($ID_COL, $PER_LEVEL_COL, $PER_EXP_COL, $PER_AVA_COL, $PER_THEME_ID, $PER_EARN_COL)" +
+                    "VALUES (0,0,0,'baby_turtle', 0, 3000.0)"
 
         val query7 = ("CREATE TABLE " + TABLE_NAME_AVATAR + " ("
                 + ID_COL + " INTEGER PRIMARY KEY, " +
@@ -683,6 +685,28 @@ class EntriesDB(context: Context) :
         val returnValue = !(currentLevel - 1 == this.getLevel())
         this.updateLevel(currentLevel - 1)
         return returnValue
+    }
+
+    @SuppressLint("Range")
+    fun getThemeID(): Int{
+        val db = this.readableDatabase
+        val query = "SELECT * FROM $TABLE_NAME_PER WHERE id = 0"
+        val result = db.rawQuery(query, null)
+        var themeID = 0
+        if (result.moveToFirst()){
+            do {
+                themeID = result.getInt(result.getColumnIndex(PER_THEME_ID))
+            }
+            while (result.moveToNext())
+        }
+        return themeID
+    }
+
+    fun updateThemeID(newThemeID: Int){
+        val db = this.writableDatabase
+        val query = "UPDATE $TABLE_NAME_PER SET $PER_THEME_ID = ${newThemeID} " +
+                "WHERE id = 0"
+        db.execSQL(query)
     }
 
     /************************************************************************************************

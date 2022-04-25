@@ -37,12 +37,12 @@ class MainActivity : AppCompatActivity() {
     private lateinit var avatar: ImageView
     //create database object
     private val context = this
-    private lateinit var db: EntriesDB
+    private var db: EntriesDB = EntriesDB(this)
 
     @SuppressLint("SetTextI18n", "SimpleDateFormat")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        db = EntriesDB(this)
+        this.setTheme()
         setContentView(R.layout.activity_main)
         addEntryButton = findViewById(R.id.add_entry_button)
         adjustExpenseButton = findViewById(R.id.adjust_expense_button)
@@ -138,6 +138,26 @@ class MainActivity : AppCompatActivity() {
                 bill.date = sdf.format(newDate.time)
                 db.updateRow_Recurring(bill.id, bill)
                 dueDate = newDate
+            }
+        }
+    }
+
+    private fun setTheme(){
+        when (db.getThemeID()) {
+            0 -> {
+                setTheme(R.style.Theme_BudgetApp)
+            }
+            1 -> {
+                setTheme(R.style.Forest)
+            }
+            2 -> {
+                setTheme(R.style.Eggplant)
+            }
+            3 -> {
+                setTheme(R.style.Pumpkin)
+            }
+            else -> {
+                setTheme(R.style.Vintage)
             }
         }
     }
