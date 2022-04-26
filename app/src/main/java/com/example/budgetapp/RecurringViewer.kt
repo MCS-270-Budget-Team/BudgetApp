@@ -65,7 +65,7 @@ class RecurringViewer : AppCompatActivity() {
         //Access the expense and paycheck databases
         val entryDB = EntriesDB(applicationContext)
 
-        recurringAdapter = RecurringAdapter(applicationContext, entryDB.getAll_Recurring())
+        recurringAdapter = RecurringAdapter(this, entryDB.getAll_Recurring())
         recurringListview.adapter = recurringAdapter
 
         //update the bars
