@@ -11,8 +11,8 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 
 class Avatar: AppCompatActivity(){
-    private lateinit var avatarList: GridView
-    private lateinit var themeList: GridView
+    private lateinit var avatarList: ExpandableHeightGridView
+    private lateinit var themeList: ExpandableHeightGridView
 
     private lateinit var homepageButton: ImageButton
     private lateinit var adjustExpenseButton: ImageButton
@@ -33,6 +33,8 @@ class Avatar: AppCompatActivity(){
 
         avatarList = findViewById(R.id.avatar_list)
         themeList = findViewById(R.id.theme_list)
+        avatarList.isExpanded = true
+        themeList.isExpanded = true
 
         homepageButton.setOnClickListener {
             val intent = Intent(this@Avatar, MainActivity::class.java) //

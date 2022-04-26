@@ -120,7 +120,7 @@ class EntriesDB(context: Context) :
                 PER_EARN_COL + " REAL" + ")")
 
         val query6 = "INSERT INTO $TABLE_NAME_PER ($ID_COL, $PER_LEVEL_COL, $PER_EXP_COL, $PER_AVA_COL, $PER_THEME_ID, $PER_EARN_COL)" +
-                    "VALUES (0,0,0,'baby_turtle', 0, 3000.0)"
+                    "VALUES (0,20,0,'baby_turtle', 0, 3000.0)"
 
         val query7 = ("CREATE TABLE " + TABLE_NAME_AVATAR + " ("
                 + ID_COL + " INTEGER PRIMARY KEY, " +
@@ -135,6 +135,8 @@ class EntriesDB(context: Context) :
                     "(2, 'happy_turtle', 6, 'false', 'false')," +
                     "(3, 'old_turtle', 9, 'false', 'false')"
 
+        //val query9 = "INSERT INTO $TABLE_NAME_DIS VALUES (0, 'Other', 100.0, 0.0)"
+
         // we are calling sqlite
         // method for executing our query
         db.execSQL(query)
@@ -145,6 +147,7 @@ class EntriesDB(context: Context) :
         db.execSQL(query6)
         db.execSQL(query7)
         db.execSQL(query8)
+        //db.execSQL(query9)
     }
 
     override fun onUpgrade(db: SQLiteDatabase, p1: Int, p2: Int) {
@@ -389,14 +392,23 @@ class EntriesDB(context: Context) :
     }
     @SuppressLint("Range")
     fun isValid(percentage: Double): Boolean {
-        val db = this.readableDatabase
-        val query = "SELECT $PERCENT_COL FROM $TABLE_NAME_DIS WHERE $CATEGORIES_COL = \"Others\""
+        val db = this.writableDatabase
+        if (this.getAll_Distribute().size == 0) {
+            val contentValues = ContentValues()
+            contentValues.put(CATEGORIES_COL, "Others")
+            contentValues.put(PERCENT_COL, 100.0)
+            contentValues.put(MAX_COL, 10000000000.0)
+
+            db.insert(TABLE_NAME_DIS, null, contentValues)
+        }
+        val query = "SELECT $PERCENT_COL FROM $TABLE_NAME_DIS WHERE $CATEGORIES_COL = \'Others\'"
         val result = db.rawQuery(query, null)
         var otherPercent = 0.0
         if (result.moveToFirst()){
             otherPercent = result.getDouble(result.getColumnIndex(PERCENT_COL))
         }
-        return (percentage > otherPercent)
+        val all = this.getAll_Distribute()
+        return !(percentage < otherPercent)
     }
 
     @SuppressLint("Range")

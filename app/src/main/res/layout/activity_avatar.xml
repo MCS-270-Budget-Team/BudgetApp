@@ -46,7 +46,11 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/title"
+            app:layout_constraintBottom_toTopOf="@id/menu"
+            android:layout_marginTop="80dp"
+            android:layout_marginBottom="80dp">
             <TextView
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/avatar_title"
@@ -58,7 +62,7 @@
                 android:layout_marginBottom="10dp"
                 android:textSize="25sp"
                 />
-            <GridView
+            <com.example.budgetapp.ExpandableHeightGridView
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/avatar_list"
                 android:layout_width="match_parent"
@@ -70,6 +74,7 @@
                 android:layout_marginTop="10dp"
                 android:numColumns="3"
                 app:layout_constraintTop_toBottomOf="@id/avatar_title"
+                android:isScrollContainer="false"
                 />
             <TextView
                 xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -83,19 +88,20 @@
                 android:textSize="25sp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/avatar_list"/>
-            <GridView
+
+            <com.example.budgetapp.ExpandableHeightGridView
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/theme_list"
                 android:layout_width="match_parent"
-                android:layout_weight="2"
                 android:layout_height="wrap_content"
-                android:background="?backgroundColor"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="2"
+                android:background="?backgroundColor"
                 android:numColumns="3"
                 app:layout_constraintTop_toBottomOf="@id/theme_title"
-                />
+                android:isScrollContainer="false"/>
         </LinearLayout>
     </ScrollView>
     <LinearLayout
