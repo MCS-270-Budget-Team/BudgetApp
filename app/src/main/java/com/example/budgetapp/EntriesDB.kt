@@ -114,7 +114,7 @@ class EntriesDB(context: Context) :
                 PER_EARN_COL + " REAL" + ")")
 
         val query6 = "INSERT INTO $TABLE_NAME_PER ($ID_COL, $PER_LEVEL_COL, $PER_EXP_COL, $PER_AVA_COL, $PER_THEME_ID, $PER_EARN_COL)" +
-                "VALUES (0,20,0,'egg', 0, 3000.0)"
+                "VALUES (0,0,0,'egg', 0, 3000.0)"
 
         val query7 = ("CREATE TABLE " + TABLE_NAME_AVATAR + " ("
                 + ID_COL + " INTEGER PRIMARY KEY, " +
