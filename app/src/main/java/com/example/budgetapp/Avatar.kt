@@ -129,6 +129,7 @@ class AvatarAdapter(var context: Context): BaseAdapter() {
         else if(avatarItem.isChoosen) {
             chooseButton.isEnabled = false
             chooseButton.text = "Chosen"
+            chooseButton.setTextColor(Color.WHITE)
         }
         else{
             chooseButton.setOnClickListener{
@@ -145,7 +146,7 @@ class AvatarAdapter(var context: Context): BaseAdapter() {
     }
 
     private fun updateAvatarList(): ArrayList<AvatarItem>{
-        val ids = listOf(0,1,2,3)
+        val ids = listOf(0,1,2,3, 4)
         db.update_isActivated()
         val avatarItemList = ids.map{AvatarItem(it, db.get_AvatarName(it), db.get_AvatarLevel(it), db.get_isChosen(it), db.get_isActivated(it))}
         return ArrayList(avatarItemList)
@@ -206,6 +207,7 @@ class ThemeAdapter(var context: Context): BaseAdapter() {
         else if(db.getThemeID() == theme.id) {
             chooseButton.isEnabled = false
             chooseButton.text = "Chosen"
+            chooseButton.setTextColor(Color.WHITE)
         }
         else{
             chooseButton.setOnClickListener{

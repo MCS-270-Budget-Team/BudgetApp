@@ -114,7 +114,7 @@ class EntriesDB(context: Context) :
                 PER_EARN_COL + " REAL" + ")")
 
         val query6 = "INSERT INTO $TABLE_NAME_PER ($ID_COL, $PER_LEVEL_COL, $PER_EXP_COL, $PER_AVA_COL, $PER_THEME_ID, $PER_EARN_COL)" +
-                "VALUES (0,20,0,'baby_turtle', 0, 3000.0)"
+                "VALUES (0,20,0,'egg', 0, 3000.0)"
 
         val query7 = ("CREATE TABLE " + TABLE_NAME_AVATAR + " ("
                 + ID_COL + " INTEGER PRIMARY KEY, " +
@@ -124,10 +124,11 @@ class EntriesDB(context: Context) :
                 IS_ACTIVATED + " TEXT" + ")")
 
         val query8 = "INSERT INTO $TABLE_NAME_AVATAR VALUES " +
-                "(0, 'baby_turtle', 0, 'false', 'false')," +
-                "(1, 'budget_turtle', 3, 'false', 'false')," +
-                "(2, 'happy_turtle', 6, 'false', 'false')," +
-                "(3, 'old_turtle', 9, 'false', 'false')"
+                "(0, 'egg', 0, 'false', 'false')," +
+                "(1, 'baby_turtle', 3, 'false', 'false')," +
+                "(2, 'budget_turtle', 6, 'false', 'false')," +
+                "(3, 'happy_turtle', 9, 'false', 'false')," +
+                "(4, 'old_turtle', 12, 'false', 'false')"
 
         //val query9 = "INSERT INTO $TABLE_NAME_DIS VALUES (0, 'Other', 100.0, 0.0)"
 
@@ -794,7 +795,7 @@ class EntriesDB(context: Context) :
 
     fun update_isActivated(){
         val db = this.writableDatabase
-        for (i in 0..3){
+        for (i in 0..4){
             if (this.get_AvatarLevel(i) <= this.getLevel() ){
                 val query = "UPDATE $TABLE_NAME_AVATAR SET $IS_ACTIVATED = \"true\" " +
                         "WHERE id = $i"

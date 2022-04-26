@@ -33,7 +33,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="MissingConstraints"></TextView>
+            tools:ignore="MissingConstraints"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ScrollView
@@ -41,6 +41,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_marginTop="10dp"
         app:layout_constrainedHeight="true"
         app:layout_constraintBottom_toTopOf="@+id/menu"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -61,7 +62,7 @@
                 android:textColor="@color/white"
                 android:textSize="25sp" />
 
-            <com.example.budgetapp.ExpandableHeightGridView xmlns:app="http://schemas.android.com/apk/res-auto"
+            <com.example.budgetapp.ExpandableHeightGridView
                 android:id="@+id/avatar_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -71,10 +72,12 @@
                 android:layout_weight="2"
                 android:background="?backgroundColor"
                 android:isScrollContainer="false"
+                android:verticalSpacing="5dp"
+                android:horizontalSpacing="5dp"
                 android:numColumns="3"
                 app:layout_constraintTop_toBottomOf="@id/avatar_title" />
 
-            <TextView xmlns:app="http://schemas.android.com/apk/res-auto"
+            <TextView
                 android:id="@+id/theme_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -93,6 +96,8 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="10dp"
+                android:verticalSpacing="5dp"
+                android:horizontalSpacing="5dp"
                 android:layout_weight="2"
                 android:background="?backgroundColor"
                 android:isScrollContainer="false"
