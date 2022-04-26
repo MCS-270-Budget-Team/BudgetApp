@@ -10,7 +10,10 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import android.widget.Toast.LENGTH_LONG
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.snackbar.BaseTransientBottomBar
+import com.google.android.material.snackbar.Snackbar
 import kotlin.math.pow
 import java.text.SimpleDateFormat
 import java.util.*
@@ -223,7 +226,6 @@ class GoalAdapter(var context: Context): BaseAdapter() {
         val progressBar: ProgressBar = view.findViewById(R.id.level_progress)
         val level: TextView = view.findViewById(R.id.level)
         val plusButton: ImageButton = view.findViewById(R.id.plus)
-
         val goal: Goal = arraylist[p0]
 
         title.text = goal.title
@@ -268,8 +270,13 @@ class GoalAdapter(var context: Context): BaseAdapter() {
             levelText.text = "Level ${db.getLevel()}"
             val experienceBar = (context as MainActivity).findViewById<ProgressBar>(R.id.experienceBar)
             experienceBar.progress = ((db.getExp() - db.get_level_exp(db.getLevel())).toDouble() / (db.get_levelup_exp()) * 100).toInt()
-        }
 
+            //show notification when leveled up
+            if((experienceBar.progress % 100).equals(0) || (experienceBar.progress % 100).equals(1) ){
+                val snackBarView = Snackbar.make(view, R.string.notification_achievement , Snackbar.LENGTH_LONG)
+                snackBarView.show()
+            }
+        }
         //updating the bubble and the level when the user press the plus icon
         return view
     }
@@ -298,7 +305,7 @@ class GoalAdapter(var context: Context): BaseAdapter() {
     private fun calculateLevel(plus: Int): Int{
         var currentLevel = 0
         val currentExp = plus * 20
-        while ((currentLevel / X).pow(Y) < currentExp){
+        while ((currentLevel / X).pow(Y) < currentExp) {
             currentLevel += 1
         }
         return currentLevel - 1
