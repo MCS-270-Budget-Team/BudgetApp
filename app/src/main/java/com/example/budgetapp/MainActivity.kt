@@ -227,6 +227,7 @@ class GoalAdapter(var context: Context): BaseAdapter() {
         val level: TextView = view.findViewById(R.id.level)
         val plusButton: ImageButton = view.findViewById(R.id.plus)
         val goal: Goal = arraylist[p0]
+        val currentLevel = db.getLevel()
 
         title.text = goal.title
         level.text = "Level ${goal.level}"
@@ -272,7 +273,10 @@ class GoalAdapter(var context: Context): BaseAdapter() {
             experienceBar.progress = ((db.getExp() - db.get_level_exp(db.getLevel())).toDouble() / (db.get_levelup_exp()) * 100).toInt()
 
             //show notification when leveled up
-            if((experienceBar.progress % 100).equals(0) || (experienceBar.progress % 100).equals(1) ){
+            // if currentLevel  = db.getLevel() changed then notification
+            // or private global var currentLevel
+
+            if(db.getLevel() != currentLevel){
                 val snackBarView = Snackbar.make(view, R.string.notification_achievement , Snackbar.LENGTH_LONG)
                 snackBarView.show()
             }
