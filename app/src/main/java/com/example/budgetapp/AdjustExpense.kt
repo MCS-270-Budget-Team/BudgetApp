@@ -283,7 +283,7 @@ class EditCategories : AppCompatActivity() {
                 toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
                 toast.show()
             }
-            else if (!db.isValid(percentage.text.toString().toDouble())){
+            else if (db.isValid(percentage.text.toString().toDouble())){
                 val toast = Toast.makeText(this, "The entered percentage is too high. Try again!", Toast.LENGTH_SHORT)
                 toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
                 toast.show()
