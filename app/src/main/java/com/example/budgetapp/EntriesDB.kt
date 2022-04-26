@@ -1,27 +1,21 @@
 /*
 Tutorial link: https://www.tutorialspoint.com/how-to-use-a-simple-sqlite-database-in-kotlin-android
-
 Creating the ExpenseDB object
     val context = this
     val db = ExpenseDB(context)
-
 To get the list of existing expense, use the function readData(), which takes nothing and
 return a list of Expense objects:
     val existing_expenses = db.readData()
-
 To insert a new expense input into the database, use the function insertData(), which takes
 an newly created Expense object and return the id of the new expenses:
     val expense = Expense() #insert your own value
     db.insertData(expense)
-
 To delete a specific entries in the database, we need to specify the id of the entries
 that we want to delete. The following code will delete the entries with id = 1
     dbHelper.deleteData(1)
-
 To delete all entries in the table (not recommended, only for debugging purposes), call the
 function below
     dbHelper.deleteAllData()
-
 To update an entries in the table, we need to specify the id of the entries and the new object
 we want to replace the old object with. The code below replace the entries with id = 1 with
 the new expense object
@@ -120,7 +114,7 @@ class EntriesDB(context: Context) :
                 PER_EARN_COL + " REAL" + ")")
 
         val query6 = "INSERT INTO $TABLE_NAME_PER ($ID_COL, $PER_LEVEL_COL, $PER_EXP_COL, $PER_AVA_COL, $PER_THEME_ID, $PER_EARN_COL)" +
-                    "VALUES (0,20,0,'baby_turtle', 0, 3000.0)"
+                "VALUES (0,20,0,'baby_turtle', 0, 3000.0)"
 
         val query7 = ("CREATE TABLE " + TABLE_NAME_AVATAR + " ("
                 + ID_COL + " INTEGER PRIMARY KEY, " +
@@ -130,10 +124,10 @@ class EntriesDB(context: Context) :
                 IS_ACTIVATED + " TEXT" + ")")
 
         val query8 = "INSERT INTO $TABLE_NAME_AVATAR VALUES " +
-                     "(0, 'baby_turtle', 0, 'false', 'false')," +
-                    "(1, 'budget_turtle', 3, 'false', 'false')," +
-                    "(2, 'happy_turtle', 6, 'false', 'false')," +
-                    "(3, 'old_turtle', 9, 'false', 'false')"
+                "(0, 'baby_turtle', 0, 'false', 'false')," +
+                "(1, 'budget_turtle', 3, 'false', 'false')," +
+                "(2, 'happy_turtle', 6, 'false', 'false')," +
+                "(3, 'old_turtle', 9, 'false', 'false')"
 
         //val query9 = "INSERT INTO $TABLE_NAME_DIS VALUES (0, 'Other', 100.0, 0.0)"
 
@@ -217,7 +211,7 @@ class EntriesDB(context: Context) :
     fun deleteData(id:Int){
         val db = this.writableDatabase
         val query = "DELETE FROM $TABLE_NAME " +
-                    "WHERE id = $id"
+                "WHERE id = $id"
         db.execSQL(query)
     }
 
@@ -308,7 +302,7 @@ class EntriesDB(context: Context) :
     fun delete_Distribute(id:Int){
         val db = this.writableDatabase
         val query = "DELETE FROM $TABLE_NAME_DIS " +
-                    "WHERE id = $id"
+                "WHERE id = $id"
         db.execSQL(query)
         updatePercent()
     }
@@ -338,7 +332,7 @@ class EntriesDB(context: Context) :
                 expense.percentage = result.getString(result.getColumnIndex(PERCENT_COL)).toDouble()
                 expense.max = result.getString(result.getColumnIndex(MAX_COL)).toDouble()
             }
-                while (result.moveToNext())
+            while (result.moveToNext())
         }
         return expense
     }
