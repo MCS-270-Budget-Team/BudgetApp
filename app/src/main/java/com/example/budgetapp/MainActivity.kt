@@ -118,6 +118,11 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        //Make sure that all the bills are up-to-date whenever the app is opened.
+        updateRecurringBills()
+    }
+
+    private fun updateRecurringBills() {
         val today = Calendar.getInstance()
         //Check to see if any of the recurring bills have passed their deadlines
         val recurringBills = db.getAll_Recurring()

@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import org.w3c.dom.Text
 import java.text.ParseException
 import java.text.SimpleDateFormat
+import java.util.*
 
 
 class RecurringViewer : AppCompatActivity() {
@@ -232,6 +233,7 @@ class RecurringViewer : AppCompatActivity() {
                         selectedFrequency,
                     )
                     db.insert_Recurring(newEntry)
+                    updateRecurringBills()
                     val intent = Intent(this, RecurringViewer::class.java)
                     startActivity(intent)
                 }
@@ -243,6 +245,63 @@ class RecurringViewer : AppCompatActivity() {
                 startActivity(intent)
             }
 
+        }
+
+        private fun updateRecurringBills() {
+            val today = Calendar.getInstance()
+            //Check to see if any of the recurring bills have passed their deadlines
+            val recurringBills = db.getAll_Recurring()
+
+            for(bill in recurringBills) {
+                var dueDate = getDate(bill)
+
+                while(today.after(dueDate)) {
+                    val entry = Entry(
+                        id = null,
+                        title = bill.title,
+                        date = bill.date,
+                        amount = bill.amount,
+                        categories = bill.categories
+                    )
+
+                    db.insertData(entry)
+                    val newDate = getNewDate(dueDate, bill.frequency)
+                    val sdf = SimpleDateFormat("MM/dd/yyyy")
+                    bill.last_paid = bill.date
+                    bill.date = sdf.format(newDate.time)
+                    db.updateRow_Recurring(bill.id, bill)
+                    dueDate = newDate
+                }
+            }
+        }
+
+        private fun getDate(expense: RecurringExpense): Calendar {
+            val dueDate = Calendar.getInstance()
+            val dateString = expense.date
+            val tokens = dateString.split("/")
+
+            if(tokens.size < 3) return dueDate
+            dueDate.set(tokens[2].toInt(), tokens[0].toInt()-1, tokens[1].toInt())
+            //Minus 1s offset from 1-12 to 0-11 for the month
+
+            return dueDate
+        }
+
+        private fun getNewDate(oldDate: Calendar, frequency: String): Calendar {
+
+            when (frequency) {
+                "Weekly" -> {
+                    oldDate.add(Calendar.DATE, 7)
+                }
+                "Monthly" -> {
+                    oldDate.add(Calendar.MONTH, 1)
+                }
+                "Annually" -> {
+                    oldDate.add(Calendar.YEAR, 1)
+                }
+            }
+
+            return oldDate
         }
 
         /* Function to check whether a string is numeric*/
