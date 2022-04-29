@@ -3,18 +3,18 @@ package com.example.budgetapp
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import org.w3c.dom.Text
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
-class RecurringAdapter(var context: Context, var arraylist: MutableList<RecurringExpense>): BaseAdapter() {
+class RecurringAdapter(var context: Context, private var arraylist: MutableList<RecurringExpense>): BaseAdapter() {
     private val entryDB = EntriesDB(context)
     override fun getCount(): Int {
         return arraylist.size
@@ -33,7 +33,6 @@ class RecurringAdapter(var context: Context, var arraylist: MutableList<Recurrin
         val view: View = View.inflate(context, R.layout.recurring_expense_item, null)
         val name: TextView = view.findViewById(R.id.recurring_name)
         val amount: TextView = view.findViewById(R.id.recurring_amount)
-        val category: TextView = view.findViewById(R.id.recurring_category)
         val deleteButton: ImageButton = view.findViewById(R.id.recurring_action)
         val editButton: ImageButton = view.findViewById(R.id.recurring_edit)
         val nextDateToPayOn: TextView = view.findViewById(R.id.recurring_date)
@@ -41,10 +40,16 @@ class RecurringAdapter(var context: Context, var arraylist: MutableList<Recurrin
         val expense: RecurringExpense = arraylist[p0]
 
         name.text = expense.title
-        //val amountString = expense.amount.toString()
-        amount.text = String.format("${"$"}%.2f", expense.amount)
+        //amount.text = String.format("${"$"}%.2f", expense.amount)
+        val amountString = expense.amount.toInt().toString()
+        amount.text = "$$amountString"
+        if (expense.categories == "paycheck"){
+            amount.setTextColor(Color.parseColor("#4CAF50"))
+        }
+        else{
+            amount.setTextColor(Color.parseColor("#ED0606"))
+        }
         nextDateToPayOn.text = expense.date
-        category.text = expense.categories
 
         deleteButton.setOnClickListener {
             // start new activity
@@ -71,7 +76,7 @@ class RecurringAdapter(var context: Context, var arraylist: MutableList<Recurrin
 
     private fun remove(id: Int, position: Int) {
         entryDB.deleteRow_Recurring(id)
-        arraylist.remove(arraylist.get(position))
+        arraylist.remove(arraylist[position])
     }
 
 }
@@ -204,6 +209,7 @@ class EditRecurringBill : AppCompatActivity(), AdapterView.OnItemSelectedListene
 
     }
 
+    @SuppressLint("SimpleDateFormat")
     private fun updateRecurringBills() {
         val today = Calendar.getInstance()
         //Check to see if any of the recurring bills have passed their deadlines

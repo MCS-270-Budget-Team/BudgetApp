@@ -66,8 +66,19 @@ class ExpenseViewer : AppCompatActivity() {
         earningBar.progress = (totalMoney / db.getEarning() * 100).toInt()
 
         //set up the avatar
-        val drawableId = this.resources.getIdentifier(db.getAvatar(), "drawable", context.packageName)
-        avatar.setImageResource(drawableId)
+        //set up the avatar
+        if (totalMoney >= 0) {
+            //if the amount of saving is positive, display the users' chosen avatar
+            val drawableId =
+                this.resources.getIdentifier(db.getAvatar(), "drawable", context.packageName)
+            avatar.setImageResource(drawableId)
+        }
+        else{
+            //else, display the tomb
+            val drawableId =
+                this.resources.getIdentifier("tomb", "drawable", context.packageName)
+            avatar.setImageResource(drawableId)
+        }
 
         //Access the expense and paycheck databases
         val entryDB = EntriesDB(applicationContext)
@@ -145,6 +156,7 @@ class AddEntries: AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        this.setTheme()
         setContentView(R.layout.activity_add_entries)
 
         categories = findViewById(R.id.categories)
@@ -235,6 +247,26 @@ class AddEntries: AppCompatActivity(), AdapterView.OnItemSelectedListener {
         }
         return true
     }
+
+    private fun setTheme(){
+        when (db.getThemeID()) {
+            0 -> {
+                setTheme(R.style.Theme_BudgetApp)
+            }
+            1 -> {
+                setTheme(R.style.Forest)
+            }
+            2 -> {
+                setTheme(R.style.Eggplant)
+            }
+            3 -> {
+                setTheme(R.style.Pumpkin)
+            }
+            else -> {
+                setTheme(R.style.Vintage)
+            }
+        }
+    }
 }
 
 /* A PopUp window that allow the user to edit their paycheck/expense inputs.
@@ -256,6 +288,7 @@ class EditEntries: AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        this.setTheme()
         setContentView(R.layout.activity_edit_entries)
 
         categories = findViewById(R.id.categories)
@@ -358,6 +391,26 @@ class EditEntries: AppCompatActivity(), AdapterView.OnItemSelectedListener {
             return false
         }
         return true
+    }
+
+    private fun setTheme(){
+        when (db.getThemeID()) {
+            0 -> {
+                setTheme(R.style.Theme_BudgetApp)
+            }
+            1 -> {
+                setTheme(R.style.Forest)
+            }
+            2 -> {
+                setTheme(R.style.Eggplant)
+            }
+            3 -> {
+                setTheme(R.style.Pumpkin)
+            }
+            else -> {
+                setTheme(R.style.Vintage)
+            }
+        }
     }
 
 }

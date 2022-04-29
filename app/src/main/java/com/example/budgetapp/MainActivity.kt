@@ -10,7 +10,10 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import android.widget.Toast.LENGTH_LONG
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.snackbar.BaseTransientBottomBar
+import com.google.android.material.snackbar.Snackbar
 import kotlin.math.pow
 import java.text.SimpleDateFormat
 import java.util.*
@@ -73,8 +76,18 @@ class MainActivity : AppCompatActivity() {
         earningBar.progress = (totalMoney / db.getEarning() * 100).toInt()
 
         //set up the avatar
-        val drawableId = this.resources.getIdentifier(db.getAvatar(), "drawable", context.packageName)
-        avatar.setImageResource(drawableId)
+        if (totalMoney >= 0) {
+            //if the amount of saving is positive, display the users' chosen avatar
+            val drawableId =
+                this.resources.getIdentifier(db.getAvatar(), "drawable", context.packageName)
+            avatar.setImageResource(drawableId)
+        }
+        else{
+            //else, display the tomb
+            val drawableId =
+                this.resources.getIdentifier("tomb", "drawable", context.packageName)
+            avatar.setImageResource(drawableId)
+        }
 
         addGoalButton.setOnClickListener {
             val intent = Intent(this@MainActivity, AddGoals::class.java)
@@ -228,8 +241,8 @@ class GoalAdapter(var context: Context): BaseAdapter() {
         val progressBar: ProgressBar = view.findViewById(R.id.level_progress)
         val level: TextView = view.findViewById(R.id.level)
         val plusButton: ImageButton = view.findViewById(R.id.plus)
-
         val goal: Goal = arraylist[p0]
+        val currentLevel = db.getLevel()
 
         title.text = goal.title
         level.text = "Level ${goal.level}"
@@ -273,8 +286,16 @@ class GoalAdapter(var context: Context): BaseAdapter() {
             levelText.text = "Level ${db.getLevel()}"
             val experienceBar = (context as MainActivity).findViewById<ProgressBar>(R.id.experienceBar)
             experienceBar.progress = ((db.getExp() - db.get_level_exp(db.getLevel())).toDouble() / (db.get_levelup_exp()) * 100).toInt()
-        }
 
+            //show notification when leveled up
+            // if currentLevel  = db.getLevel() changed then notification
+            // or private global var currentLevel
+
+            if(db.getLevel() != currentLevel){
+                val snackBarView = Snackbar.make(view, R.string.notification_achievement , Snackbar.LENGTH_LONG)
+                snackBarView.show()
+            }
+        }
         //updating the bubble and the level when the user press the plus icon
         return view
     }
@@ -303,7 +324,7 @@ class GoalAdapter(var context: Context): BaseAdapter() {
     private fun calculateLevel(plus: Int): Int{
         var currentLevel = 0
         val currentExp = plus * 20
-        while ((currentLevel / X).pow(Y) < currentExp){
+        while ((currentLevel / X).pow(Y) < currentExp) {
             currentLevel += 1
         }
         return currentLevel - 1
@@ -326,6 +347,7 @@ class AddGoals: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        this.setTheme()
         setContentView(R.layout.activity_add_goal)
 
         title = findViewById(R.id.title)
@@ -365,6 +387,25 @@ class AddGoals: AppCompatActivity() {
         }
 
     }
+    private fun setTheme(){
+        when (db.getThemeID()) {
+            0 -> {
+                setTheme(R.style.Theme_BudgetApp)
+            }
+            1 -> {
+                setTheme(R.style.Forest)
+            }
+            2 -> {
+                setTheme(R.style.Eggplant)
+            }
+            3 -> {
+                setTheme(R.style.Pumpkin)
+            }
+            else -> {
+                setTheme(R.style.Vintage)
+            }
+        }
+    }
 }
 
 class EditGoals: AppCompatActivity() {
@@ -379,6 +420,7 @@ class EditGoals: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        this.setTheme()
         setContentView(R.layout.activity_edit_goal)
 
         title = findViewById(R.id.title)
@@ -435,6 +477,25 @@ class EditGoals: AppCompatActivity() {
         }
 
     }
+    private fun setTheme(){
+        when (db.getThemeID()) {
+            0 -> {
+                setTheme(R.style.Theme_BudgetApp)
+            }
+            1 -> {
+                setTheme(R.style.Forest)
+            }
+            2 -> {
+                setTheme(R.style.Eggplant)
+            }
+            3 -> {
+                setTheme(R.style.Pumpkin)
+            }
+            else -> {
+                setTheme(R.style.Vintage)
+            }
+        }
+    }
 }
 
 class EditEarning: AppCompatActivity() {
@@ -448,6 +509,7 @@ class EditEarning: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        this.setTheme()
         setContentView(R.layout.activity_edit_earning_goal)
 
         editButton = findViewById(R.id.edit)
@@ -491,5 +553,24 @@ class EditEarning: AppCompatActivity() {
     private fun isNumeric(toCheck: String): Boolean {
         val regex = "-?[0-9]+(\\.[0-9]+)?".toRegex()
         return toCheck.matches(regex)
+    }
+    private fun setTheme(){
+        when (db.getThemeID()) {
+            0 -> {
+                setTheme(R.style.Theme_BudgetApp)
+            }
+            1 -> {
+                setTheme(R.style.Forest)
+            }
+            2 -> {
+                setTheme(R.style.Eggplant)
+            }
+            3 -> {
+                setTheme(R.style.Pumpkin)
+            }
+            else -> {
+                setTheme(R.style.Vintage)
+            }
+        }
     }
 }

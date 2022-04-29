@@ -63,11 +63,22 @@ class AdjustExpense: AppCompatActivity() {
         earningBar.progress = (totalMoney / db.getEarning() * 100).toInt()
 
         //set up the avatar
-        val drawableId = this.resources.getIdentifier(db.getAvatar(), "drawable", context.packageName)
-        avatar.setImageResource(drawableId)
+        //set up the avatar
+        if (totalMoney >= 0) {
+            //if the amount of saving is positive, display the users' chosen avatar
+            val drawableId =
+                this.resources.getIdentifier(db.getAvatar(), "drawable", context.packageName)
+            avatar.setImageResource(drawableId)
+        }
+        else{
+            //else, display the tomb
+            val drawableId =
+                this.resources.getIdentifier("tomb", "drawable", context.packageName)
+            avatar.setImageResource(drawableId)
+        }
 
         // create an adapter to inflate list view, pass the expense bank to the adapter
-        expenseAdapter = ExpenseAdapter(applicationContext, expenseBank)
+        expenseAdapter = ExpenseAdapter(this, expenseBank)
         expenseList.adapter = expenseAdapter
 
         addButton.setOnClickListener {
@@ -132,6 +143,7 @@ class AddCategories : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        this.setTheme()
         setContentView(R.layout.activity_add_categories)
 
         categories = findViewById(R.id.categories)
@@ -166,7 +178,7 @@ class AddCategories : AppCompatActivity() {
                 toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
                 toast.show()
             }
-            else if (!db.isValid(percentage.text.toString().toDouble())){
+            else if (db.isValid(percentage.text.toString().toDouble())){
                 val toast = Toast.makeText(this, "The entered percentage is too high. Try again!", Toast.LENGTH_SHORT)
                 toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
                 toast.show()
@@ -201,6 +213,26 @@ class AddCategories : AppCompatActivity() {
         val regex = "-?[0-9]+(\\.[0-9]+)?".toRegex()
         return toCheck.matches(regex)
     }
+
+    private fun setTheme(){
+        when (db.getThemeID()) {
+            0 -> {
+                setTheme(R.style.Theme_BudgetApp)
+            }
+            1 -> {
+                setTheme(R.style.Forest)
+            }
+            2 -> {
+                setTheme(R.style.Eggplant)
+            }
+            3 -> {
+                setTheme(R.style.Pumpkin)
+            }
+            else -> {
+                setTheme(R.style.Vintage)
+            }
+        }
+    }
 }
 
 class EditCategories : AppCompatActivity() {
@@ -215,6 +247,7 @@ class EditCategories : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        this.setTheme()
         setContentView(R.layout.activity_edit_categories)
 
         categories = findViewById(R.id.categories)
@@ -261,7 +294,7 @@ class EditCategories : AppCompatActivity() {
                 toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
                 toast.show()
             }
-            else if (!db.isValid(percentage.text.toString().toDouble())){
+            else if (db.isValid(percentage.text.toString().toDouble())){
                 val toast = Toast.makeText(this, "The entered percentage is too high. Try again!", Toast.LENGTH_SHORT)
                 toast.setGravity(Gravity.TOP or Gravity.CENTER, 0, 200)
                 toast.show()
@@ -295,6 +328,26 @@ class EditCategories : AppCompatActivity() {
     private fun isNumeric(toCheck: String): Boolean {
         val regex = "-?[0-9]+(\\.[0-9]+)?".toRegex()
         return toCheck.matches(regex)
+    }
+
+    private fun setTheme(){
+        when (db.getThemeID()) {
+            0 -> {
+                setTheme(R.style.Theme_BudgetApp)
+            }
+            1 -> {
+                setTheme(R.style.Forest)
+            }
+            2 -> {
+                setTheme(R.style.Eggplant)
+            }
+            3 -> {
+                setTheme(R.style.Pumpkin)
+            }
+            else -> {
+                setTheme(R.style.Vintage)
+            }
+        }
     }
 }
 

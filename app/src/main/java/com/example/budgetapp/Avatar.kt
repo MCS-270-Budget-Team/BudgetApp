@@ -11,8 +11,8 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 
 class Avatar: AppCompatActivity(){
-    private lateinit var avatarList: GridView
-    private lateinit var themeList: GridView
+    private lateinit var avatarList: ExpandableHeightGridView
+    private lateinit var themeList: ExpandableHeightGridView
 
     private lateinit var homepageButton: ImageButton
     private lateinit var adjustExpenseButton: ImageButton
@@ -33,6 +33,8 @@ class Avatar: AppCompatActivity(){
 
         avatarList = findViewById(R.id.avatar_list)
         themeList = findViewById(R.id.theme_list)
+        avatarList.isExpanded = true
+        themeList.isExpanded = true
 
         homepageButton.setOnClickListener {
             val intent = Intent(this@Avatar, MainActivity::class.java) //
@@ -86,7 +88,7 @@ class Avatar: AppCompatActivity(){
     }
 }
 
-data class AvatarItem(val id: Int?, val src: String, val level: Int, var isChoosen: Boolean, var isActivated: Boolean)
+data class AvatarItem(val id: Int?, val src: String, val level: Int, var isChosen: Boolean, var isActivated: Boolean)
 
 class AvatarAdapter(var context: Context): BaseAdapter() {
     private var db: EntriesDB = EntriesDB(context)
@@ -124,9 +126,10 @@ class AvatarAdapter(var context: Context): BaseAdapter() {
             chooseButton.setTextColor(Color.DKGRAY)
         }
 
-        else if(avatarItem.isChoosen) {
+        else if(avatarItem.isChosen) {
             chooseButton.isEnabled = false
             chooseButton.text = "Chosen"
+            chooseButton.setTextColor(Color.WHITE)
         }
         else{
             chooseButton.setOnClickListener{
@@ -143,7 +146,7 @@ class AvatarAdapter(var context: Context): BaseAdapter() {
     }
 
     private fun updateAvatarList(): ArrayList<AvatarItem>{
-        val ids = listOf(0,1,2,3)
+        val ids = listOf(0,1,2,3, 4)
         db.update_isActivated()
         val avatarItemList = ids.map{AvatarItem(it, db.get_AvatarName(it), db.get_AvatarLevel(it), db.get_isChosen(it), db.get_isActivated(it))}
         return ArrayList(avatarItemList)
@@ -195,25 +198,27 @@ class ThemeAdapter(var context: Context): BaseAdapter() {
 
         levelText.text = "Unlock at Level ${theme.level}"
 
-        if(db.getLevel() < theme.level){
-            chooseButton.isEnabled = false
-            chooseButton.text = "Locked"
-            chooseButton.setTextColor(Color.DKGRAY)
-        }
-
-        else if(db.getThemeID() == theme.id) {
-            chooseButton.isEnabled = false
-            chooseButton.text = "Chosen"
-        }
-        else{
-            chooseButton.setOnClickListener{
-                //change the entry in PersonalInfo table in the database
-                db.updateThemeID(theme.id)
-                val intent = Intent(context, Avatar::class.java) //
-                intent.flags = Intent.FLAG_ACTIVITY_NO_ANIMATION
-                context.startActivity(intent)
+        when {
+            db.getLevel() < theme.level -> {
+                chooseButton.isEnabled = false
+                chooseButton.text = "Locked"
+                chooseButton.setTextColor(Color.DKGRAY)
             }
-            this.notifyDataSetChanged()
+            db.getThemeID() == theme.id -> {
+                chooseButton.isEnabled = false
+                chooseButton.text = "Chosen"
+                chooseButton.setTextColor(Color.WHITE)
+            }
+            else -> {
+                chooseButton.setOnClickListener{
+                    //change the entry in PersonalInfo table in the database
+                    db.updateThemeID(theme.id)
+                    val intent = Intent(context, Avatar::class.java) //
+                    intent.flags = Intent.FLAG_ACTIVITY_NO_ANIMATION
+                    context.startActivity(intent)
+                }
+                this.notifyDataSetChanged()
+            }
         }
 
         return view

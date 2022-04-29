@@ -1,27 +1,21 @@
 /*
 Tutorial link: https://www.tutorialspoint.com/how-to-use-a-simple-sqlite-database-in-kotlin-android
-
 Creating the ExpenseDB object
     val context = this
     val db = ExpenseDB(context)
-
 To get the list of existing expense, use the function readData(), which takes nothing and
 return a list of Expense objects:
     val existing_expenses = db.readData()
-
 To insert a new expense input into the database, use the function insertData(), which takes
 an newly created Expense object and return the id of the new expenses:
     val expense = Expense() #insert your own value
     db.insertData(expense)
-
 To delete a specific entries in the database, we need to specify the id of the entries
 that we want to delete. The following code will delete the entries with id = 1
     dbHelper.deleteData(1)
-
 To delete all entries in the table (not recommended, only for debugging purposes), call the
 function below
     dbHelper.deleteAllData()
-
 To update an entries in the table, we need to specify the id of the entries and the new object
 we want to replace the old object with. The code below replace the entries with id = 1 with
 the new expense object
@@ -120,7 +114,7 @@ class EntriesDB(context: Context) :
                 PER_EARN_COL + " REAL" + ")")
 
         val query6 = "INSERT INTO $TABLE_NAME_PER ($ID_COL, $PER_LEVEL_COL, $PER_EXP_COL, $PER_AVA_COL, $PER_THEME_ID, $PER_EARN_COL)" +
-                    "VALUES (0,0,0,'baby_turtle', 0, 3000.0)"
+                "VALUES (0,0,0,'egg', 0, 3000.0)"
 
         val query7 = ("CREATE TABLE " + TABLE_NAME_AVATAR + " ("
                 + ID_COL + " INTEGER PRIMARY KEY, " +
@@ -130,10 +124,13 @@ class EntriesDB(context: Context) :
                 IS_ACTIVATED + " TEXT" + ")")
 
         val query8 = "INSERT INTO $TABLE_NAME_AVATAR VALUES " +
-                     "(0, 'baby_turtle', 0, 'false', 'false')," +
-                    "(1, 'budget_turtle', 3, 'false', 'false')," +
-                    "(2, 'happy_turtle', 6, 'false', 'false')," +
-                    "(3, 'old_turtle', 9, 'false', 'false')"
+                "(0, 'egg', 0, 'false', 'false')," +
+                "(1, 'baby_turtle', 3, 'false', 'false')," +
+                "(2, 'budget_turtle', 6, 'false', 'false')," +
+                "(3, 'happy_turtle', 9, 'false', 'false')," +
+                "(4, 'old_turtle', 12, 'false', 'false')"
+
+        //val query9 = "INSERT INTO $TABLE_NAME_DIS VALUES (0, 'Other', 100.0, 0.0)"
 
         // we are calling sqlite
         // method for executing our query
@@ -145,6 +142,7 @@ class EntriesDB(context: Context) :
         db.execSQL(query6)
         db.execSQL(query7)
         db.execSQL(query8)
+        //db.execSQL(query9)
     }
 
     override fun onUpgrade(db: SQLiteDatabase, p1: Int, p2: Int) {
@@ -160,7 +158,7 @@ class EntriesDB(context: Context) :
     /************************************************************************************************
      ***********************Functions For Entries Table**********************************************
      ************************************************************************************************/
-    fun insertData(entry: Entry): Long? {
+    fun insertData(entry: Entry): Long {
         val database = this.writableDatabase
         val contentValues = ContentValues()
 
@@ -172,7 +170,7 @@ class EntriesDB(context: Context) :
 
     }
 
-    @SuppressLint("Range")
+    @SuppressLint("Range", "Recycle")
     fun readData(): MutableList<Entry> {
         val list: MutableList<Entry> = ArrayList()
         val db = this.readableDatabase
@@ -193,17 +191,12 @@ class EntriesDB(context: Context) :
         return list
     }
 
-    fun getLength(): Int{
-        val all_entries = this.readData()
-        return all_entries.size
-    }
-
     fun updateData(id: Int?, new_expense: Entry){
         if (id != null) {
             val db = this.writableDatabase
             val query = "UPDATE $TABLE_NAME SET $TITLE_COL = \'${new_expense.title}\', " +
                     "$DATE_COL = \'${new_expense.date}\', " +
-                    "${AMOUNT_COL} = ${new_expense.amount}, " +
+                    "$AMOUNT_COL = ${new_expense.amount}, " +
                     "${CATEGORIES_COL} = \'${new_expense.categories}\' " +
                     "WHERE id = $id"
 
@@ -214,17 +207,17 @@ class EntriesDB(context: Context) :
     fun deleteData(id:Int){
         val db = this.writableDatabase
         val query = "DELETE FROM $TABLE_NAME " +
-                    "WHERE id = $id"
+                "WHERE id = $id"
         db.execSQL(query)
     }
 
-    fun deleteAllData(){
-        val db = this.writableDatabase
-        val query = "DELETE FROM $TABLE_NAME"
-        db.execSQL(query)
-    }
+//    fun deleteAllData(){
+//        val db = this.writableDatabase
+//        val query = "DELETE FROM $TABLE_NAME"
+//        db.execSQL(query)
+//    }
 
-    @SuppressLint("Range")
+    @SuppressLint("Range", "Recycle")
     fun addPaycheckAmount(): Double {
         val db = this.readableDatabase
         val query = "SELECT SUM($AMOUNT_COL) AS Total FROM $TABLE_NAME WHERE $CATEGORIES_COL = \"paycheck\""
@@ -236,7 +229,7 @@ class EntriesDB(context: Context) :
         return 0.0
     }
 
-    @SuppressLint("Range")
+    @SuppressLint("Range", "Recycle")
     fun addExpenseAmount(): Double {
         val db = this.readableDatabase
         val query = "SELECT SUM($AMOUNT_COL) AS Total FROM $TABLE_NAME WHERE $CATEGORIES_COL != \"paycheck\""
@@ -305,7 +298,7 @@ class EntriesDB(context: Context) :
     fun delete_Distribute(id:Int){
         val db = this.writableDatabase
         val query = "DELETE FROM $TABLE_NAME_DIS " +
-                    "WHERE id = $id"
+                "WHERE id = $id"
         db.execSQL(query)
         updatePercent()
     }
@@ -322,23 +315,23 @@ class EntriesDB(context: Context) :
         updatePercent()
     }
 
-    @SuppressLint("Range")
-    fun getRow_Distribute(id: Int): Expense {
-        val expense = Expense()
-        val db = this.readableDatabase
-        val query = "SELECT * FROM $TABLE_NAME_DIS WHERE id = $id"
-        val result = db.rawQuery(query, null)
-        if (result.moveToFirst()){
-            do {
-                expense.id = result.getString(result.getColumnIndex(ID_COL)).toInt()
-                expense.categories = result.getString(result.getColumnIndex(CATEGORIES_COL))
-                expense.percentage = result.getString(result.getColumnIndex(PERCENT_COL)).toDouble()
-                expense.max = result.getString(result.getColumnIndex(MAX_COL)).toDouble()
-            }
-                while (result.moveToNext())
-        }
-        return expense
-    }
+//    @SuppressLint("Range")
+//    fun getRow_Distribute(id: Int): Expense {
+//        val expense = Expense()
+//        val db = this.readableDatabase
+//        val query = "SELECT * FROM $TABLE_NAME_DIS WHERE id = $id"
+//        val result = db.rawQuery(query, null)
+//        if (result.moveToFirst()){
+//            do {
+//                expense.id = result.getString(result.getColumnIndex(ID_COL)).toInt()
+//                expense.categories = result.getString(result.getColumnIndex(CATEGORIES_COL))
+//                expense.percentage = result.getString(result.getColumnIndex(PERCENT_COL)).toDouble()
+//                expense.max = result.getString(result.getColumnIndex(MAX_COL)).toDouble()
+//            }
+//            while (result.moveToNext())
+//        }
+//        return expense
+//    }
 
     @SuppressLint("Range")
     fun getAll_Distribute(): MutableList<Expense> {
@@ -377,26 +370,34 @@ class EntriesDB(context: Context) :
     }
 
     /* only for testing, not recommend using!!! */
-    private fun deleteAll_Distribute(){
-        val db = this.writableDatabase
-        val query = "DELETE FROM $TABLE_NAME_DIS"
-        db.execSQL(query)
-    }
+//    private fun deleteAll_Distribute(){
+//        val db = this.writableDatabase
+//        val query = "DELETE FROM $TABLE_NAME_DIS"
+//        db.execSQL(query)
+//    }
 
     fun isUnique(category: String): Boolean{
         val categories = this.getCategories_Distribute().map{ it.lowercase() }
         return (categories.contains(category))
     }
-    @SuppressLint("Range")
+    @SuppressLint("Range", "Recycle")
     fun isValid(percentage: Double): Boolean {
-        val db = this.readableDatabase
-        val query = "SELECT $PERCENT_COL FROM $TABLE_NAME_DIS WHERE $CATEGORIES_COL = \"Others\""
+        val db = this.writableDatabase
+        if (this.getAll_Distribute().size == 0) {
+            val contentValues = ContentValues()
+            contentValues.put(CATEGORIES_COL, "Others")
+            contentValues.put(PERCENT_COL, 100.0)
+            contentValues.put(MAX_COL, 10000000000.0)
+
+            db.insert(TABLE_NAME_DIS, null, contentValues)
+        }
+        val query = "SELECT $PERCENT_COL FROM $TABLE_NAME_DIS WHERE $CATEGORIES_COL = \'Others\'"
         val result = db.rawQuery(query, null)
         var otherPercent = 0.0
         if (result.moveToFirst()){
             otherPercent = result.getDouble(result.getColumnIndex(PERCENT_COL))
         }
-        return (percentage > otherPercent)
+        return percentage >= otherPercent
     }
 
     @SuppressLint("Range")
@@ -455,11 +456,11 @@ class EntriesDB(context: Context) :
         db.execSQL(query)
     }
 
-    fun deleteAll_Recurring(){
-        val db = this.writableDatabase
-        val query = "DELETE FROM $TABLE_NAME_REC"
-        db.execSQL(query)
-    }
+//    fun deleteAll_Recurring(){
+//        val db = this.writableDatabase
+//        val query = "DELETE FROM $TABLE_NAME_REC"
+//        db.execSQL(query)
+//    }
 
     @SuppressLint("Range")
     fun getAll_Recurring(): MutableList<RecurringExpense> {
@@ -554,18 +555,18 @@ class EntriesDB(context: Context) :
      ***********************Functions For PersonalInfo Table*****************************************
      ************************************************************************************************/
 
-    fun insertInfo(id: Int, level: Int, exp: Int, avatar: String, earning: Double): Long {
-        val database = this.writableDatabase
-        val contentValues = ContentValues()
-
-        contentValues.put(ID_COL, level)
-        contentValues.put(PER_LEVEL_COL, level)
-        contentValues.put(PER_EXP_COL, exp)
-        contentValues.put(PER_AVA_COL, avatar)
-        contentValues.put(PER_EARN_COL, earning)
-
-        return database.insert(TABLE_NAME_PER, null, contentValues)
-    }
+//    fun insertInfo(id: Int, level: Int, exp: Int, avatar: String, earning: Double): Long {
+//        val database = this.writableDatabase
+//        val contentValues = ContentValues()
+//
+//        contentValues.put(ID_COL, level)
+//        contentValues.put(PER_LEVEL_COL, level)
+//        contentValues.put(PER_EXP_COL, exp)
+//        contentValues.put(PER_AVA_COL, avatar)
+//        contentValues.put(PER_EARN_COL, earning)
+//
+//        return database.insert(TABLE_NAME_PER, null, contentValues)
+//    }
 
     fun updateEarning(new_earning: Double){
         val db = this.writableDatabase
@@ -788,7 +789,7 @@ class EntriesDB(context: Context) :
 
     fun update_isActivated(){
         val db = this.writableDatabase
-        for (i in 0..3){
+        for (i in 0..4){
             if (this.get_AvatarLevel(i) <= this.getLevel() ){
                 val query = "UPDATE $TABLE_NAME_AVATAR SET $IS_ACTIVATED = \"true\" " +
                         "WHERE id = $i"
