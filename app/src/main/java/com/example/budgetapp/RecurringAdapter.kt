@@ -40,6 +40,7 @@ class RecurringAdapter(var context: Context, private var arraylist: MutableList<
         val expense: RecurringExpense = arraylist[p0]
 
         name.text = expense.title
+        //amount.text = String.format("${"$"}%.2f", expense.amount)
         val amountString = expense.amount.toInt().toString()
         amount.text = "$$amountString"
         if (expense.categories == "paycheck"){
