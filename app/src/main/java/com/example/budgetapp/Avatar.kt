@@ -88,7 +88,7 @@ class Avatar: AppCompatActivity(){
     }
 }
 
-data class AvatarItem(val id: Int?, val src: String, val level: Int, var isChoosen: Boolean, var isActivated: Boolean)
+data class AvatarItem(val id: Int?, val src: String, val level: Int, var isChosen: Boolean, var isActivated: Boolean)
 
 class AvatarAdapter(var context: Context): BaseAdapter() {
     private var db: EntriesDB = EntriesDB(context)
@@ -126,7 +126,7 @@ class AvatarAdapter(var context: Context): BaseAdapter() {
             chooseButton.setTextColor(Color.DKGRAY)
         }
 
-        else if(avatarItem.isChoosen) {
+        else if(avatarItem.isChosen) {
             chooseButton.isEnabled = false
             chooseButton.text = "Chosen"
             chooseButton.setTextColor(Color.WHITE)
@@ -198,26 +198,27 @@ class ThemeAdapter(var context: Context): BaseAdapter() {
 
         levelText.text = "Unlock at Level ${theme.level}"
 
-        if(db.getLevel() < theme.level){
-            chooseButton.isEnabled = false
-            chooseButton.text = "Locked"
-            chooseButton.setTextColor(Color.DKGRAY)
-        }
-
-        else if(db.getThemeID() == theme.id) {
-            chooseButton.isEnabled = false
-            chooseButton.text = "Chosen"
-            chooseButton.setTextColor(Color.WHITE)
-        }
-        else{
-            chooseButton.setOnClickListener{
-                //change the entry in PersonalInfo table in the database
-                db.updateThemeID(theme.id)
-                val intent = Intent(context, Avatar::class.java) //
-                intent.flags = Intent.FLAG_ACTIVITY_NO_ANIMATION
-                context.startActivity(intent)
+        when {
+            db.getLevel() < theme.level -> {
+                chooseButton.isEnabled = false
+                chooseButton.text = "Locked"
+                chooseButton.setTextColor(Color.DKGRAY)
             }
-            this.notifyDataSetChanged()
+            db.getThemeID() == theme.id -> {
+                chooseButton.isEnabled = false
+                chooseButton.text = "Chosen"
+                chooseButton.setTextColor(Color.WHITE)
+            }
+            else -> {
+                chooseButton.setOnClickListener{
+                    //change the entry in PersonalInfo table in the database
+                    db.updateThemeID(theme.id)
+                    val intent = Intent(context, Avatar::class.java) //
+                    intent.flags = Intent.FLAG_ACTIVITY_NO_ANIMATION
+                    context.startActivity(intent)
+                }
+                this.notifyDataSetChanged()
+            }
         }
 
         return view

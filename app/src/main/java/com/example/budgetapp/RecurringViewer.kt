@@ -3,12 +3,10 @@ package com.example.budgetapp
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import org.w3c.dom.Text
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -74,8 +72,18 @@ class RecurringViewer : AppCompatActivity() {
         earningBar.progress = (totalMoney / db.getEarning() * 100).toInt()
 
         //set up the avatar
-        val drawableId = this.resources.getIdentifier(db.getAvatar(), "drawable", context.packageName)
-        avatar.setImageResource(drawableId)
+        if (totalMoney >= 0) {
+            //if the amount of saving is positive, display the users' chosen avatar
+            val drawableId =
+                this.resources.getIdentifier(db.getAvatar(), "drawable", context.packageName)
+            avatar.setImageResource(drawableId)
+        }
+        else{
+            //else, display the tomb
+            val drawableId =
+                this.resources.getIdentifier("tomb", "drawable", context.packageName)
+            avatar.setImageResource(drawableId)
+        }
 
         addButton.setOnClickListener {
             val intent = Intent(this, AddRecurringBill::class.java)
@@ -247,6 +255,7 @@ class RecurringViewer : AppCompatActivity() {
 
         }
 
+        @SuppressLint("SimpleDateFormat")
         private fun updateRecurringBills() {
             val today = Calendar.getInstance()
             //Check to see if any of the recurring bills have passed their deadlines

@@ -76,8 +76,18 @@ class MainActivity : AppCompatActivity() {
         earningBar.progress = (totalMoney / db.getEarning() * 100).toInt()
 
         //set up the avatar
-        val drawableId = this.resources.getIdentifier(db.getAvatar(), "drawable", context.packageName)
-        avatar.setImageResource(drawableId)
+        if (totalMoney >= 0) {
+            //if the amount of saving is positive, display the users' chosen avatar
+            val drawableId =
+                this.resources.getIdentifier(db.getAvatar(), "drawable", context.packageName)
+            avatar.setImageResource(drawableId)
+        }
+        else{
+            //else, display the tomb
+            val drawableId =
+                this.resources.getIdentifier("tomb", "drawable", context.packageName)
+            avatar.setImageResource(drawableId)
+        }
 
         addGoalButton.setOnClickListener {
             val intent = Intent(this@MainActivity, AddGoals::class.java)

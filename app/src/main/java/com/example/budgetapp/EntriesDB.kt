@@ -158,7 +158,7 @@ class EntriesDB(context: Context) :
     /************************************************************************************************
      ***********************Functions For Entries Table**********************************************
      ************************************************************************************************/
-    fun insertData(entry: Entry): Long? {
+    fun insertData(entry: Entry): Long {
         val database = this.writableDatabase
         val contentValues = ContentValues()
 
@@ -170,7 +170,7 @@ class EntriesDB(context: Context) :
 
     }
 
-    @SuppressLint("Range")
+    @SuppressLint("Range", "Recycle")
     fun readData(): MutableList<Entry> {
         val list: MutableList<Entry> = ArrayList()
         val db = this.readableDatabase
@@ -191,17 +191,12 @@ class EntriesDB(context: Context) :
         return list
     }
 
-    fun getLength(): Int{
-        val all_entries = this.readData()
-        return all_entries.size
-    }
-
     fun updateData(id: Int?, new_expense: Entry){
         if (id != null) {
             val db = this.writableDatabase
             val query = "UPDATE $TABLE_NAME SET $TITLE_COL = \'${new_expense.title}\', " +
                     "$DATE_COL = \'${new_expense.date}\', " +
-                    "${AMOUNT_COL} = ${new_expense.amount}, " +
+                    "$AMOUNT_COL = ${new_expense.amount}, " +
                     "${CATEGORIES_COL} = \'${new_expense.categories}\' " +
                     "WHERE id = $id"
 
@@ -216,13 +211,13 @@ class EntriesDB(context: Context) :
         db.execSQL(query)
     }
 
-    fun deleteAllData(){
-        val db = this.writableDatabase
-        val query = "DELETE FROM $TABLE_NAME"
-        db.execSQL(query)
-    }
+//    fun deleteAllData(){
+//        val db = this.writableDatabase
+//        val query = "DELETE FROM $TABLE_NAME"
+//        db.execSQL(query)
+//    }
 
-    @SuppressLint("Range")
+    @SuppressLint("Range", "Recycle")
     fun addPaycheckAmount(): Double {
         val db = this.readableDatabase
         val query = "SELECT SUM($AMOUNT_COL) AS Total FROM $TABLE_NAME WHERE $CATEGORIES_COL = \"paycheck\""
@@ -234,7 +229,7 @@ class EntriesDB(context: Context) :
         return 0.0
     }
 
-    @SuppressLint("Range")
+    @SuppressLint("Range", "Recycle")
     fun addExpenseAmount(): Double {
         val db = this.readableDatabase
         val query = "SELECT SUM($AMOUNT_COL) AS Total FROM $TABLE_NAME WHERE $CATEGORIES_COL != \"paycheck\""
@@ -320,23 +315,23 @@ class EntriesDB(context: Context) :
         updatePercent()
     }
 
-    @SuppressLint("Range")
-    fun getRow_Distribute(id: Int): Expense {
-        val expense = Expense()
-        val db = this.readableDatabase
-        val query = "SELECT * FROM $TABLE_NAME_DIS WHERE id = $id"
-        val result = db.rawQuery(query, null)
-        if (result.moveToFirst()){
-            do {
-                expense.id = result.getString(result.getColumnIndex(ID_COL)).toInt()
-                expense.categories = result.getString(result.getColumnIndex(CATEGORIES_COL))
-                expense.percentage = result.getString(result.getColumnIndex(PERCENT_COL)).toDouble()
-                expense.max = result.getString(result.getColumnIndex(MAX_COL)).toDouble()
-            }
-            while (result.moveToNext())
-        }
-        return expense
-    }
+//    @SuppressLint("Range")
+//    fun getRow_Distribute(id: Int): Expense {
+//        val expense = Expense()
+//        val db = this.readableDatabase
+//        val query = "SELECT * FROM $TABLE_NAME_DIS WHERE id = $id"
+//        val result = db.rawQuery(query, null)
+//        if (result.moveToFirst()){
+//            do {
+//                expense.id = result.getString(result.getColumnIndex(ID_COL)).toInt()
+//                expense.categories = result.getString(result.getColumnIndex(CATEGORIES_COL))
+//                expense.percentage = result.getString(result.getColumnIndex(PERCENT_COL)).toDouble()
+//                expense.max = result.getString(result.getColumnIndex(MAX_COL)).toDouble()
+//            }
+//            while (result.moveToNext())
+//        }
+//        return expense
+//    }
 
     @SuppressLint("Range")
     fun getAll_Distribute(): MutableList<Expense> {
@@ -375,17 +370,17 @@ class EntriesDB(context: Context) :
     }
 
     /* only for testing, not recommend using!!! */
-    private fun deleteAll_Distribute(){
-        val db = this.writableDatabase
-        val query = "DELETE FROM $TABLE_NAME_DIS"
-        db.execSQL(query)
-    }
+//    private fun deleteAll_Distribute(){
+//        val db = this.writableDatabase
+//        val query = "DELETE FROM $TABLE_NAME_DIS"
+//        db.execSQL(query)
+//    }
 
     fun isUnique(category: String): Boolean{
         val categories = this.getCategories_Distribute().map{ it.lowercase() }
         return (categories.contains(category))
     }
-    @SuppressLint("Range")
+    @SuppressLint("Range", "Recycle")
     fun isValid(percentage: Double): Boolean {
         val db = this.writableDatabase
         if (this.getAll_Distribute().size == 0) {
@@ -402,8 +397,7 @@ class EntriesDB(context: Context) :
         if (result.moveToFirst()){
             otherPercent = result.getDouble(result.getColumnIndex(PERCENT_COL))
         }
-        val all = this.getAll_Distribute()
-        return !(percentage < otherPercent)
+        return percentage >= otherPercent
     }
 
     @SuppressLint("Range")
@@ -462,11 +456,11 @@ class EntriesDB(context: Context) :
         db.execSQL(query)
     }
 
-    fun deleteAll_Recurring(){
-        val db = this.writableDatabase
-        val query = "DELETE FROM $TABLE_NAME_REC"
-        db.execSQL(query)
-    }
+//    fun deleteAll_Recurring(){
+//        val db = this.writableDatabase
+//        val query = "DELETE FROM $TABLE_NAME_REC"
+//        db.execSQL(query)
+//    }
 
     @SuppressLint("Range")
     fun getAll_Recurring(): MutableList<RecurringExpense> {
@@ -561,18 +555,18 @@ class EntriesDB(context: Context) :
      ***********************Functions For PersonalInfo Table*****************************************
      ************************************************************************************************/
 
-    fun insertInfo(id: Int, level: Int, exp: Int, avatar: String, earning: Double): Long {
-        val database = this.writableDatabase
-        val contentValues = ContentValues()
-
-        contentValues.put(ID_COL, level)
-        contentValues.put(PER_LEVEL_COL, level)
-        contentValues.put(PER_EXP_COL, exp)
-        contentValues.put(PER_AVA_COL, avatar)
-        contentValues.put(PER_EARN_COL, earning)
-
-        return database.insert(TABLE_NAME_PER, null, contentValues)
-    }
+//    fun insertInfo(id: Int, level: Int, exp: Int, avatar: String, earning: Double): Long {
+//        val database = this.writableDatabase
+//        val contentValues = ContentValues()
+//
+//        contentValues.put(ID_COL, level)
+//        contentValues.put(PER_LEVEL_COL, level)
+//        contentValues.put(PER_EXP_COL, exp)
+//        contentValues.put(PER_AVA_COL, avatar)
+//        contentValues.put(PER_EARN_COL, earning)
+//
+//        return database.insert(TABLE_NAME_PER, null, contentValues)
+//    }
 
     fun updateEarning(new_earning: Double){
         val db = this.writableDatabase
