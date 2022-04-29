@@ -41,8 +41,8 @@ class RecurringAdapter(var context: Context, var arraylist: MutableList<Recurrin
         val expense: RecurringExpense = arraylist[p0]
 
         name.text = expense.title
-        val amountString = expense.amount.toString()
-        amount.text = String.format("$%.2f", amountString)
+        //val amountString = expense.amount.toString()
+        amount.text = String.format("${"$"}%.2f", expense.amount)
         nextDateToPayOn.text = expense.date
         category.text = expense.categories
 
