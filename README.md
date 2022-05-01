@@ -10,6 +10,8 @@ https://github.com/MCS-270-Budget-Team/BudgetApp/releases/download/v1.0.0/app-re
 ```
 Download will started automatically. After then install it on your android device. Open the application and start your financial journal.
 
+You can also click [here](https://github.com/MCS-270-Budget-Team/BudgetApp/releases) to check our latest version.
+
 # Preview
 <p float="left">
   <img src="https://user-images.githubusercontent.com/68437466/166159540-1adb63b6-9df1-4864-8035-d282b874ec5c.jpeg" width="20%" />
