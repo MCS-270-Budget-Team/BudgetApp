@@ -14,10 +14,11 @@ You can also click [here](https://github.com/MCS-270-Budget-Team/BudgetApp/relea
 
 # Preview
 <p float="left">
-  <img src="https://user-images.githubusercontent.com/68437466/166159540-1adb63b6-9df1-4864-8035-d282b874ec5c.jpeg" width="20%" />
-  <img src="https://user-images.githubusercontent.com/68437466/166159561-ec41307a-a89d-48fc-8320-2688c1ba1a2f.jpeg" width="20%" />
-  <img src="https://user-images.githubusercontent.com/68437466/166159588-4c352321-da94-4790-9e30-cb64bcbf2701.jpeg" width="20%" /> 
-  <img src="https://user-images.githubusercontent.com/68437466/166159604-b990e4e5-e9a0-407d-992d-c6156dc4aa06.jpeg" width="20%" /> 
+  <img src="https://user-images.githubusercontent.com/68437466/166159540-1adb63b6-9df1-4864-8035-d282b874ec5c.jpeg" width="19%" />
+  <img src="https://user-images.githubusercontent.com/68437466/166159561-ec41307a-a89d-48fc-8320-2688c1ba1a2f.jpeg" width="19%" />
+  <img src="https://user-images.githubusercontent.com/68437466/166159588-4c352321-da94-4790-9e30-cb64bcbf2701.jpeg" width="19%" /> 
+  <img src="https://user-images.githubusercontent.com/68437466/166159604-b990e4e5-e9a0-407d-992d-c6156dc4aa06.jpeg" width="19%" /> 
+  <img src="https://user-images.githubusercontent.com/68437466/166298103-1439e5d4-98f9-40b8-8230-25479a971778.jpeg" width="19%" /> 
 </p>
 
 # Licence
