@@ -1,6 +1,6 @@
 # Turtle Budget App
 
-Budget App is a gamiffied personal financial management android-based application. Users are given a virtual profile where they can setup their financial goals and habits, documenting their expenses and paychecks, as well as input their recurring bills. We also use a simple algorithm based on the customer inputs to recommend expense distribution and saving plans. The general goal of the app is to use gamification to provide incentives for the users to form the habit of documenting their finances.
+Budget App is a gamified personal financial management android-based application. Users are given a virtual profile where they can setup their financial goals and habits, documenting their expenses and paychecks, as well as input their recurring bills. We also use a simple algorithm based on the customer inputs to recommend expense distribution and saving plans. The general goal of the app is to use gamification to provide incentives for the users to form the habit of documenting their finances.
 
 # How to install?
 You can install this application to test on your android smartphone. To download the signed appliation, go to your browswer and copy-paste the download link:
