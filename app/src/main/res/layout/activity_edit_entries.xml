@@ -44,7 +44,7 @@
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:background="?textColor"
+                android:background="?windowColor"
                 android:minHeight="170dp">
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -77,8 +77,8 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_bias="0.677"
                         tools:ignore="MissingConstraints"
-                        android:textColor="@color/white"
-                        android:textColorHint="@color/white"
+                        android:textColor="?textColor"
+                        android:textColorHint="?textColor"
                         tools:layout_editor_absoluteX="0dp" />
 
                     <androidx.appcompat.widget.AppCompatEditText
@@ -87,8 +87,8 @@
                         android:layout_height="wrap_content"
                         android:hint="Amount"
                         android:padding="10dp"
-                        android:textColor="@color/white"
-                        android:textColorHint="@color/white"
+                        android:textColor="?textColor"
+                        android:textColorHint="?textColor"
                         tools:ignore="MissingConstraints"
                         app:layout_constraintTop_toBottomOf="@+id/title"/>
                     <androidx.appcompat.widget.AppCompatEditText
@@ -97,8 +97,8 @@
                         android:layout_height="wrap_content"
                         android:hint="Date"
                         android:padding="10dp"
-                        android:textColor="@color/white"
-                        android:textColorHint="@color/white"
+                        android:textColor="?textColor"
+                        android:textColorHint="?textColor"
                         app:layout_constraintTop_toBottomOf="@+id/amount"/>
                     <androidx.appcompat.widget.AppCompatSpinner
                         android:id="@+id/categories"
@@ -107,8 +107,8 @@
                         app:layout_constraintTop_toBottomOf="@id/date"
                         android:hint="Categories"
                         android:padding="10dp"
-                        android:textColorHint="@color/white"
-                        android:textColor="@color/white"
+                        android:textColorHint="?textColor"
+                        android:textColor="?textColor"
                         />
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/edit"
@@ -116,7 +116,7 @@
                         android:layout_height="wrap_content"
                         app:layout_constraintTop_toBottomOf="@id/categories"
                         android:text="Edit"
-                        android:textColor="@color/white"
+                        android:textColor="?textColor"
                         android:backgroundTint="?buttonColor"
                         />
                     <androidx.appcompat.widget.AppCompatButton

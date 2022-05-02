@@ -14,9 +14,10 @@
         <!-- Custom theme color -->
         <item name="backgroundColor">#0D1013</item>
         <item name="buttonColor">#212930</item>
-        <item name="textColor">#2E3943</item>
+        <item name="windowColor">#2E3943</item>
         <item name="progressColor">#3B4956</item>
         <item name="titleColor">#256D66</item>
+        <item name="textColor">@color/white</item>
     </style>
 
     <style name="Forest" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
@@ -33,9 +34,10 @@
         <!-- Custom theme color -->
         <item name="backgroundColor">#080809</item>
         <item name="buttonColor">#292825</item>
-        <item name="textColor">#1B2413</item>
+        <item name="windowColor">#1B2413</item>
         <item name="progressColor">#433F3E</item>
         <item name="titleColor">#5F6556</item>
+        <item name="textColor">@color/white</item>
     </style>
 
     <style name="Eggplant" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
@@ -52,9 +54,10 @@
         <!-- Custom theme color -->
         <item name="backgroundColor">#694F5D</item>
         <item name="buttonColor">#68A691</item>
-        <item name="textColor">#BFD3C1</item>
+        <item name="windowColor">#BFD3C1</item>
         <item name="progressColor">#FFE5D4</item>
         <item name="titleColor">#EFC7C2</item>
+        <item name="textColor">@color/black</item>
     </style>
 
     <style name="Pumpkin" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
@@ -71,9 +74,10 @@
         <!-- Custom theme color -->
         <item name="backgroundColor">#233D4D</item>
         <item name="buttonColor">#619B8A</item>
-        <item name="textColor">#A1C181</item>
+        <item name="windowColor">#A1C181</item>
         <item name="progressColor">#FCCA46</item>
         <item name="titleColor">#FE7F2D</item>
+        <item name="textColor">@color/white</item>
     </style>
 
     <style name="Vintage" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
@@ -90,9 +94,10 @@
         <!-- Custom theme color -->
         <item name="backgroundColor">#313E50</item>
         <item name="buttonColor">#53131E</item>
-        <item name="textColor">#5A464C</item>
+        <item name="windowColor">#5A464C</item>
         <item name="progressColor">#3A435E</item>
         <item name="titleColor">#455561</item>
+        <item name="textColor">@color/white</item>
     </style>
 
 </resources>

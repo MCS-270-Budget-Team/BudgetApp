@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?textColor"
+    android:background="?windowColor"
     android:orientation="vertical"
     android:layout_margin="10dp">
     <LinearLayout
@@ -28,7 +28,7 @@
                 android:padding="10dp"
                 android:text="Housing"
                 android:textAllCaps="true"
-                android:textColor="@color/white"
+                android:textColor="?textColor"
                 android:textSize="30sp"
                 android:textStyle="bold"/>
             <EditText
@@ -41,7 +41,7 @@
                 android:layout_marginEnd="10dp"
                 android:layout_marginBottom="10dp"
                 android:padding="10dp"
-                android:textColor="@color/white"
+                android:textColor="?textColor"
                 android:textSize="30sp"
                 android:textStyle="bold"/>
         </ViewSwitcher>
@@ -111,13 +111,12 @@
                 android:textSize="17dp"
                 android:gravity="center"
                 android:paddingTop="10dp"
-                android:paddingRight="10dp"
                 android:paddingBottom="10dp"
                 android:text="01/30/2022"
-                android:textColor="@color/white" />
+                android:textColor="?textColor" />
         </LinearLayout>
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width=""
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical"
@@ -134,7 +133,7 @@
                     android:layout_height="wrap_content"
                     android:text="Edit"
                     android:backgroundTint="?buttonColor"
-                    android:textColor="@color/white"
+                    android:textColor="?textColor"
                     android:layout_margin="2dp">
                 </Button>
 

@@ -27,7 +27,7 @@
             android:gravity="center"
             android:padding="10dp"
             android:text="Customizing Your Profile"
-            android:textColor="@color/white"
+            android:textColor="?textColor"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -59,7 +59,7 @@
                 android:layout_margin="10dp"
                 android:layout_marginBottom="10dp"
                 android:text="Avatars"
-                android:textColor="@color/white"
+                android:textColor="?textColor"
                 android:textSize="25sp" />
 
             <com.example.budgetapp.ExpandableHeightGridView
@@ -84,7 +84,7 @@
                 android:layout_margin="10dp"
                 android:layout_marginBottom="10dp"
                 android:text="Themes"
-                android:textColor="@color/white"
+                android:textColor="?textColor"
                 android:textSize="25sp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/avatar_list" />
@@ -126,7 +126,7 @@
             android:backgroundTint="?buttonColor"
             android:gravity="center"
             android:src="@drawable/baseline_home_white_18"
-            android:textColor="@color/white"
+            android:textColor="?textColor"
             android:textStyle="bold" />
 
         <ImageButton
@@ -137,7 +137,7 @@
             android:backgroundTint="?buttonColor"
             android:gravity="center"
             android:src="@drawable/baseline_history_edu_white_18"
-            android:textColor="@color/white"
+            android:textColor="?textColor"
             android:textStyle="bold" />
 
         <ImageButton
@@ -148,7 +148,7 @@
             android:backgroundTint="?buttonColor"
             android:gravity="center"
             android:src="@drawable/baseline_tune_white_18"
-            android:textColor="@color/white"
+            android:textColor="?textColor"
             android:textStyle="bold" />
 
         <ImageButton
@@ -159,7 +159,7 @@
             android:backgroundTint="?buttonColor"
             android:gravity="center"
             android:src="@drawable/baseline_credit_card_white_18"
-            android:textColor="@color/white"
+            android:textColor="?textColor"
             android:textStyle="bold" />
 
         <ImageButton
@@ -170,7 +170,7 @@
             android:backgroundTint="?buttonColor"
             android:gravity="center"
             android:src="@drawable/baseline_menu_white_18"
-            android:textColor="@color/white"
+            android:textColor="?textColor"
             android:textStyle="bold" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
