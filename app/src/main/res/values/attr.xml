@@ -7,4 +7,5 @@
     <attr name="progressColor" format="reference|color" />
     <attr name="titleColor" format="reference|color" />
     <attr name="textColor" format="reference|color" />
+    <attr name="altTextColor" format="reference|color"/>
 </resources>

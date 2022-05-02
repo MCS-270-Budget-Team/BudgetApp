@@ -127,7 +127,8 @@
             android:gravity="center"
             android:src="@drawable/baseline_home_white_18"
             android:textColor="?textColor"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:tint="?textColor"/>
 
         <ImageButton
             android:id="@+id/view_history_button"
@@ -138,7 +139,8 @@
             android:gravity="center"
             android:src="@drawable/baseline_history_edu_white_18"
             android:textColor="?textColor"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:tint="?textColor"/>
 
         <ImageButton
             android:id="@+id/adjust_expense_button"
@@ -149,7 +151,8 @@
             android:gravity="center"
             android:src="@drawable/baseline_tune_white_18"
             android:textColor="?textColor"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:tint="?textColor"/>
 
         <ImageButton
             android:id="@+id/upcoming_bill_button"
@@ -160,7 +163,8 @@
             android:gravity="center"
             android:src="@drawable/baseline_credit_card_white_18"
             android:textColor="?textColor"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:tint="?textColor"/>
 
         <ImageButton
             android:id="@+id/customize_button"
@@ -171,6 +175,7 @@
             android:gravity="center"
             android:src="@drawable/baseline_menu_white_18"
             android:textColor="?textColor"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:tint="?textColor"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

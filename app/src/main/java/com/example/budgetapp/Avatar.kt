@@ -106,7 +106,7 @@ class AvatarAdapter(var context: Context): BaseAdapter() {
         return p0.toLong()
     }
 
-    @SuppressLint("SetTextI18n", "ViewHolder")
+    @SuppressLint("SetTextI18n", "ViewHolder", "ResourceAsColor")
     override fun getView(p0: Int, p1: View?, p2: ViewGroup?): View {
         val view: View = View.inflate(context, R.layout.activity_avatar_bubble, null)
         val avatarImage: ImageView = view.findViewById(R.id.avatar_image)

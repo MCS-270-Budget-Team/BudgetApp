@@ -100,7 +100,8 @@
                 android:textSize="13dp"
                 android:padding="10dp"
                 android:backgroundTint="?buttonColor"
-                android:textColor="@color/red"/>
+                android:textColor="@color/red"
+                app:tint="?textColor"/>
             <ImageButton
                 android:id="@+id/action"
                 android:src="@drawable/baseline_delete_white_18"
@@ -111,7 +112,8 @@
                 android:textSize="13dp"
                 android:padding="10dp"
                 android:backgroundTint="?buttonColor"
-                android:textColor="@color/red"/>
+                android:textColor="@color/red"
+                app:tint="?textColor"/>
 
         </LinearLayout>
     </LinearLayout>

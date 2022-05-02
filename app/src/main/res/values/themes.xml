@@ -17,7 +17,8 @@
         <item name="windowColor">#2E3943</item>
         <item name="progressColor">#3B4956</item>
         <item name="titleColor">#256D66</item>
-        <item name="textColor">@color/white</item>
+        <item name="textColor">@color/teal_200</item>
+        <item name="altTextColor">@color/teal_700</item>
     </style>
 
     <style name="Forest" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
@@ -38,6 +39,7 @@
         <item name="progressColor">#433F3E</item>
         <item name="titleColor">#5F6556</item>
         <item name="textColor">@color/white</item>
+        <item name="altTextColor">#8BC34A</item>
     </style>
 
     <style name="Eggplant" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
@@ -58,6 +60,7 @@
         <item name="progressColor">#FFE5D4</item>
         <item name="titleColor">#EFC7C2</item>
         <item name="textColor">@color/black</item>
+        <item name="altTextColor">#006064</item>
     </style>
 
     <style name="Pumpkin" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
@@ -77,7 +80,9 @@
         <item name="windowColor">#A1C181</item>
         <item name="progressColor">#FCCA46</item>
         <item name="titleColor">#FE7F2D</item>
-        <item name="textColor">@color/white</item>
+        <item name="textColor">@color/black</item>
+        <item name="altTextColor">#006064</item>
+
     </style>
 
     <style name="Vintage" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
@@ -98,6 +103,8 @@
         <item name="progressColor">#3A435E</item>
         <item name="titleColor">#455561</item>
         <item name="textColor">@color/white</item>
+        <item name="altTextColor">#90CAF9</item>
+
     </style>
 
 </resources>

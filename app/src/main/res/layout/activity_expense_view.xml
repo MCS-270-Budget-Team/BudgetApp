@@ -2,6 +2,7 @@
 
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="fill_parent"
@@ -164,6 +165,7 @@
             android:layout_marginBottom="5dp"
             android:layout_marginRight="5dp"
             android:backgroundTint="?buttonColor"
+            android:textColor="?textColor"
             android:text="Add Entries" />
         </LinearLayout>
 
@@ -193,7 +195,8 @@
             android:textStyle="bold"
             android:gravity="center"
             android:textColor="?textColor"
-            android:backgroundTint="?buttonColor"/>
+            android:backgroundTint="?buttonColor"
+            app:tint="?textColor" />
 
         <ImageButton
             android:id="@+id/view_history_button"
@@ -204,7 +207,8 @@
             android:textStyle="bold"
             android:gravity="center"
             android:textColor="?textColor"
-            android:backgroundTint="?buttonColor" />
+            android:backgroundTint="?buttonColor"
+            app:tint="?textColor"/>
 
         <ImageButton
             android:id="@+id/adjust_expense_button"
@@ -215,7 +219,8 @@
             android:textStyle="bold"
             android:gravity="center"
             android:textColor="?textColor"
-            android:backgroundTint="?buttonColor" />
+            android:backgroundTint="?buttonColor"
+            app:tint="?textColor"/>
 
         <ImageButton
             android:id="@+id/upcoming_bill_button"
@@ -226,7 +231,9 @@
             android:textStyle="bold"
             android:gravity="center"
             android:textColor="?textColor"
-            android:backgroundTint="?buttonColor" />
+            android:backgroundTint="?buttonColor"
+            app:tint="?textColor"/>
+
         <ImageButton
             android:id="@+id/customize_button"
             android:src="@drawable/baseline_menu_white_18"
@@ -236,6 +243,7 @@
             android:textStyle="bold"
             android:gravity="center"
             android:textColor="?textColor"
-            android:backgroundTint="?buttonColor" />
+            android:backgroundTint="?buttonColor"
+            app:tint="?textColor"/>
     </LinearLayout>
 </RelativeLayout>
