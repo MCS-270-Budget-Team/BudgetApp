@@ -124,7 +124,7 @@
                 android:gravity="center"
                 android:text="Level 1"
                 android:textAllCaps="true"
-                android:textColor="@color/white"
+                android:textColor="?textColor"
                 android:textSize="17dp"
                 android:textStyle="bold" />
 
@@ -136,7 +136,7 @@
                 android:layout_gravity="center"
                 android:gravity="right"
                 android:text="Total Amount: $1000"
-                android:textColor="@color/white"
+                android:textColor="?textColor"
                 android:textSize="17dp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -185,7 +185,7 @@
             android:src="@drawable/baseline_home_white_18"
             android:textStyle="bold"
             android:gravity="center"
-            android:textColor="@color/white"
+            android:textColor="?textColor"
             android:backgroundTint="?buttonColor"/>
 
         <ImageButton
@@ -196,7 +196,7 @@
             android:layout_height="60dp"
             android:textStyle="bold"
             android:gravity="center"
-            android:textColor="@color/white"
+            android:textColor="?textColor"
             android:backgroundTint="?buttonColor" />
 
         <ImageButton
@@ -207,7 +207,7 @@
             android:layout_height="60dp"
             android:textStyle="bold"
             android:gravity="center"
-            android:textColor="@color/white"
+            android:textColor="?textColor"
             android:backgroundTint="?buttonColor" />
 
         <ImageButton
@@ -218,7 +218,7 @@
             android:layout_height="60dp"
             android:textStyle="bold"
             android:gravity="center"
-            android:textColor="@color/white"
+            android:textColor="?textColor"
             android:backgroundTint="?buttonColor" />
         <ImageButton
             android:id="@+id/customize_button"
@@ -228,7 +228,7 @@
             android:layout_height="60dp"
             android:textStyle="bold"
             android:gravity="center"
-            android:textColor="@color/white"
+            android:textColor="?textColor"
             android:backgroundTint="?buttonColor" />
     </LinearLayout>
 </RelativeLayout>

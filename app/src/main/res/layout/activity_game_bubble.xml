@@ -27,7 +27,7 @@
             android:layout_weight="1.1"
             android:text="Pay the Cable Bill on time"
             android:gravity="center"
-            android:textColor="@color/white"
+            android:textColor="?textColor"
             android:textSize="15dp"
             android:textStyle="bold"
             android:backgroundTint="?buttonColor"
@@ -49,7 +49,7 @@
             android:layout_height="0dp"
             android:layout_weight="0.6"
             android:text="Level 1"
-            android:textColor="@color/white"
+            android:textColor="?textColor"
             android:gravity="right"
             android:layout_marginRight="20dp"
             android:textStyle="bold"/>
