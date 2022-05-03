@@ -244,6 +244,7 @@ class GoalAdapter(var context: Context): BaseAdapter() {
         val goal: Goal = arraylist[p0]
         val currentLevel = db.getLevel()
 
+
         title.text = goal.title
         level.text = "Level ${goal.level}"
 
@@ -274,6 +275,7 @@ class GoalAdapter(var context: Context): BaseAdapter() {
 
         //when press the plus button, update the database and the progress bar
         plusButton.setOnClickListener {
+            goal
             goal.plus += 1
             goal.level = calculateLevel(goal.plus)
             db.editGoal(goal.id, goal)
@@ -451,10 +453,10 @@ class EditGoals: AppCompatActivity() {
                 }
                 else -> {
                     val updatedGoal = Goal(
-                        null,
+                        id,
                         title.text.toString(),
-                        levelInfo,
-                        plusInfo
+                        plusInfo,
+                        levelInfo
                     )
                     db.editGoal(id, updatedGoal)
                     val intent = Intent(this, MainActivity::class.java)
