@@ -11,7 +11,10 @@ import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
-
+/**
+ * This activity uses the recurring_view layout, and is used to view all of the user's recurring
+ * expenses.
+ */
 class RecurringViewer : AppCompatActivity() {
     private lateinit var recurringListview: ListView
     private var recurringAdapter: RecurringAdapter? = null
@@ -119,6 +122,9 @@ class RecurringViewer : AppCompatActivity() {
 
     }
 
+    /**
+     * Sets the current theme according to the themeID stored in the database.
+     */
     private fun setTheme(){
         when (db.getThemeID()) {
             0 -> {
@@ -139,6 +145,10 @@ class RecurringViewer : AppCompatActivity() {
         }
     }
 
+    /**
+     * This activity is used with the activity_add_recurring layout, and runs when the user adds
+     * a new recurring expense from the recurring_view layout.
+     */
     class AddRecurringBill : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         private lateinit var title: EditText
         private lateinit var frequency: Spinner
@@ -151,7 +161,7 @@ class RecurringViewer : AppCompatActivity() {
         private var selectedCategories: String = ""
         private var selectedFrequency: String = ""
         private val categoriesOption =
-            arrayOf("paycheck", "expense") //This should draw from user-defined categories
+            arrayOf("paycheck", "expense")
         private val frequencyOptions = arrayOf("Weekly", "Monthly", "Annually")
 
         //create database object
@@ -255,6 +265,10 @@ class RecurringViewer : AppCompatActivity() {
 
         }
 
+        /**
+         * This function checks to see if all the recurring bills are up-to-date or not.
+         * If they are not, then it will add the appropriate entries into the database.
+         */
         @SuppressLint("SimpleDateFormat")
         private fun updateRecurringBills() {
             val today = Calendar.getInstance()
@@ -265,6 +279,7 @@ class RecurringViewer : AppCompatActivity() {
                 var dueDate = getDate(bill)
 
                 while(today.after(dueDate)) {
+                    //If here, that means that this recurring bill's due date has passed.
                     val entry = Entry(
                         id = null,
                         title = bill.title,
@@ -273,17 +288,27 @@ class RecurringViewer : AppCompatActivity() {
                         categories = bill.categories
                     )
 
+                    //Add a new entry corresponding to this recurring entry.
                     db.insertData(entry)
+                    //Find the next time that this recurring entry will occur.
                     val newDate = getNewDate(dueDate, bill.frequency)
                     val sdf = SimpleDateFormat("MM/dd/yyyy")
                     bill.last_paid = bill.date
                     bill.date = sdf.format(newDate.time)
+                    //Update the recurring entry with its new deadline.
                     db.updateRow_Recurring(bill.id, bill)
+                    //This allows us to check if this recurring entry needs to be updated again.
                     dueDate = newDate
                 }
             }
         }
 
+        /**
+         * This function takes a RecurringExpense, and converts the string stored in that object to
+         * a Calendar.
+         * @param expense the recurring expense to convert the due date of.
+         * @return the Calendar configured to the due date of the recurring expense.
+         */
         private fun getDate(expense: RecurringExpense): Calendar {
             val dueDate = Calendar.getInstance()
             val dateString = expense.date
@@ -296,6 +321,13 @@ class RecurringViewer : AppCompatActivity() {
             return dueDate
         }
 
+        /**
+         * This function takes a date, and shifts it forward by either 1 week, 1 month, or 1 year
+         * depending on the frequency string.
+         * @param oldDate the date to shift forward.
+         * @param frequency string containing either "Weekly", "Monthly", or "Annually".
+         * @return the new date, shifted forward by the amount of time specified.
+         */
         private fun getNewDate(oldDate: Calendar, frequency: String): Calendar {
 
             when (frequency) {
@@ -313,12 +345,20 @@ class RecurringViewer : AppCompatActivity() {
             return oldDate
         }
 
-        /* Function to check whether a string is numeric*/
+        /**
+         * Determines whether a string can be safely converted to a number or not.
+         * @param toCheck the string to check.
+         * @return whether or not the specified string can be converted.
+         */
         private fun isNumeric(toCheck: String): Boolean {
             val regex = "-?[0-9]+(\\.[0-9]+)?".toRegex()
             return toCheck.matches(regex)
         }
 
+        /**
+         * This function is called automatically whenever a spinner item is selected. It updates
+         * global state variables in accordance to the selected spinner option.
+         */
         @SuppressLint("ResourceType")
         override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
             //Update the correct variable depending on the id of the spinner that was selected
@@ -336,6 +376,11 @@ class RecurringViewer : AppCompatActivity() {
             toast.show()
         }
 
+        /**
+         * This function determines whether or not a string is in MM/dd/yyyy format.
+         * @param inDate the string to check
+         * @return true if the string is in the correct format, false otherwise.
+         */
         @SuppressLint("SimpleDateFormat")
         private fun isValidDate(inDate: String): Boolean {
             val dateFormat = SimpleDateFormat("MM/dd/yyyy")
@@ -348,6 +393,9 @@ class RecurringViewer : AppCompatActivity() {
             return true
         }
 
+        /**
+         * Sets the current theme according to the themeID stored in the database.
+         */
         private fun setTheme(){
             when (db.getThemeID()) {
                 0 -> {

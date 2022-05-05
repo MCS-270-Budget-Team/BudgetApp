@@ -67,6 +67,10 @@ class Avatar: AppCompatActivity(){
         themeAdapter = ThemeAdapter(this)
         themeList.adapter = themeAdapter
     }
+
+    /**
+     * Sets the theme according to the themeID stored in the database.
+     */
     private fun setTheme(){
         when (db.getThemeID()) {
             0 -> {

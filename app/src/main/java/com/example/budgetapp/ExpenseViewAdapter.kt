@@ -8,16 +8,32 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 
+/**
+ * This is the adapter used with the expense_bubble_activity layout. This allows for the listing of
+ * the user's expenses and paychecks.
+ */
 class ExpenseViewAdapter(var context: Context, private var arraylist: MutableList<Entry>): BaseAdapter() {
     private val entryDB = EntriesDB(context)
+
+    /**
+     * Returns the current number of entries.
+     */
     override fun getCount(): Int {
         return arraylist.size
     }
 
+    /**
+     * Returns the entry corresponding to the specified id.
+     * @param p0 the id
+     * @return the entry corresponding to that id.
+     */
     override fun getItem(p0: Int): Any {
         return arraylist[p0]
     }
 
+    /**
+     * Converts the specified int to a long? Unused.
+     */
     override fun getItemId(p0: Int): Long {
         return p0.toLong()
     }
@@ -77,11 +93,17 @@ class ExpenseViewAdapter(var context: Context, private var arraylist: MutableLis
             intent.putExtra("amount", arraylist[p0].amount.toString())
             intent.putExtra("date", arraylist[p0].date)
 
+            //Switch to the EditEntries activity
             context.startActivity(intent)
         }
         return view
     }
 
+    /**
+     * Removes the entry corresponding to the id and position from both the database and the arraylist.
+     * @param id the id that was assigned to this entry by the database code.
+     * @param position the index of the entry to be removed in the arraylist.
+     */
     private fun remove(id: Int, position: Int) {
         entryDB.deleteData(id)
         arraylist.remove(arraylist[position])

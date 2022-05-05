@@ -14,16 +14,34 @@ import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
+/**
+ * Adapter for use with the recurring_expense_item layout.
+ */
 class RecurringAdapter(var context: Context, private var arraylist: MutableList<RecurringExpense>): BaseAdapter() {
     private val entryDB = EntriesDB(context)
+
+    /**
+     * Returns the current number of recurring entries.
+     * @return the current number of recurring entries
+     */
     override fun getCount(): Int {
         return arraylist.size
     }
 
+    /**
+     * Returns the recurring entry at the specified index of the arraylist.
+     * @param p0 the index
+     * @return the recurring expense at that index
+     */
     override fun getItem(p0: Int): Any {
         return arraylist[p0]
     }
 
+    /**
+     * Converts int to long. Unused
+     * @param p0 the int to convert
+     * @return the long version of the int
+     */
     override fun getItemId(p0: Int): Long {
         return p0.toLong()
     }
@@ -74,6 +92,11 @@ class RecurringAdapter(var context: Context, private var arraylist: MutableList<
         return view
     }
 
+    /**
+     * Removes the recurring entry at the specified id and position from the database and list.
+     * @param id the id of the recurring entry in the database.
+     * @param position the index of the recurring entry in the arraylist.
+     */
     private fun remove(id: Int, position: Int) {
         entryDB.deleteRow_Recurring(id)
         arraylist.remove(arraylist[position])
@@ -81,6 +104,10 @@ class RecurringAdapter(var context: Context, private var arraylist: MutableList<
 
 }
 
+/**
+ * To be used with the activity_edit_recurring layout. Allows for already created recurring expenses
+ * to be edited.
+ */
 class EditRecurringBill : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private lateinit var title: EditText
     private lateinit var frequency: Spinner
@@ -209,6 +236,10 @@ class EditRecurringBill : AppCompatActivity(), AdapterView.OnItemSelectedListene
 
     }
 
+    /**
+     * This function checks to see if all the recurring bills are up-to-date or not.
+     * If they are not, then it will add the appropriate entries into the database.
+     */
     @SuppressLint("SimpleDateFormat")
     private fun updateRecurringBills() {
         val today = Calendar.getInstance()
@@ -238,6 +269,12 @@ class EditRecurringBill : AppCompatActivity(), AdapterView.OnItemSelectedListene
         }
     }
 
+    /**
+     * This function takes a RecurringExpense, and converts the string stored in that object to
+     * a Calendar.
+     * @param expense the recurring expense to convert the due date of.
+     * @return the Calendar configured to the due date of the recurring expense.
+     */
     private fun getDate(expense: RecurringExpense): Calendar {
         val dueDate = Calendar.getInstance()
         val dateString = expense.date
@@ -250,6 +287,13 @@ class EditRecurringBill : AppCompatActivity(), AdapterView.OnItemSelectedListene
         return dueDate
     }
 
+    /**
+     * This function takes a date, and shifts it forward by either 1 week, 1 month, or 1 year
+     * depending on the frequency string.
+     * @param oldDate the date to shift forward.
+     * @param frequency string containing either "Weekly", "Monthly", or "Annually".
+     * @return the new date, shifted forward by the amount of time specified.
+     */
     private fun getNewDate(oldDate: Calendar, frequency: String): Calendar {
 
         when (frequency) {
@@ -267,12 +311,20 @@ class EditRecurringBill : AppCompatActivity(), AdapterView.OnItemSelectedListene
         return oldDate
     }
 
-    /* Function to check whether a string is numeric*/
+    /**
+     * Determines whether a string can be safely converted to a number or not.
+     * @param toCheck the string to check.
+     * @return whether or not the specified string can be converted.
+     */
     private fun isNumeric(toCheck: String): Boolean {
         val regex = "-?[0-9]+(\\.[0-9]+)?".toRegex()
         return toCheck.matches(regex)
     }
 
+    /**
+     * This function is called automatically whenever a spinner item is selected. It updates
+     * global state variables in accordance to the selected spinner option.
+     */
     @SuppressLint("ResourceType")
     override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
         //Update the correct variable depending on the id of the spinner that was selected
@@ -290,6 +342,11 @@ class EditRecurringBill : AppCompatActivity(), AdapterView.OnItemSelectedListene
         toast.show()
     }
 
+    /**
+     * This function determines whether or not a string is in MM/dd/yyyy format.
+     * @param inDate the string to check
+     * @return true if the string is in the correct format, false otherwise.
+     */
     @SuppressLint("SimpleDateFormat")
     private fun isValidDate(inDate: String): Boolean {
         val dateFormat = SimpleDateFormat("MM/dd/yyyy")

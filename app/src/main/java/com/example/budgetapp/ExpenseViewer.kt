@@ -10,6 +10,9 @@ import androidx.appcompat.app.AppCompatActivity
 import java.text.ParseException
 import java.text.SimpleDateFormat
 
+/**
+ * To be used with the activity_expense_view layout. Allows for the viewing of all database entries.
+ */
 class ExpenseViewer : AppCompatActivity() {
     private lateinit var experienceBar: ProgressBar
     private lateinit var earningBar: ProgressBar
@@ -114,6 +117,10 @@ class ExpenseViewer : AppCompatActivity() {
         }
 
     }
+
+    /**
+     * Sets the current theme according to the themeID stored in the database.
+     */
     private fun setTheme(){
         when (db.getThemeID()) {
             0 -> {
@@ -135,10 +142,10 @@ class ExpenseViewer : AppCompatActivity() {
     }
 }
 
-/*
-* A PopUp Window for User to Input their entries (could be paycheck or expense).
-* Included all the flags, including numeric type and non-empty flag types.
-*/
+/**
+ * A pop-up window for the user to input their entries.
+ * It is used with the activity_add_entries layout.
+ */
 class AddEntries: AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private lateinit var title: EditText
     private lateinit var categories: Spinner
@@ -220,12 +227,21 @@ class AddEntries: AppCompatActivity(), AdapterView.OnItemSelectedListener {
         }
 
     }
-    /* Function to check whether a string is numeric*/
+
+    /**
+     * Determines whether a string can be safely converted to a number or not.
+     * @param toCheck the string to check.
+     * @return whether or not the specified string can be converted.
+     */
     private fun isNumeric(toCheck: String): Boolean {
         val regex = "-?[0-9]+(\\.[0-9]+)?".toRegex()
         return toCheck.matches(regex)
     }
 
+    /**
+     * This function is called automatically whenever a spinner item is selected. It updates
+     * global state variables in accordance to the selected spinner option.
+     */
     override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
         selectedCategories = categoriesOption[position]
     }
@@ -236,6 +252,11 @@ class AddEntries: AppCompatActivity(), AdapterView.OnItemSelectedListener {
         toast.show()
     }
 
+    /**
+     * This function determines whether or not a string is in MM/dd/yyyy format.
+     * @param inDate the string to check
+     * @return true if the string is in the correct format, false otherwise.
+     */
     @SuppressLint("SimpleDateFormat")
     private fun isValidDate(inDate: String): Boolean {
         val dateFormat = SimpleDateFormat("MM/dd/yyyy")
@@ -248,6 +269,9 @@ class AddEntries: AppCompatActivity(), AdapterView.OnItemSelectedListener {
         return true
     }
 
+    /**
+     * Sets the current theme according to the themeID stored in the database.
+     */
     private fun setTheme(){
         when (db.getThemeID()) {
             0 -> {
@@ -269,9 +293,11 @@ class AddEntries: AppCompatActivity(), AdapterView.OnItemSelectedListener {
     }
 }
 
-/* A PopUp window that allow the user to edit their paycheck/expense inputs.
-* Included all flag types, including the non-numeric and non-empty flags.
-* Preserve the user old input as text (not hint) when the popup window show up. */
+/**
+ * A pop-up window that allows the user to edit their previously created entries.
+ * It automatically populates the fields with their previous values.
+ * Uses the activity_edit_entries layout.
+ */
 class EditEntries: AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private lateinit var title: EditText
     private lateinit var categories: Spinner
@@ -365,12 +391,21 @@ class EditEntries: AppCompatActivity(), AdapterView.OnItemSelectedListener {
         }
 
     }
-    /* Function to check whether a string is numeric*/
+
+    /**
+     * Determines whether a string can be safely converted to a number or not.
+     * @param toCheck the string to check.
+     * @return whether or not the specified string can be converted.
+     */
     private fun isNumeric(toCheck: String): Boolean {
         val regex = "-?[0-9]+(\\.[0-9]+)?".toRegex()
         return toCheck.matches(regex)
     }
 
+    /**
+     * This function is called automatically whenever a spinner item is selected. It updates
+     * global state variables in accordance to the selected spinner option.
+     */
     override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
         selectedCategories = categoriesOption[p2]
     }
@@ -381,6 +416,11 @@ class EditEntries: AppCompatActivity(), AdapterView.OnItemSelectedListener {
         toast.show()
     }
 
+    /**
+     * This function determines whether or not a string is in MM/dd/yyyy format.
+     * @param inDate the string to check
+     * @return true if the string is in the correct format, false otherwise.
+     */
     @SuppressLint("SimpleDateFormat")
     private fun isValidDate(inDate: String): Boolean {
         val dateFormat = SimpleDateFormat("MM/dd/yyyy")
@@ -393,6 +433,9 @@ class EditEntries: AppCompatActivity(), AdapterView.OnItemSelectedListener {
         return true
     }
 
+    /**
+     * Sets the current theme according to the themeID stored in the database.
+     */
     private fun setTheme(){
         when (db.getThemeID()) {
             0 -> {

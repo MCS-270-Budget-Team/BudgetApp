@@ -7,6 +7,10 @@ import android.view.Gravity
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 
+/**
+ * This activity is used with the activity_adjust_expense layout. It allows for users to create
+ * different categories, and assign what percentage of their expenses should go to each category.
+ */
 class AdjustExpense: AppCompatActivity() {
     private lateinit var experienceBar: ProgressBar
     private lateinit var earningBar: ProgressBar
@@ -57,12 +61,11 @@ class AdjustExpense: AppCompatActivity() {
         totalAmount.text = "Total Amount: $$totalMoney"
 
         expenseBank = db.getAll_Distribute()
-        //set up the bars
+        //set up the progress bars
         spendingBar.progress = (db.addExpenseAmount() / db.addPaycheckAmount() * 100).toInt()
         experienceBar.progress = ((db.getExp() - db.get_level_exp(db.getLevel())).toDouble() / (db.get_levelup_exp()) * 100).toInt()
         earningBar.progress = (totalMoney / db.getEarning() * 100).toInt()
 
-        //set up the avatar
         //set up the avatar
         if (totalMoney >= 0) {
             //if the amount of saving is positive, display the users' chosen avatar
@@ -110,6 +113,10 @@ class AdjustExpense: AppCompatActivity() {
         }
 
     }
+
+    /**
+     * Sets the correct theme based on the themeID stored in the database.
+     */
     private fun setTheme(){
         when (db.getThemeID()) {
             0 -> {
@@ -131,6 +138,10 @@ class AdjustExpense: AppCompatActivity() {
     }
 }
 
+/**
+ * This activity is used with the activity_add_categories layout. It manages the pop-up that
+ * appears when adding a new category from the activity_adjust_expense layout.
+ */
 class AddCategories : AppCompatActivity() {
     private lateinit var categories: EditText
     private lateinit var amount: EditText
@@ -195,9 +206,11 @@ class AddCategories : AppCompatActivity() {
                     percentage.text.toString().toDouble(),
                     amount.text.toString().toDouble()
                 )
+                //Add the new expense category into the database
                 db.insert_Distribute(newExpense)
                 val intent = Intent(this, AdjustExpense::class.java)
-//            intent.putExtra("newExpense", newExpense)
+//              intent.putExtra("newExpense", newExpense)
+                //Return back to the adjust_expense activity
                 startActivity(intent)
             }
         }
@@ -208,12 +221,17 @@ class AddCategories : AppCompatActivity() {
 
     }
 
-    /* Function to check whether a string is numeric*/
+    /**
+     * This function determines whether a string can be safely converted to a number.
+     */
     private fun isNumeric(toCheck: String): Boolean {
         val regex = "-?[0-9]+(\\.[0-9]+)?".toRegex()
         return toCheck.matches(regex)
     }
 
+    /**
+     * This function sets the theme according to the themeID stored in the database.
+     */
     private fun setTheme(){
         when (db.getThemeID()) {
             0 -> {
@@ -235,6 +253,10 @@ class AddCategories : AppCompatActivity() {
     }
 }
 
+/**
+ * This activity uses the activity_edit_categories layout, and allows for previously created
+ * expense categories to be modified.
+ */
 class EditCategories : AppCompatActivity() {
     private lateinit var categories: EditText
     private lateinit var amount: EditText
@@ -258,6 +280,7 @@ class EditCategories : AppCompatActivity() {
 
         val extras = intent.extras
 
+        //Receive the information about the category to be edited from the ExpenseAdapter
         val id = extras!!.getInt("id")
         val categoriesHint = extras.getString("categories")
         val percentageHint = extras.getString("percentage")
@@ -311,9 +334,11 @@ class EditCategories : AppCompatActivity() {
                     percentage.text.toString().toDouble(),
                     amount.text.toString().toDouble()
                 )
+                //Update this expense category with the new changes
                 db.updateRow_Distribute(id, newExpense)
                 val intent = Intent(this, AdjustExpense::class.java)
 //            intent.putExtra("newExpense", newExpense)
+                //Go back to the AdjustExpense activity
                 startActivity(intent)
             }
         }
@@ -324,12 +349,17 @@ class EditCategories : AppCompatActivity() {
 
     }
 
-    /* Function to check whether a string is numeric*/
+    /**
+     * This function determines whether or not a string can be converted into a number.
+     */
     private fun isNumeric(toCheck: String): Boolean {
         val regex = "-?[0-9]+(\\.[0-9]+)?".toRegex()
         return toCheck.matches(regex)
     }
 
+    /**
+     * Sets the current theme according to the themeID stored in the database.
+     */
     private fun setTheme(){
         when (db.getThemeID()) {
             0 -> {

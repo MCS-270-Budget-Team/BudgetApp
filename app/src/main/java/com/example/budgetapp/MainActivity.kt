@@ -18,6 +18,10 @@ import kotlin.math.pow
 import java.text.SimpleDateFormat
 import java.util.*
 
+/**
+ * The homepage that the app boots into. Allows for the creation and viewing of goals.
+ * Uses the activity_main layout.
+ */
 class MainActivity : AppCompatActivity() {
 
     private lateinit var addEntryButton: ImageButton
@@ -132,6 +136,10 @@ class MainActivity : AppCompatActivity() {
         updateRecurringBills()
     }
 
+    /**
+     * This function checks to see if all the recurring bills are up-to-date or not.
+     * If they are not, then it will add the appropriate entries into the database.
+     */
     private fun updateRecurringBills() {
         val today = Calendar.getInstance()
         //Check to see if any of the recurring bills have passed their deadlines
@@ -160,6 +168,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Sets the current theme according to the themeID stored in the database.
+     */
     private fun setTheme(){
         when (db.getThemeID()) {
             0 -> {
@@ -180,6 +191,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * This function takes a RecurringExpense, and converts the string stored in that object to
+     * a Calendar.
+     * @param expense the recurring expense to convert the due date of.
+     * @return the Calendar configured to the due date of the recurring expense.
+     */
     private fun getDate(expense: RecurringExpense): Calendar {
         val dueDate = Calendar.getInstance()
         val dateString = expense.date
@@ -192,6 +209,13 @@ class MainActivity : AppCompatActivity() {
         return dueDate
     }
 
+    /**
+     * This function takes a date, and shifts it forward by either 1 week, 1 month, or 1 year
+     * depending on the frequency string.
+     * @param oldDate the date to shift forward.
+     * @param frequency string containing either "Weekly", "Monthly", or "Annually".
+     * @return the new date, shifted forward by the amount of time specified.
+     */
     private fun getNewDate(oldDate: Calendar, frequency: String): Calendar {
 
         when (frequency) {
@@ -210,11 +234,10 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
-/*
-* An adapter to inflate the task bubbles and let the user add their
-* accomplishments, see the progress of each bubbles and edit/delete
-* the content of each bubble
-*/
+/**
+ * An adapter to inflate the goal bubbles. Lets the user add their accomplishments, see the progress
+ * of bubbles, and edit/delete them. Uses the activity_game_bubble layout.
+ */
 class GoalAdapter(var context: Context): BaseAdapter() {
     private val db = EntriesDB(context)
     private var arraylist: MutableList<Goal> = db.getAllGoals()
@@ -222,14 +245,26 @@ class GoalAdapter(var context: Context): BaseAdapter() {
     private val X: Double = 0.3
     private val Y: Double = 2.0
 
+    /**
+     * Returns the current number of goal bubbles.
+     * @return the current number of goal bubbles.
+     */
     override fun getCount(): Int {
         return arraylist.size
     }
 
+    /**
+     * Returns the goal at the corresponding index.
+     * @param p0 the index
+     * @return the goal at that index
+     */
     override fun getItem(p0: Int): Any {
         return arraylist[p0]
     }
 
+    /**
+     * Converts the specified into to a long. Unused
+     */
     override fun getItemId(p0: Int): Long {
         return p0.toLong()
     }
@@ -302,13 +337,21 @@ class GoalAdapter(var context: Context): BaseAdapter() {
         return view
     }
 
-    /* Given the level of the task, calculate the amount of experience points
-    * needed to reach that level. Formula: (level / X)^Y */
+    /**
+     * For the given task level, calculates the amount of experience needed to reach that level.
+     * Uses the formula (level / X)^Y.
+     * @param level the given level
+     * @return the experience necessary to reach that level
+     */
     private fun findLevelExp(level: Int): Double{
         return (level / X).pow(Y)
     }
 
-    /* Given the level of the task, find the color to display the task bubble in */
+    /**
+     * Determines the color corresponding to the level of a goal.
+     * @param level the goal level to check
+     * @return the color corresponding to that level
+     */
     private fun findProgressColor(level: Int): String{
         //list of colors available for the bubbles
         val colorList = arrayOf("#8144EF", "#EA7D5B", "#ED4981", "#A9EC5C", "#5DD5E4")
@@ -322,7 +365,11 @@ class GoalAdapter(var context: Context): BaseAdapter() {
         }
     }
 
-    /* Given plus (the number of time the person accomplish a task, calculate the level */
+    /**
+     * Calculate the goal's current level based on the number of times it is completed.
+     * @param plus the number of times that goal has been completed
+     * @return the goal's level
+     */
     private fun calculateLevel(plus: Int): Int{
         var currentLevel = 0
         val currentExp = plus * 20
@@ -333,11 +380,11 @@ class GoalAdapter(var context: Context): BaseAdapter() {
     }
 }
 
-/*
-* A PopUp Window for User to add their goals.
-* Included all the flags, including non-empty flags and the 20-character limit flags.
-* Once created, automatically set the level and plus = 0.
-*/
+//Included all the flags, including non-empty flags and the 20-character limit flags.
+/**
+ * A pop-up window for the user to add goals. Automatically sets the goal's level and completion
+ * count to 0. Uses the activity_add_goal layout.
+ */
 class AddGoals: AppCompatActivity() {
     private lateinit var title: EditText
     private lateinit var addButton: Button
@@ -389,6 +436,10 @@ class AddGoals: AppCompatActivity() {
         }
 
     }
+
+    /**
+     * Sets the current theme according to the themeID stored in the database.
+     */
     private fun setTheme(){
         when (db.getThemeID()) {
             0 -> {
@@ -410,6 +461,10 @@ class AddGoals: AppCompatActivity() {
     }
 }
 
+/**
+ * A pop-up window allowing for the user to edit their previously created goals.
+ * Uses the activity_edit_goal layout.
+ */
 class EditGoals: AppCompatActivity() {
     private lateinit var title: EditText
     private lateinit var editButton: Button
@@ -479,6 +534,10 @@ class EditGoals: AppCompatActivity() {
         }
 
     }
+
+    /**
+     * Sets the current theme according to the themeID stored in the database.
+     */
     private fun setTheme(){
         when (db.getThemeID()) {
             0 -> {
@@ -500,6 +559,10 @@ class EditGoals: AppCompatActivity() {
     }
 }
 
+/**
+ * A pop-up window allowing the user to edit their earnings goal.
+ * Uses the activity_edit_earning_goal layout.
+ */
 class EditEarning: AppCompatActivity() {
     private lateinit var earningGoal: EditText
     private lateinit var editButton: Button
@@ -551,11 +614,19 @@ class EditEarning: AppCompatActivity() {
 
     }
 
-    /* Function to check whether a string is numeric*/
+    /**
+     * Determines whether a string can be safely converted to a number or not.
+     * @param toCheck the string to check.
+     * @return whether or not the specified string can be converted.
+     */
     private fun isNumeric(toCheck: String): Boolean {
         val regex = "-?[0-9]+(\\.[0-9]+)?".toRegex()
         return toCheck.matches(regex)
     }
+
+    /**
+     * Sets the current theme according to the themeID stored in the database.
+     */
     private fun setTheme(){
         when (db.getThemeID()) {
             0 -> {

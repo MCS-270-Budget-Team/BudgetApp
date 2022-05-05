@@ -11,17 +11,29 @@ import android.widget.TextView
 import android.widget.Toast
 import kotlin.math.min
 
+/**
+ * Adapter for use with the expense_item layout.
+ */
 class ExpenseAdapter(var context: Context, private var arraylist: MutableList<Expense>): BaseAdapter() {
     private val db = EntriesDB(context)
 
+    /**
+     * Returns the current number of expense categories.
+     */
     override fun getCount(): Int {
         return arraylist.size
     }
 
+    /**
+     * Returns the expense item at the specified index.
+     */
     override fun getItem(p0: Int): Any {
         return arraylist[p0]
     }
 
+    /**
+     * Converts the specified int to long? Unused.
+     */
     override fun getItemId(p0: Int): Long {
         return p0.toLong()
     }
@@ -53,8 +65,7 @@ class ExpenseAdapter(var context: Context, private var arraylist: MutableList<Ex
         }
 
         deleteButton.setOnClickListener {
-            // start new activity
-            // calc budget
+            //Delete the selected expense category
             remove(arraylist[p0].id!!)
             notifyDataSetChanged()
             Toast.makeText(context, "Delete category successfully!", Toast.LENGTH_SHORT).show()
@@ -69,12 +80,16 @@ class ExpenseAdapter(var context: Context, private var arraylist: MutableList<Ex
             intent.putExtra("percentage", arraylist[p0].percentage.toString())
             intent.putExtra("max_amount", arraylist[p0].max.toString())
 
+            //Go to the EditCategories activity.
             context.startActivity(intent)
         }
 
         return view
     }
 
+    /**
+     * Removes the expense category at the specified id from the database.
+     */
     private fun remove(id: Int) {
         db.delete_Distribute(id)
         arraylist = db.getAll_Distribute()
