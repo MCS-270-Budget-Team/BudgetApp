@@ -52,6 +52,7 @@ class RecurringViewer : AppCompatActivity() {
         customizeButton = findViewById(R.id.customize_button)
 
         experienceBar = findViewById(R.id.experienceBar)
+        experienceBar = findViewById(R.id.experienceBar)
         earningBar = findViewById(R.id.earningBar)
         spendingBar = findViewById(R.id.spendingBar)
 
@@ -182,13 +183,13 @@ class RecurringViewer : AppCompatActivity() {
             cancelButton = findViewById(R.id.cancel)
 
             val adapter: ArrayAdapter<String> =
-                ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categoriesOption)
+                ArrayAdapter<String>(this, R.layout.spinner_item, categoriesOption)
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             categories.adapter = adapter
             categories.onItemSelectedListener = context
 
             val frequencyAdapter: ArrayAdapter<String> =
-                ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, frequencyOptions)
+                ArrayAdapter<String>(this, R.layout.spinner_item, frequencyOptions)
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             frequency.adapter = frequencyAdapter
             frequency.onItemSelectedListener = context
@@ -263,6 +264,29 @@ class RecurringViewer : AppCompatActivity() {
                 startActivity(intent)
             }
 
+        }
+
+        /**
+         * Sets the current theme according to the themeID stored in the database.
+         */
+        private fun setTheme(){
+            when (db.getThemeID()) {
+                0 -> {
+                    setTheme(R.style.Theme_BudgetApp)
+                }
+                1 -> {
+                    setTheme(R.style.Forest)
+                }
+                2 -> {
+                    setTheme(R.style.Eggplant)
+                }
+                3 -> {
+                    setTheme(R.style.Pumpkin)
+                }
+                else -> {
+                    setTheme(R.style.Vintage)
+                }
+            }
         }
 
         /**
@@ -391,29 +415,6 @@ class RecurringViewer : AppCompatActivity() {
                 return false
             }
             return true
-        }
-
-        /**
-         * Sets the current theme according to the themeID stored in the database.
-         */
-        private fun setTheme(){
-            when (db.getThemeID()) {
-                0 -> {
-                    setTheme(R.style.Theme_BudgetApp)
-                }
-                1 -> {
-                    setTheme(R.style.Forest)
-                }
-                2 -> {
-                    setTheme(R.style.Eggplant)
-                }
-                3 -> {
-                    setTheme(R.style.Pumpkin)
-                }
-                else -> {
-                    setTheme(R.style.Vintage)
-                }
-            }
         }
     }
 }

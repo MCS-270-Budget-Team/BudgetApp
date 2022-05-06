@@ -174,7 +174,7 @@ class AddEntries: AppCompatActivity(), AdapterView.OnItemSelectedListener {
         cancelButton = findViewById(R.id.cancel)
 
         val adapter: ArrayAdapter<String> =
-            ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categoriesOption)
+            ArrayAdapter<String>(this, R.layout.spinner_item, categoriesOption)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         categories.adapter = adapter
         categories.onItemSelectedListener = context
@@ -325,7 +325,7 @@ class EditEntries: AppCompatActivity(), AdapterView.OnItemSelectedListener {
         cancelButton = findViewById(R.id.cancel)
 
         val adapter: ArrayAdapter<String> =
-            ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categoriesOption)
+            ArrayAdapter<String>(this, R.layout.spinner_item, categoriesOption)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         categories.adapter = adapter
         categories.onItemSelectedListener = this

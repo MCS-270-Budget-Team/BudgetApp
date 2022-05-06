@@ -38,7 +38,7 @@
         <item name="windowColor">#1B2413</item>
         <item name="progressColor">#433F3E</item>
         <item name="titleColor">#5F6556</item>
-        <item name="textColor">@color/white</item>
+        <item name="textColor">#8AFF92</item>
         <item name="altTextColor">#8BC34A</item>
     </style>
 
@@ -54,12 +54,12 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Custom theme color -->
-        <item name="backgroundColor">#694F5D</item>
+        <item name="backgroundColor">#A87A93</item>
         <item name="buttonColor">#68A691</item>
         <item name="windowColor">#BFD3C1</item>
         <item name="progressColor">#FFE5D4</item>
         <item name="titleColor">#EFC7C2</item>
-        <item name="textColor">@color/black</item>
+        <item name="textColor">#6F003C</item>
         <item name="altTextColor">#006064</item>
     </style>
 
@@ -75,11 +75,11 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Custom theme color -->
-        <item name="backgroundColor">#233D4D</item>
-        <item name="buttonColor">#619B8A</item>
-        <item name="windowColor">#A1C181</item>
+        <item name="backgroundColor">#6EB674</item>
+        <item name="buttonColor">#FFAC63</item>
+        <item name="windowColor">#99F6AD</item>
         <item name="progressColor">#FCCA46</item>
-        <item name="titleColor">#FE7F2D</item>
+        <item name="titleColor">#E68337</item>
         <item name="textColor">@color/black</item>
         <item name="altTextColor">#006064</item>
 
@@ -97,7 +97,7 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Custom theme color -->
-        <item name="backgroundColor">#313E50</item>
+        <item name="backgroundColor">#1A2535</item>
         <item name="buttonColor">#53131E</item>
         <item name="windowColor">#5A464C</item>
         <item name="progressColor">#3A435E</item>
