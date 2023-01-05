@@ -8,7 +8,7 @@ You can install this application to test on your android smartphone. To download
 ```
 https://github.com/MCS-270-Budget-Team/BudgetApp/releases/download/v1.0.0/app-release.apk
 ```
-Download will started automatically. After then install it on your android device. Open the application and start your financial journal.
+Download will started automatically. After then install it on your android device. Open the application and start your financial journey.
 
 You can also click [here](https://github.com/MCS-270-Budget-Team/BudgetApp/releases) to check our latest version.
 
