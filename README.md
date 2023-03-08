@@ -21,5 +21,8 @@ You can also click [here](https://github.com/MCS-270-Budget-Team/BudgetApp/relea
   <img src="https://user-images.githubusercontent.com/68437466/166298103-1439e5d4-98f9-40b8-8230-25479a971778.jpeg" width="19%" /> 
 </p>
 
+# Functionalities and Design
+For functionalities and design details, Click [here](https://github.com/MCS-270-Budget-Team/BudgetApp/wiki/Functionalities-and-Design)
+
 # Licence
 [The MIT License](https://github.com/Binaryify/NeteaseCloudMusicApi/blob/master/LICENSE)
